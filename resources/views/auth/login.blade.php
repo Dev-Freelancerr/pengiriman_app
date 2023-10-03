@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'Login - SantriKoding.com'])
+@extends('layouts.app', ['title' => 'Pengiriman App'])
 
 @section('content')
 
@@ -17,21 +17,29 @@
                                 <p class="mb-0">Enter your email and password to sign in</p>
                             </div>
                             <div class="card-body mt-2">
-                                <form role="form">
+                                <form action="{{ route('login') }}" method="POST">
+                                    @csrf
                                     <div class="input-group input-group-outline mb-3">
                                         <label class="form-label">Email</label>
-                                        <input type="email" class="form-control">
+                                        <input autocomplete="off" type="email" name="email" class="form-control @error('email') is-invalid @enderror">
+                                        @error('email')
+                                        <div class="alert alert-danger mt-2">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
                                     <div class="input-group input-group-outline mb-3">
                                         <label class="form-label">Password</label>
-                                        <input type="password" class="form-control">
+                                        <input autocomplete="off" type="password" name="password" class="form-control @error('password') is-invalid @enderror">
+                                        @error('password')
+                                        <div class="alert alert-danger mt-2">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
-                                    <div class="form-check form-switch d-flex align-items-center mb-3">
-                                        <input class="form-check-input" type="checkbox" id="rememberMe">
-                                        <label class="form-check-label mb-0 ms-3" for="rememberMe">Remember me</label>
-                                    </div>
+
                                     <div class="text-center">
-                                        <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
+                                        <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
                                     </div>
                                 </form>
                             </div>
