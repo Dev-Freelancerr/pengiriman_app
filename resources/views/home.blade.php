@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@if(Auth::user()->is_completed == 'false')
+    @include('auth.verify-register')
+@else
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -57,3 +61,4 @@
         </div>
     </div>
 @endsection
+@endif
