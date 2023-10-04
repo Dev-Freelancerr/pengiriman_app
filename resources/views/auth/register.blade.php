@@ -1,69 +1,78 @@
-@extends('layouts.app', ['title' => 'Register - SantriKoding.com'])
+@extends('layouts.app', ['title' => 'Pengiriman App'])
 
 @section('content')
-
-    <div class="col-md-8">
-        <div class="card border-0 shadow rounded">
-            <div class="card-body">
-                <h4 class="font-weight-bold">REGISTER</h4>
-                <hr>
-                <form action="{{ route('register') }}" method="POST">
-                    @csrf
-
-                    <div class="row">
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="font-weight-bold text-uppercase">Full Name</label>
-                                <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" placeholder="Masukkan Nama Lengkap">
-                                @error('name')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
+<main class="main-content  mt-0">
+    <section>
+        <div class="page-header min-vh-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
+                        <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center" style="background-image: url('{{asset('img/illustrations/illustration-signin.jpg')}}'); background-size: cover;">
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="font-weight-bold text-uppercase">Email address</label>
-                                <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan Alamat Email">
-                                @error('email')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="font-weight-bold text-uppercase">Password</label>
-                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan Password">
-                                @error('password')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="font-weight-bold text-uppercase">Konfirmasi Password</label>
-                                <input type="password" name="password_confirmation" class="form-control" placeholder="Masukkan Konfirmasi Password">
-                            </div>
-                        </div>
-
                     </div>
+                    <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
+                        <div class="card card-plain">
+                            <div class="card-header">
+                                <h4 class="font-weight-bolder">Sign Up</h4>
+                                <p class="mb-0">Enter your email and password to register</p>
+                            </div>
+                            <div class="card-body">
+                                <form action="{{ route('register') }}" method="POST">
+                                    @csrf
+                                    <div class="input-group input-group-outline mb-3">
+                                        <label class="form-label">Fullname</label>
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror" name="name">
+                                        @error('name')
+                                        <div class="alert alert-danger mt-2">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email">
+                                        @error('email')
+                                        <div class="alert alert-danger mt-2">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <label class="form-label">Password</label>
+                                        <input type="password" class="form-control @error('password') is-invalid @enderror" name="password">
+                                        @error('password')
+                                        <div class="alert alert-danger mt-2">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
 
-                    <button type="submit" class="btn btn-primary">REGISTER</button>
-                </form>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <label class="form-label">Confirmation Password</label>
+                                        <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation">
+                                        @error('password_confirmation')
+                                        <div class="alert alert-danger mt-2">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Sign Up</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                                <p class="mb-2 text-sm mx-auto">
+                                    Already have an account?
+                                    <a href="/login" class="text-primary text-gradient font-weight-bold">Sign in</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="login mt-3 text-center">
-            <p>Sudah punya akun ? Login <a href="/login">Disini</a></p>
-        </div>
-    </div>
-
+    </section>
+</main>
 @endsection
