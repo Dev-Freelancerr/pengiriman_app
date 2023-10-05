@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@if(Auth::user()->is_completed == 'false')
+@if(Auth::user()->is_completed == 'false' || Auth::user()->is_completed == 'pending')
     @include('auth.verify-register')
 @else
 

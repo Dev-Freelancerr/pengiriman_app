@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,4 +24,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', function () {
         return view('home');
     });
+
+    // Simpan pendaftaran user
+    Route::post('/store_register', 'UserAccountRegisterController@store_register');
+
+    // Return view ke waiting room setelah registrasi
+    Route::get('/waiting_room', 'UserAccountRegisterController@redirect_to_waiting');
+
 });
