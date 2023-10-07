@@ -1,111 +1,87 @@
-@section('content')
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        @if(Auth::user()->is_completed == 'pending')
-            @include('auth.waiting_room')
-        @elseif(Auth::user()->is_completed == 'false')
-            <div class="container-fluid py-4">
-                <div class="row min-vh-80">
-                    <div class="col-lg-8 col-md-10 col-12 m-auto">
-                        <h3 class="mt-3 mb-0 text-center">Add Personal Info</h3>
-                        <p class="lead font-weight-normal opacity-8 mb-7 text-center">This information will let us know
-                            more about you.</p>
-                        <div class="card">
-                            <div class="card-header p-0 position-relative mt-n5 mx-3 z-index-2">
-                                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                    <div class="multisteps-form__progress">
-                                        <button class="multisteps-form__progress-btn js-active" type="button"
-                                                title="Product Info">
-                                            <span>1. Personal Info</span>
-                                        </button>
-                                        <button class="multisteps-form__progress-btn" type="button" title="Media">2.
-                                            Attach ID Card (KTP)
-                                        </button>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Laravel') }}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: {
+                "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"]
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <form class="multisteps-form__form" action="{{url('store_register')}}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <!--single form panel-->
-                                    <div class="multisteps-form__panel pt-3 border-radius-xl bg-white js-active"
-                                         data-animation="FadeIn">
-                                        <h5 class="font-weight-bolder">Personal Info</h5>
-                                        <div class="multisteps-form__content">
-                                            <div class="row mt-3">
-                                                <div class="col-12 col-sm-6">
-                                                    <div class="input-group input-group-dynamic">
-                                                        <label for="exampleFormControlInput1" class="form-label">Fullname</label>
-                                                        <input class="multisteps-form__input form-control" type="text"
-                                                               name="fullname" required/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-sm-6 mt-3 mt-sm-0">
-                                                    <div class="input-group input-group-dynamic">
-                                                        <label for="exampleFormControlInput1" class="form-label">Handphone
-                                                            Number</label>
-                                                        <input class="multisteps-form__input form-control" type="text"
-                                                               name="hp_number"/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-6">
-                                                    <label class="mt-4">Address</label>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700"/>
 
-                                                    <textarea class="form-control" rows="5" spellcheck="false"
-                                                              name="address"></textarea>
-                                                </div>
-                                                <div class="col-sm-6 mt-sm-3 mt-5">
-                                                    <label class="form-control ms-0">Gender</label>
-                                                    <select class="form-control" name="gender" id="choices-category"
-                                                            required>
-                                                        <option value="male" selected="">Male</option>
-                                                        <option value="female">Female</option>
-                                                    </select>
+    <!-- Nucleo Icons -->
+    <link href="{{asset('css/nucleo-icons.css')}}" rel="stylesheet"/>
+    <link href="{{asset('css/nucleo-svg.css')}}" rel="stylesheet"/>
 
-                                                </div>
-                                            </div>
-                                            <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
-                                                        type="button" title="Next">Next
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--single form panel-->
-                                    <div class="multisteps-form__panel pt-3 border-radius-xl bg-white"
-                                         data-animation="FadeIn">
-                                        <h5 class="font-weight-bolder">ID Card (KTP)</h5>
-                                        <div class="multisteps-form__content">
-                                            <div class="row mt-3">
-                                                <div class="col-12">
-                                                    <div class="fallback">
-                                                        <input name="ktp" type="file" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="button-row d-flex mt-4">
-                                                <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
-                                                        title="Prev">Prev
-                                                </button>
-                                                <button style="color:white; font-weight:bold;" type="submit"
-                                                        class="btn bg-success ms-auto mb-0" type="button" title="Next">
-                                                    Save
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+    <link href="{{asset('css/material-dashboard.css')}}" rel="stylesheet"/>
 
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link href="{{asset('css/material-dashboard.css')}}" rel="stylesheet"/>
+
+    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+</head>
+<body>
+
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+    @if(Auth::user()->is_completed == 'pending')
+        @include('auth.waiting_room')
+    @elseif(Auth::user()->is_completed == 'revision' || Auth::user()->is_completed == 'false')
+        <div class="container-fluid py-4">
+            @if(Auth::user()->is_completed == 'revision')
+            <div class="alert alert-warning text-white" role="alert">
+                <strong>Warning!</strong> Mohon maaf pendaftaran anda belum dapat kami setujui. Admin kami telah memeriksa
+                dan memberi catatan : <strong>Gambar KTP Kurang jelas harap di perbaiki, terimakasih atas perhatiannya</strong>
             </div>
-        @else
-            <p>asas</p>
-        @endif
-    </main>
+            @endif
+            <div class="row min-vh-80">
+                @if(Auth::user()->is_completed == 'revision')
+                    @include('register.revision')
+                @else
+                    @include('register.new')
+                @endif
 
-@endsection
+            </div>
+        </div>
+    @endif
+</main>
+
+<!--   Core JS Files   -->
+<script src="{{asset('js/core/popper.min.js')}}"></script>
+<script src="{{asset('js/core/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/plugins/perfect-scrollbar.min.js')}}"></script>
+<script src="{{asset('js/plugins/smooth-scrollbar.min.js')}}"></script>
+<script src="{{asset('js/material-dashboard.min.js')}}"></script>
+<script src="{{asset('js/plugins/choices.min.js')}}"></script>
+<script src="{{asset('js/plugins/dropzone.min.js')}}"></script>
+<script src="{{asset('js/plugins/quill.min.js')}}"></script>
+<script src="{{asset('js/plugins/multistep-form.js')}}"></script>
+<script src="{{asset('js/plugins/dragula/dragula.min.js')}}"></script>
+<script src="{{asset('js/plugins/jkanban/jkanban.js')}}"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+</body>
+</html>
+
+

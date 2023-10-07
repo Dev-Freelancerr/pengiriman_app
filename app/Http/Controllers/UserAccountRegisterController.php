@@ -15,7 +15,7 @@ class UserAccountRegisterController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'fullname' => 'required|string|max:255',
-            'hp_number' => 'required|numeric|digits:10',
+            'hp_number' => 'required|numeric',
             'address' => 'required|string|max:255',
             'gender' => 'required|in:male,female',
             'ktp' => 'required|file|mimes:jpg,jpeg,png',
@@ -53,13 +53,15 @@ class UserAccountRegisterController extends Controller
                 'id_account' => $cek_id_account->id
             ];
             $qry_ktp = UserAttach::create($data_file);
+
             $uptd = User::where('id', Auth::user()->id)->update([
                 'is_completed' => 'pending'
             ]);
 
             return redirect('/');
         } catch (\Exception $e) {
-            return response()->json(['errors' => 'error save'], 400);
+
+            return response()->json(['errors' => $e], 400);
         }
     }
 
