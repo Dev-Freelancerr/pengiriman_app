@@ -51,7 +51,7 @@
             @if(Auth::user()->is_completed == 'revision')
             <div class="alert alert-warning text-white" role="alert">
                 <strong>Warning!</strong> Mohon maaf pendaftaran anda belum dapat kami setujui. Admin kami telah memeriksa
-                dan memberi catatan : <strong>Gambar KTP Kurang jelas harap di perbaiki, terimakasih atas perhatiannya</strong>
+                dan memberi catatan : <strong>{{getAccount(Auth::user()->id)->approval_note}}</strong>
             </div>
             @endif
             <div class="row min-vh-80">
