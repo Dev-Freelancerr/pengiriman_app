@@ -11,6 +11,9 @@
                             title="Product Info">
                         <span>1. Personal Info</span>
                     </button>
+                    <button class="multisteps-form__progress-btn" type="button" title="account_bank">2.
+                        Account Bank
+                    </button>
                     <button class="multisteps-form__progress-btn" type="button" title="Media">2.
                         Attach ID Card (KTP)
                     </button>
@@ -69,28 +72,93 @@
                         </div>
                     </div>
                 </div>
-                <!--single form panel-->
+
                 <div class="multisteps-form__panel pt-3 border-radius-xl bg-white"
                      data-animation="FadeIn">
-                    <h5 class="font-weight-bolder">ID Card (KTP)</h5>
+                    <h5 class="font-weight-bolder">Account Bank</h5>
                     <div class="multisteps-form__content">
-                        <div class="row mt-3">
-                            <div class="col-12">
-                                <div class="fallback">
-                                    <input name="ktp" type="file"/>
+                        <div class="row mt-6">
+                            <div class="col-12 col-sm-6">
+                                <div class="input-group input-group-dynamic">
+                                    <label for="exampleFormControlInput1"
+                                           class="form-label">No.Rekening</label>
+                                    <input class="multisteps-form__input form-control" type="text"
+                                           name="nomor_rekening" required
+                                           />
                                 </div>
+                            </div>
+                            <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                                <div class="input-group input-group-dynamic">
+                                    <label for="exampleFormControlInput1" class="form-label">Atas Nama
+                                    </label>
+                                    <input class="multisteps-form__input form-control" type="text"
+                                           name="atas_nama_bank"
+                                          />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label class="form-control ms-0">Bank</label>
+                                <select class="form-control" name="bank" id="choices-category"
+                                        required>
+                                    @foreach($bank as $bnk)
+                                        <option
+                                            value="{{$bnk->bank_name}}"}>
+                                            {{$bnk->bank_name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="button-row d-flex mt-4">
                             <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
                                     title="Prev">Prev
                             </button>
-                            <button style="color:white; font-weight:bold;" type="submit"
-                                    class="btn bg-success ms-auto mb-0" type="button" title="Next">
-                                Save
+                            <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
+                                    type="button" title="Next">Next
                             </button>
                         </div>
                     </div>
+                </div>
+
+                <!--single form panel-->
+                <div class="multisteps-form__panel pt-3 border-radius-xl bg-white"
+                     data-animation="FadeIn">
+                    <h5 class="font-weight-bolder">KTP</h5>
+                    <div class="multisteps-form__content">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="fallback">
+                                    <input name="ktp" type="file" data-type="ktp"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="font-weight-bolder mt-4">Sampul Depan Buku Rekening</h5>
+                    <div class="multisteps-form__content">
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="fallback">
+                                    <input name="rekening_bank" type="file" data-type="rekening"/>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-row d-flex mt-4">
+                        <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button"
+                                title="Prev">Prev
+                        </button>
+                        <button style="color:white; font-weight:bold;" type="submit"
+                                class="btn bg-success ms-auto mb-0" type="button" title="Next">
+                            Save
+                        </button>
+                    </div>
+
+
                 </div>
 
             </form>

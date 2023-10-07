@@ -16,6 +16,9 @@ class user_account extends Model
         'gender',
         'address',
         'email',
-        'handphone_number'
+        'handphone_number',
+        'nomor_rekening',
+        'atas_nama_rekening',
+        'bank'
     ];
 }
