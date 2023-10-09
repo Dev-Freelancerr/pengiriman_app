@@ -25,12 +25,13 @@
 
 
 </head>
-<body class="g-sidenav-show  bg-gray-200">
+<body class="g-sidenav-show bg-gray-100">
 
 @include('partials.aside')
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     @include('partials.navbar')
     @yield('content')
+    @yield('modal')
 </main>
 
 

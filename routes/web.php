@@ -30,9 +30,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/store_register', 'UserAccountRegisterController@store_register');
 
     // Update pendafataran user jika di tolak user
-  Route::post('/update_register', 'UserAccountRegisterController@update_register')->name('update.register');
+    Route::post('/update_register', 'UserAccountRegisterController@update_register')->name('update.register');
 
-    // Return view ke waiting room setelah registrasi
+    // Menu Settings
+    Route::prefix('settings')->group(function () {
+        Route::get('/address', 'settings\AddressController@index')->name('settings.address');
+
+        Route::get('/address/new', 'settings\AddressController@create')->name('settings.address.create');
+    });
+
 
 
 });

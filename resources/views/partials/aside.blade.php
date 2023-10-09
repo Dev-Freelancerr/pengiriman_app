@@ -54,6 +54,25 @@
             </li>
             <hr class="horizontal light mt-0">
             <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#settingmenu" class="nav-link text-white"
+                   aria-controls="dashboardsExamples" role="button" aria-expanded="false">
+                    <i class="material-icons-round opacity-10">dashboard</i>
+                    <span class="nav-link-text ms-2 ps-1">Setting</span>
+                </a>
+                <div class="collapse" id="settingmenu">
+                    <ul class="nav ">
+                        <li class="nav-item ">
+                            <a class="nav-link text-white " href="{{url('settings/address')}}">
+                                <span class="sidenav-mini-icon"> A </span>
+                                <span class="sidenav-normal  ms-2  ps-1"> My Address </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+            <hr class="horizontal light mt-0">
+            <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#dashboardsExamples" class="nav-link text-white active"
                    aria-controls="dashboardsExamples" role="button" aria-expanded="false">
                     <i class="material-icons-round opacity-10">dashboard</i>
