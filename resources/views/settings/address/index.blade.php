@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid py-3">
-        <div class="row justify-content-end">
+        <div class="row text-end">
             <div class="col-2">
                 <button data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-3 btn-primary">
                     <span class="btn-inner--icon"><i class="material-icons">add</i></span>
@@ -18,9 +18,9 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-sm-0 mb-4">
                             <div class="w-50">
-                                <h4>Alamat Penjemputan</h4>
+                                <h5>Alamat Penjemputan</h5>
                                 <hr class="horizontal dark mt-0">
-                                <h5>Alamat Kesatu</h5>
+                                <h6>Alamat Kesatu</h6>
                                 <p class="text-xs font-weight-bold mb-2">089630458220</p>
                                 <p class="text-xs font-weight-bold mb-2">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -41,7 +41,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-sm-0 mb-4">
                             <div class="w-50">
-                                <h5>Alamat Kedua</h5>
+                                <h6>Alamat Kedua</h6>
                                 <p class="text-xs font-weight-bold mb-2">089630458220</p>
                                 <p class="text-xs font-weight-bold mb-2">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -62,7 +62,7 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center mb-sm-0 mb-4">
                             <div class="w-50">
-                                <h5>Alamat Ketiga</h5>
+                                <h6>Alamat Ketiga</h6>
                                 <p class="text-xs font-weight-bold mb-2">089630458220</p>
                                 <p class="text-xs font-weight-bold mb-2">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
