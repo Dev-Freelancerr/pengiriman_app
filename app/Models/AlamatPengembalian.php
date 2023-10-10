@@ -13,7 +13,7 @@ class AlamatPengembalian extends Model
 
     protected $fillable = [
         'id_account',
-        'id_alamat_pengiriman',
+        'id_alamat_pejemputan',
         'nama_pic_pengembalian',
         'no_telp_pic',
         'alamat',
@@ -27,6 +27,6 @@ class AlamatPengembalian extends Model
     // Definisi relasi dengan tabel alamat_pengiriman
     public function alamatPengiriman()
     {
-        return $this->belongsTo(AlamatPengiriman::class, 'id_alamat_pengiriman');
+        return $this->belongsTo(AlamatPengiriman::class, 'id_alamat_pejemputan');
     }
 }

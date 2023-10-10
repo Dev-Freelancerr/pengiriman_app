@@ -9,12 +9,12 @@ class AlamatPengiriman extends Model
 {
     use HasFactory;
 
-    protected $table = 'alamat_pengiriman';
+    protected $table = 'alamat_penjemputan';
 
     protected $fillable = [
         'id_account',
         'nama_toko',
-        'nama_pic_pengiriman',
+        'nama_pic_penjemputan',
         'no_telp_pic',
         'alamat',
         'provinsi',

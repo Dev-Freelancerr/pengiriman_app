@@ -8,20 +8,22 @@
     <title>
         Pengiriman App
     </title>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <!-- Nucleo Icons -->
     <link href="{{asset('css/nucleo-icons.css')}}" rel="stylesheet" />
     <link href="{{asset('css/nucleo-svg.css')}}" rel="stylesheet" />
     <!-- Font Awesome Icons -->
+    <script src="{{asset('js/material-dashboard.min.js?v=3.0.6')}}"></script>
+
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="{{asset('css/material-dashboard.css?v=3.0.6')}}" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 
 </head>
@@ -122,13 +124,14 @@
 <script src="{{asset('js/core/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/plugins/perfect-scrollbar.min.js')}}"></script>
 <script src="{{asset('js/plugins/smooth-scrollbar.min.js')}}"></script>
+<script src="{{asset('js/plugins/choices.min.js')}}"></script>
 <!-- Kanban scripts -->
 <script src="{{asset('js/plugins/dragula/dragula.min.js')}}"></script>
 <script src="{{asset('js/plugins/jkanban/jkanban.js')}}"></script>
 <script src="{{asset('js/plugins/chartjs.min.js')}}"></script>
 <script src="{{asset('js/plugins/world.js')}}"></script>
 <!-- Custom scripts -->
-@stack('scripts')
+@yield('scripts')
 
 <script>
     var ctx1 = document.getElementById("chart-line").getContext("2d");
@@ -421,7 +424,6 @@
 
 
 <script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="{{asset('js/material-dashboard.min.js?v=3.0.6')}}"></script>
 
 </body>
 </html>

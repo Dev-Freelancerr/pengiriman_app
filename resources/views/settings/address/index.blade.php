@@ -28,8 +28,12 @@
                                 </p>
                             </div>
                             <div class="w-50 text-end">
-                                <button class="btn btn-outline-secondary mb-3 mb-md-0 ms-auto" type="button" name="button">Edit Alamat</button>
-                                <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Hapus Alamat</button>
+                                <button class="btn btn-outline-secondary mb-3 mb-md-0 ms-auto" type="button"
+                                        name="button">Edit Alamat
+                                </button>
+                                <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Hapus
+                                    Alamat
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -49,8 +53,12 @@
                                 </p>
                             </div>
                             <div class="w-50 text-end">
-                                <button class="btn btn-outline-secondary mb-3 mb-md-0 ms-auto" type="button" name="button">Edit Alamat</button>
-                                <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Hapus Alamat</button>
+                                <button class="btn btn-outline-secondary mb-3 mb-md-0 ms-auto" type="button"
+                                        name="button">Edit Alamat
+                                </button>
+                                <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Hapus
+                                    Alamat
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -70,8 +78,12 @@
                                 </p>
                             </div>
                             <div class="w-50 text-end">
-                                <button class="btn btn-outline-secondary mb-3 mb-md-0 ms-auto" type="button" name="button">Edit Alamat</button>
-                                <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Hapus Alamat</button>
+                                <button class="btn btn-outline-secondary mb-3 mb-md-0 ms-auto" type="button"
+                                        name="button">Edit Alamat
+                                </button>
+                                <button class="btn bg-gradient-danger mb-0 ms-2" type="button" name="button">Hapus
+                                    Alamat
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -117,63 +129,58 @@
                                 <div class="input-group input-group-outline">
                                     <label class="form-label">Alamat Penjemputan</label>
                                     <input type="text" class="form-control">
-
-                                </div>
-                                <small class="small">Provinsi / Kota / Kecamatan / Kelurahan / Kode Pos</small>
-                                <div class="form-check" style="padding-left: 0px;">
-                                    <input class="form-check-input" type="checkbox" value="" id="fcustomCheck1"
-                                           checked="">
-                                    <label class="custom-control-label" for="customCheck1">Show detailed
-                                        destination</label>
                                 </div>
 
-                                <div class="input-group input-group-outline mt-3">
-                                    <label class="form-label">Type the name of the city / district (at least 4
-                                        character)</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="row">
+                                <div class="row mt-4">
                                     <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Kota Penjemputan</label>
-                                            <input type="email" class="form-control">
-                                        </div>
+                                        <label class="form-label">Provinsi Penjemputan</label>
+                                        <select class="form-control" name="choices-button" id="choices-button">
+                                        </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Kecamatan Penjemputan</label>
-                                            <input type="email" class="form-control" disabled>
-                                        </div>
+                                        <label class="form-label">Kota/Kab Penjemputan</label>
+                                        <select class="form-control" name="choices-button" id="choices-city">
+                                        </select>
                                     </div>
                                 </div>
+
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Provinsi Penjemputan</label>
-                                            <input type="email" class="form-control">
-                                        </div>
+                                        <label class="form-label">Kecamatan Penjemputan</label>
+
+                                        <select class="form-control" name="choices-button" id="choices-district">
+                                        </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Kode Pos</label>
-                                            <input type="email" class="form-control" disabled>
-                                        </div>
+                                        <label class="form-label">Kelurahan Penjemputan</label>
+                                        <select class="form-control" name="choices-button" id="choices-subdistrict">
+                                        </select>
                                     </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Kode Pos</label>
+                                        <select class="form-control" name="choices-button" id="choices-postalcode">
+                                        </select>
+                                    </div>
+
                                 </div>
 
                                 <div class="form-check" style="padding-left: 0px;">
                                     <input class="form-check-input" type="checkbox" value="" id="fcustomCheck1"
-                                           checked="">
+                                           >
                                     <label class="custom-control-label" for="customCheck1">Alamat pengembalian saya
-                                        berbeda dengan alamat penjemputan</label>
+                                        sama dengan alamat penjemputan</label>
                                 </div>
 
 
                             </div>
                         </div>
 
-                        <div class="card card-plain">
+
+                        <div class="card card-plain card-pengembalian">
                             <div class="card-header pb-0 text-left">
                                 <h5 class="">Alamat Pengembalian</h5>
                                 <hr class="horizontal dark mt-0">
@@ -184,7 +191,7 @@
                                     <div class="col-md-6">
                                         <div class="input-group input-group-outline my-3">
                                             <label class="form-label">Nama PIC Pengembalian</label>
-                                            <input type="email" class="form-control">
+                                            <input type="text" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -199,48 +206,44 @@
                                     <input type="text" class="form-control">
 
                                 </div>
-                                <small class="small">Provinsi / Kota / Kecamatan / Kelurahan / Kode Pos</small>
-                                <div class="form-check" style="padding-left: 0px;">
-                                    <input class="form-check-input" type="checkbox" value="" id="fcustomCheck1"
-                                           checked="">
-                                    <label class="custom-control-label" for="customCheck1">Show detailed
-                                        destination</label>
-                                </div>
 
-                                <div class="input-group input-group-outline mt-3">
-                                    <label class="form-label">Type the name of the city / district (at least 4
-                                        character)</label>
-                                    <input type="text" class="form-control">
-                                </div>
-                                <div class="row">
+                                <div class="row mt-4 ">
                                     <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Kota Penjemputan</label>
-                                            <input type="email" class="form-control">
-                                        </div>
+                                        <label class="form-label">Provinsi Pengembalian</label>
+                                        <select class="form-control" name="choices-button" id="pengembalian-choices-button">
+                                        </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Kecamatan Penjemputan</label>
-                                            <input type="email" class="form-control" disabled>
-                                        </div>
+                                        <label class="form-label">Kota/Kab Pengembalian</label>
+                                        <select class="form-control" name="choices-button" id="pengembalian-choices-city">
+                                        </select>
                                     </div>
                                 </div>
 
+
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Provinsi Penjemputan</label>
-                                            <input type="email" class="form-control">
-                                        </div>
+                                        <label class="form-label">Kecamatan Pengembalian</label>
+
+                                        <select class="form-control" name="choices-button" id="pengembalian-choices-district">
+                                        </select>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Kode Pos</label>
-                                            <input type="email" class="form-control" disabled>
-                                        </div>
+                                        <label class="form-label">Kelurahan Pengembalian</label>
+                                        <select class="form-control" name="choices-button" id="pengembalian-choices-subdistrict">
+                                        </select>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Kode Pos</label>
+                                        <select class="form-control" name="choices-button" id="pengembalian-choices-postalcode">
+                                        </select>
+                                    </div>
+
+                                </div>
+
 
 
                                 <div class="text-center">
@@ -252,8 +255,89 @@
                             </div>
 
                         </div>
+
+
+                        <div class="card card-plain card-pengembalian-copy">
+                            <div class="card-header pb-0 text-left">
+                                <h5 class="">Alamat Pengembalian</h5>
+                                <hr class="horizontal dark mt-0">
+                            </div>
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-outline my-3">
+                                            <label class="form-label">Nama PIC Pengembalian</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-outline my-3">
+                                            <label class="form-label">Telepon PIC Pengembalian</label>
+                                            <input type="email" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group input-group-outline">
+                                    <label class="form-label">Alamat Penjemputan</label>
+                                    <input type="text" class="form-control">
+
+                                </div>
+
+                                <div class="row mt-4 ">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Provinsi Pengembalian</label>
+
+                                        <input type="text" class="form-control" readonly id="pengembalian-choices-button-copy">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Kota/Kab Pengembalian</label>
+                                        <input type="text" class="form-control" readonly id="pengembalian-choices-city-copy">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Kecamatan Pengembalian</label>
+
+                                        <input type="text" class="form-control" readonly id="pengembalian-choices-district-copy">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Kelurahan Pengembalian</label>
+                                        <input type="text" class="form-control" readonly id="pengembalian-choices-subdistrict-copy">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Kode Pos</label>
+                                        <input type="text" class="form-control" readonly id="pengembalian-choices-postalcode-copy">
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">
+                                        Simpan Alamat
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </form>
                 </div>
             </div>
         </div>
 @endsection
+
+@section('scripts')
+            <script src="{{asset('js/custom/copy_address.js')}}"></script>
+            <script src="{{asset('js/custom/new_address.js')}}"></script>
+            <script src="{{asset('js/custom/pengembalian_address.js')}}"></script>
+@endsection
+

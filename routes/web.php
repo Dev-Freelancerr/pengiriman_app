@@ -35,9 +35,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Menu Settings
     Route::prefix('settings')->group(function () {
         Route::get('/address', 'settings\AddressController@index')->name('settings.address');
-
         Route::get('/address/new', 'settings\AddressController@create')->name('settings.address.create');
     });
+
+    // Ajax
+    Route::prefix('ajax')->group(function () {
+        Route::get('/address/province', 'settings\AddressController@ajax_province');
+        Route::get('/address/city/{provinceId}', 'settings\AddressController@ajax_city');
+        Route::get('/address/district/{cityId}', 'settings\AddressController@ajax_district');
+        Route::get('/address/subdistrict/{districtId}', 'settings\AddressController@ajax_subdistrict');
+        Route::get('/address/postalcode/{subdistrictId}', 'settings\AddressController@ajax_postalcode');
+
+        Route::get('/pengembalian/address/province', 'settings\AddressController@ajax_pengembalian_province');
+        Route::get('/pengembalian/address/city/{provinceId}', 'settings\AddressController@ajax_pengembalian_city');
+        Route::get('/pengembalian/address/district/{cityId}', 'settings\AddressController@ajax_pengembalian_district');
+        Route::get('/pengembalian/address/subdistrict/{districtId}', 'settings\AddressController@ajax_pengembalian_subdistrict');
+        Route::get('/pengembalian/address/postalcode/{subdistrictId}', 'settings\AddressController@ajax_pengembalian_postalcode');
+
+    });
+
 
 
 
