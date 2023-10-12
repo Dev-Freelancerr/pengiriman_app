@@ -8,7 +8,7 @@
            href=" https://demos.creative-tim.com/material-dashboard-pro/pages/dashboards/analytics.html "
            target="_blank">
             <img src="{{asset('img/logo-ct.png')}}" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold text-white">Material Dashboard 2 PRO</span>
+            <span class="ms-1 font-weight-bold text-white">Pengiriman Dashboard</span>
         </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">

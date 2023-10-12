@@ -36,6 +36,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('settings')->group(function () {
         Route::get('/address', 'settings\AddressController@index')->name('settings.address');
         Route::get('/address/new', 'settings\AddressController@create')->name('settings.address.create');
+        Route::post('/address/store', 'settings\AddressController@store')->name('settings.address.store');
+        Route::get('/address/destroy/{id}', 'settings\AddressController@destroy')->name('settings.address.destroy');
+
     });
 
     // Ajax

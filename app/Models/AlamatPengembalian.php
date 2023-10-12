@@ -13,7 +13,7 @@ class AlamatPengembalian extends Model
 
     protected $fillable = [
         'id_account',
-        'id_alamat_pejemputan',
+        'id_alamat_penjemputan',
         'nama_pic_pengembalian',
         'no_telp_pic',
         'alamat',
