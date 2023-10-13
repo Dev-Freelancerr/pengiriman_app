@@ -48,4 +48,49 @@ $(document).ready(function () {
             }
         });
     });
+    $('#alamat_edit').hide();
+    $('#edit_alamat').change(function() {
+        if (this.checked) {
+            // Cekbox diperiksa (checked)
+            $('#alamat_current').hide(); // Sembunyikan div alamat_current
+            $('#alamat_current input, #alamat_current select').prop('disabled', true); // Nonaktifkan elemen-elemen dalam div
+            $('#alamat_edit').show();
+        } else {
+            // Cekbox tidak diperiksa (unchecked)
+            $('#alamat_edit').hide();
+            $('#alamat_current').show(); // Tampilkan kembali div alamat_current
+            $('#alamat_current input, #alamat_current select').prop('disabled', false); // Aktifkan kembali elemen-elemen dalam div
+        }
+    });
+
+    $('.card-pengembalian-copy2').hide();
+
+    // Mendeteksi perubahan pada kotak centang dengan ID "fcustomCheck1"
+    $('#fcustomCheck2').on('change', function () {
+        if ($(this).is(':checked')) {
+            // Jika kotak centang dicentang, sembunyikan div card-pengembalian
+            $('.card-pengembalian2').hide();
+            // Tampilkan div card-pengembalian-copy
+            $('.card-pengembalian-copy2').show();
+
+            // Salin nilai dari elemen input sumber ke elemen input pengembalian
+            $('#pengembalian-choices-button-copy2').val($('#choices-button2 :selected').text());
+            $('#pengembalian-choices-city-copy2').val($('#choices-city2 :selected').text());
+            $('#pengembalian-choices-district-copy2').val($('#choices-district2 :selected').text());
+            $('#pengembalian-choices-subdistrict-copy2').val($('#choices-subdistrict2 :selected').text());
+            $('#pengembalian-choices-postalcode-copy2').val($('#choices-postalcode2 :selected').text());
+        } else {
+            // Jika kotak centang tidak dicentang, sembunyikan div card-pengembalian-copy
+            $('.card-pengembalian-copy2').hide();
+            // Tampilkan div card-pengembalian
+            $('.card-pengembalian2').show();
+
+            // Kosongkan nilai elemen input pengembalian
+            $('#pengembalian-choices-button-copy2').val('');
+            $('#pengembalian-choices-city-copy2').val('');
+            $('#pengembalian-choices-district-copy2').val('');
+            $('#pengembalian-choices-subdistrict-copy2').val('');
+            $('#pengembalian-choices-postalcode-copy2').val('');
+        }
+    });
 });

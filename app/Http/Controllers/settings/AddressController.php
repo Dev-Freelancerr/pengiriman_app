@@ -154,6 +154,16 @@ class AddressController extends Controller
         return response()->json($city);
     }
 
+    public function edit($id) {
+        $penjemputan = Penjemputan::where('id', $id)->first();
+        $pengembalian = Pengembalian::where('id_alamat_penjemputan', $id)->first();
+        $data = [
+            'penjemputan' => $penjemputan,
+            'pengembalian' => $pengembalian,
+        ];
+
+        return response()->json($data);
+    }
 
 
 }

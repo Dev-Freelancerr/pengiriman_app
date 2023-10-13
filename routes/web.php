@@ -38,6 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/address/new', 'settings\AddressController@create')->name('settings.address.create');
         Route::post('/address/store', 'settings\AddressController@store')->name('settings.address.store');
         Route::get('/address/destroy/{id}', 'settings\AddressController@destroy')->name('settings.address.destroy');
+        Route::get('/address/edit/{id}', 'settings\AddressController@edit')->name('settings.address.edit');
 
     });
 
