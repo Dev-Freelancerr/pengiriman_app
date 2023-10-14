@@ -71,8 +71,14 @@
                                         </p>
                                     </div>
                                     <div class="w-50 text-end">
-                                        <a class="btn btn-outline-secondary mb-3 mb-md-0 ms-auto">Edit Alamat
-                                        </a>
+
+                                        <button data-id="{{$data->id}}"
+                                                data-route="{{route('settings.address.edit', $data->id)}}"
+                                                data-bs-toggle="modal" data-bs-target="#modal-form-edit"
+                                                class="btn bg-gradient-secondary mb-0">
+
+                                            <span class="btn-inner--text">Edit</span>
+                                        </button>
 
                                         <button class="btn bg-gradient-warning mb-0" id="deleteButton2"
                                                 data-id="{{ $data->id }}">Hapus Alamat
@@ -340,6 +346,7 @@
                 <div class="modal-body p-0">
                     <form action="{{url('settings/address/store')}}" method="POST">
                         @csrf
+                        <input type="text" name="id" id="id_data">
                         <div class="card card-plain">
                             <div class="card-header pb-0 text-left">
                                 <h5 class="">Alamat Penjemputan Edit</h5>
@@ -413,7 +420,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group input-group-outline">
                                                 <label class="form-label">Kode Pos</label>
-                                                <input type="text" class="form-control" name="pos2" id="pos1" readonly>
+                                                <input type="text" class="form-control" name="pos1" id="pos1" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -424,7 +431,8 @@
                                     <div class="row mt-4">
                                         <div class="col-md-6">
                                             <label class="form-label">Provinsi Penjemputan</label>
-                                            <select class="form-control" name="provinsi_penjemputan" id="choices-button2">
+                                            <select class="form-control" name="provinsi_penjemputan"
+                                                    id="choices-button2">
                                             </select>
                                         </div>
                                         <div class="col-md-6">
@@ -444,7 +452,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Kelurahan Penjemputan</label>
-                                            <select class="form-control" name="kel_penjemputan" id="choices-subdistrict2">
+                                            <select class="form-control" name="kel_penjemputan"
+                                                    id="choices-subdistrict2">
                                             </select>
                                         </div>
                                     </div>
@@ -452,7 +461,8 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label class="form-label">Kode Pos</label>
-                                            <select class="form-control" name="pos_penjemputan" id="choices-postalcode2">
+                                            <select class="form-control" name="pos_penjemputan"
+                                                    id="choices-postalcode2">
                                             </select>
                                         </div>
 
@@ -461,22 +471,12 @@
                                 </div>
 
                                 <div class="form-check mt-4 mb-2" style="padding-left: 0px;">
-                                    <input class="form-check-input" name="copy_alamat2" type="checkbox" value=""
+                                    <input class="form-check-input" name="edit_alamat_jemput" type="checkbox" value=""
                                            id="edit_alamat"
                                     >
                                     <label class="custom-control-label" for="customCheck1">Edit Alamat
                                         Penjemputan</label>
                                 </div>
-
-                                <div class="form-check" style="padding-left: 0px;">
-                                    <input class="form-check-input" name="copy_alamat2" type="checkbox" value=""
-                                           id="fcustomCheck2"
-                                    >
-                                    <label class="custom-control-label" for="customCheck1">Alamat pengembalian saya
-                                        sama dengan alamat penjemputan</label>
-                                </div>
-
-
                             </div>
                         </div>
 
@@ -487,104 +487,132 @@
                                 <hr class="horizontal dark mt-0">
                             </div>
                             <div class="card-body">
-                                <div id="alamat_current_pengembalian">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="input-group input-group-outline my-3">
-                                                <label class="form-label">Nama PIC Pengembalian</label>
-                                                <input type="text" class="form-control" name="pic_penjemputan"
-                                                       id="pic_pengembalian">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="input-group input-group-outline my-3">
-                                                <label class="form-label">Telepon PIC Pengembalian</label>
-                                                <input type="text" class="form-control" name="telp_pic_penjemputan"
-                                                       id="telp_pic_pengembalian">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-group input-group-outline">
-                                        <label class="form-label">Alamat Pengembalian</label>
-                                        <input type="text" class="form-control" name="alamat_pengembalian"
-                                               id="alamat_pengembalian">
-                                    </div>
-
-                                </div>
-
-
-
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">
-                                        Simpan Alamat
-                                    </button>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="card card-plain card-pengembalian-copy">
-                            <div class="card-header pb-0 text-left">
-                                <h5 class="">Alamat Pengembalian</h5>
-                                <hr class="horizontal dark mt-0">
-                            </div>
-                            <div class="card-body">
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group input-group-outline my-3">
                                             <label class="form-label">Nama PIC Pengembalian</label>
-                                            <input type="text" class="form-control" name="pic_pengembalian_copy">
+                                            <input type="text" class="form-control" name="pic_pengembalian"
+                                                   id="pic_pengembalian">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group input-group-outline my-3">
                                             <label class="form-label">Telepon PIC Pengembalian</label>
-                                            <input type="text" class="form-control" name="telp_pic_pengembalian_copy">
+                                            <input type="text" class="form-control" name="telp_pic_pengembalian"
+                                                   id="telp_pic_pengembalian">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="input-group input-group-outline">
                                     <label class="form-label">Alamat Pengembalian</label>
-                                    <input type="text" class="form-control" name="alamat_pengembalian_copy">
+                                    <input type="text" class="form-control" name="alamat_pengembalian"
+                                           id="alamat_pengembalian">
                                 </div>
 
-                                <div class="row mt-4 ">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Provinsi Pengembalian</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-button-copy" name="prpvinsi_pengembalian_copy">
+                                <div id="alamat_current_pengembalian">
+
+                                    <div class="row mt-4">
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-outline">
+                                                <label class="form-label">Provinsi</label>
+                                                <input type="text" class="form-control" name="provinsi2"
+                                                       id="provinsi2"
+                                                       readonly>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-outline">
+                                                <label class="form-label">Kota/Kab</label>
+                                                <input type="text" class="form-control" name="kota2" id="kota2"
+                                                       readonly>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kota/Kab Pengembalian</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-city-copy" name="kota_pengembalian_copy">
+
+
+                                    <div class="row mt-4">
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-outline">
+                                                <label class="form-label">Kecamatan</label>
+                                                <input type="text" class="form-control" name="kec2" id="kec2"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-outline">
+                                                <label class="form-label">Kelurahan</label>
+                                                <input type="text" class="form-control" name="kel2" id="kel2"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-4">
+                                        <div class="col-md-6">
+                                            <div class="input-group input-group-outline">
+                                                <label class="form-label">Kode Pos</label>
+                                                <input type="text" class="form-control" name="pos2" id="pos2"
+                                                       readonly>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kecamatan Pengembalian</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-district-copy" name="kec_pengembalian_copy">
+                                <div id="alamat_edit_pengembalian">
+
+                                    <div class="row mt-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Provinsi Pengembalian</label>
+                                            <select class="form-control"
+                                                    id="choices-button-pengembalian2" name="provinsi_pengembalian">
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Kota/Kab Pengembalian</label>
+                                            <select class="form-control"  id="choices-city-pengembalian2" name="kota_pengembalian">
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kelurahan Pengembalian</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-subdistrict-copy" name="kel_pengembalian_copy">
+
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Kecamatan Pengembalian</label>
+
+                                            <select class="form-control" name="kecamatan_pengembalian" id="choices-district-pengembalian2">
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Kelurahan Pengembalian</label>
+                                            <select class="form-control" name="kelurahan_pengembalian"
+                                                    id="choices-subdistrict-pengembalian2">
+                                            </select>
+                                        </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Kode Pos</label>
+                                            <select class="form-control" name="pos_pengembalian"
+                                                    id="choices-postalcode-pengembalian2">
+                                            </select>
+                                        </div>
+
+                                    </div>
+
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kode Pos</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-postalcode-copy" name="pos_pengembalian_copy">
-                                    </div>
+                                <div class="form-check mt-4 mb-2" style="padding-left: 0px;">
+                                    <input class="form-check-input" name="edit_alamat_kembali" type="checkbox" value=""
+                                           id="edit_alamat_pengembalian"
+                                    >
+                                    <label class="custom-control-label" for="customCheck1">Edit Alamat
+                                        Pengembalian</label>
                                 </div>
+
 
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">
@@ -593,6 +621,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                     </form>
                 </div>
             </div>
@@ -608,5 +638,6 @@
     <script src="{{asset('js/custom/new_address.js')}}"></script>
     <script src="{{asset('js/custom/pengembalian_address.js')}}"></script>
     <script src="{{asset('js/custom/penjemputan_edit.js')}}"></script>
+    <script src="{{asset('js/custom/pengembalian_edit.js')}}"></script>
 @endsection
 

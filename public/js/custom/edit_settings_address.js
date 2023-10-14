@@ -19,13 +19,19 @@ $(document).ready(function () {
                 $('#kec1').val(data.penjemputan['kecamatan']);
                 $('#kel1').val(data.penjemputan['kelurahan']);
                 $('#pos1').val(data.penjemputan['postal_code']);
+                $('#id_data').val(data.penjemputan['id']);
 
 
                 $('#pic_pengembalian').val(data.pengembalian['nama_pic_pengembalian']);
-                $('#alamat_pengembalian').val(data.pengembalian['alamat']);
                 $('#telp_pic_pengembalian').val(data.pengembalian['no_telp_pic']);
+                $('#alamat_pengembalian').val(data.pengembalian['alamat']);
+                $('#provinsi2').val(data.pengembalian['provinsi']);
+                $('#kota2').val(data.pengembalian['kota']);
+                $('#kel2').val(data.pengembalian['kelurahan']);
+                $('#kec2').val(data.pengembalian['kecamatan']);
+                $('#pos2').val(data.pengembalian['postal_code']);
 
-                  $("#pic_pengembalian,#alamat_pengembalian,#telp_pic_pengembalian,#provinsi1,#kota1,#kel1,#kec1,#pos1,#nama_penjual, #pic_penjemputan, #alamat_penjemputan, #telp_pic_penjemputan ").focus();
+                  $("#provinsi2, #kota2, #kec2, #kel2, #pos2, #pic_pengembalian,#alamat_pengembalian,#telp_pic_pengembalian,#provinsi1,#kota1,#kel1,#kec1,#pos1,#nama_penjual, #pic_penjemputan, #alamat_penjemputan, #telp_pic_penjemputan ").focus();
 
             },
             error: function (error) {

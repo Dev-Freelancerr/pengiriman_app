@@ -49,6 +49,7 @@ $(document).ready(function () {
         });
     });
     $('#alamat_edit').hide();
+    $('#alamat_edit_pengembalian').hide();
     $('#edit_alamat').change(function() {
         if (this.checked) {
             // Cekbox diperiksa (checked)
@@ -60,6 +61,20 @@ $(document).ready(function () {
             $('#alamat_edit').hide();
             $('#alamat_current').show(); // Tampilkan kembali div alamat_current
             $('#alamat_current input, #alamat_current select').prop('disabled', false); // Aktifkan kembali elemen-elemen dalam div
+        }
+    });
+
+    $('#edit_alamat_pengembalian').change(function() {
+        if (this.checked) {
+            // Cekbox diperiksa (checked)
+            $('#alamat_current_pengembalian').hide(); // Sembunyikan div alamat_current
+            $('#alamat_current_pengembalian input, #alamat_current_pengembalian select').prop('disabled', true); // Nonaktifkan elemen-elemen dalam div
+            $('#alamat_edit_pengembalian').show();
+        } else {
+            // Cekbox tidak diperiksa (unchecked)
+            $('#alamat_edit_pengembalian').hide();
+            $('#alamat_current_pengembalian').show(); // Tampilkan kembali div alamat_current
+            $('#alamat_current_pengembalian input, #alamat_current_pengembalian select').prop('disabled', false); // Aktifkan kembali elemen-elemen dalam div
         }
     });
 
