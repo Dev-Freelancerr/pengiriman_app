@@ -42,6 +42,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     });
 
+    // CEK TARIF
+    Route::get('/estimate/tarif', 'EstimateTarifController@index');
+
+
     // Ajax
     Route::prefix('ajax')->group(function () {
         Route::get('/address/province', 'settings\AddressController@ajax_province');
@@ -55,6 +59,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/pengembalian/address/district/{cityId}', 'settings\AddressController@ajax_pengembalian_district');
         Route::get('/pengembalian/address/subdistrict/{districtId}', 'settings\AddressController@ajax_pengembalian_subdistrict');
         Route::get('/pengembalian/address/postalcode/{subdistrictId}', 'settings\AddressController@ajax_pengembalian_postalcode');
+        Route::get('/suggest/address', 'EstimateTarifController@getAddress');
 
     });
 

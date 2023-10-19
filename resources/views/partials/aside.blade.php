@@ -117,6 +117,14 @@
                 <h6 class="ps-4  ms-2 text-uppercase text-xs font-weight-bolder text-white">PAGES</h6>
             </li>
             <li class="nav-item">
+                <a href="{{url('estimate/tarif')}}" class="nav-link text-white "
+                   aria-controls="pagesExamples" role="button" aria-expanded="false">
+                    <i class="material-icons-round">image</i>
+                    <span class="nav-link-text ms-2 ps-1">Estimasi Tarif</span>
+                </a>
+            </li>
+            <li class="nav-item">
+
                 <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link text-white "
                    aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <i class="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">image</i>

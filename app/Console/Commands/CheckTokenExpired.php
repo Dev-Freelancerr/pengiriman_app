@@ -35,13 +35,15 @@ class CheckTokenExpired extends Command
 
     public function handle()
     {
-        $currentDateTime = Carbon::now();
+//        $currentDateTime = Carbon::now();
+//
+//        $expiredTokens = TokenAccess::where('expired_at', '>=', $currentDateTime)->get();
+//
+//        foreach ($expiredTokens as $token) {
+//             $response = Http::get('http://127.0.0.1:8000/api/ninja/auth/token');
+//        }
+        $response = Http::get('http://127.0.0.1:8000/api/ninja/auth/token');
 
-        $expiredTokens = TokenAccess::where('expired_at', '<=', $currentDateTime)->get();
-
-        foreach ($expiredTokens as $token) {
-             $response = Http::get('http://127.0.0.1:8000/api/ninja/auth/token');
-        }
         $this->info('Expired token processing completed.');
     }
 }
