@@ -104,5 +104,14 @@ if (!function_exists('getPostCodeName')) {
     }
 }
 
+// URL API ENDPOINT NINJA
+// 1. Estimate price
+
+if (!function_exists('urlEstimatePriceNinja')) {
+    function urlEstimatePriceNinja($country_code)
+    {
+        return "https://api.ninjavan.co/".$country_code."/1.0/public/price";
+    }
+}
 
 

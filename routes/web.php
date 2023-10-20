@@ -43,7 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     // CEK TARIF
-    Route::get('/estimate/tarif', 'EstimateTarifController@index');
+    Route::get('/estimate/tarif', 'App\Http\Controllers\Api\Ninja\Estimate_price\EstimateTarifController@index');
+    Route::post('/search/estimate/rate/shipping', 'App\Http\Controllers\Api\Ninja\Estimate_price\EstimateTarifController@search');
 
 
     // Ajax
@@ -59,7 +60,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/pengembalian/address/district/{cityId}', 'settings\AddressController@ajax_pengembalian_district');
         Route::get('/pengembalian/address/subdistrict/{districtId}', 'settings\AddressController@ajax_pengembalian_subdistrict');
         Route::get('/pengembalian/address/postalcode/{subdistrictId}', 'settings\AddressController@ajax_pengembalian_postalcode');
-        Route::get('/suggest/address', 'EstimateTarifController@getAddress');
+        Route::get('/suggest/address', 'App\Http\Controllers\Api\Ninja\Estimate_price\EstimateTarifController@getAddress');
 
     });
 
