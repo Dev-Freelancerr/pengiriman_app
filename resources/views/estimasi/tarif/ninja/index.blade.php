@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    {{--    <input type="text" id="autocomplete-input">--}}
+
+
     <div class="card mt-4" id="password">
         <div class="card-header">
             <h5>Shipping Rate</h5>
         </div>
+
         <form action="{{url('/search/estimate/rate/shipping')}}" method="POST" id="estimate-form">
             @csrf
             <div class="card-body pt-0">
@@ -30,9 +32,14 @@
                     </select>
                 </div>
 
-
                 <button type="submit" class="btn bg-gradient-dark btn-md float-end mt-6 mb-2">View Estimated Price</button>
+                <button class="btn btn-primary btn-sm mb-2" type="button" disabled id="loading">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+
                 <div class="col-lg-6 col-md-6 col-12 mt-8 mt-lg-4 mb-2 mb-md-0" id="result_ninja">
+
                     <div class="card">
                         <div class="card-header p-3 pt-2">
                             <div class="icon icon-lg icon-shape bg-gradient-info shadow text-center border-radius-xl mt-n4 position-absolute">

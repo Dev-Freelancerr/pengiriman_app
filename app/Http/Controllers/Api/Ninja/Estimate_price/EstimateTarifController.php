@@ -103,14 +103,12 @@ class EstimateTarifController extends Controller
         if($response->successful()) {
             $responseData = $response->json();
             return response()->json($responseData);
-            dd($responseData['data']['total_fee']);
         }
         else {
             $errorResponse = $response->json();
-
             return response()->json($errorResponse, $response->status());
         }
-        dd($request->all());
+
     }
 
 }
