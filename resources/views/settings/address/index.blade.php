@@ -4,10 +4,10 @@
     <div class="container-fluid py-3">
         <div class="row text-end">
             <div class="col-2">
-                <button data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-3 btn-primary">
+                <a href="{{url('settings/address/new')}}" class="btn btn-icon btn-3 btn-primary">
                     <span class="btn-inner--icon"><i class="material-icons">add</i></span>
                     <span class="btn-inner--text">Tambah</span>
-                </button>
+                </a>
             </div>
         </div>
 
@@ -91,8 +91,6 @@
                     </div>
                 @endif
             @endforeach
-
-
         </div>
     </div>
 @endsection
@@ -131,45 +129,51 @@
                                 </div>
                                 <div class="input-group input-group-outline">
                                     <label class="form-label">Alamat Penjemputan</label>
-                                    <input type="text" class="form-control" name="alamat_penjemputan">
+                                    <input name="penjemputan" type="text" class="form-control" autocomplete="false" id="penjemputan" required>
+
                                 </div>
 
                                 <div class="row mt-4">
                                     <div class="col-md-6">
-                                        <label class="form-label">Provinsi Penjemputan</label>
-                                        <select class="form-control" name="provinsi_penjemputan" id="choices-button">
-                                        </select>
+                                        <div class="input-group input-group-outline">
+                                            <label class="form-label">Provinsi Penjemputan</label>
+                                            <input id="prov_penjemputan" type="text" class="form-control" name="provinsi_penjemputan">
+                                        </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Kota/Kab Penjemputan</label>
-                                        <select class="form-control" name="kota_penjemputan" id="choices-city">
-                                        </select>
+                                        <div class="input-group input-group-outline">
+                                            <label class="form-label">Kota/Kab Penjemputan</label>
+                                            <input id="kota_kab_penjemputan" type="text" class="form-control" name="provinsi_penjemputan">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-outline">
+                                            <label class="form-label">Kecamatan Penjemputan</label>
+                                            <input id="kec_penjemputan" type="text" class="form-control" name="provinsi_penjemputan">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-outline">
+                                            <label class="form-label">Kelurahan Penjemputan</label>
+                                            <input id="kel_penjemputan" type="text" class="form-control" name="provinsi_penjemputan">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-outline">
+                                            <label class="form-label">Kode Pos Penjemputan</label>
+                                            <input id="kode_pos_penjemputan" type="text" class="form-control" name="provinsi_penjemputan">
+                                        </div>
                                     </div>
                                 </div>
 
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kecamatan Penjemputan</label>
 
-                                        <select class="form-control" name="kec_penjemputan" id="choices-district">
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kelurahan Penjemputan</label>
-                                        <select class="form-control" name="kel_penjemputan" id="choices-subdistrict">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kode Pos</label>
-                                        <select class="form-control" name="pos_penjemputan" id="choices-postalcode">
-                                        </select>
-                                    </div>
-
-                                </div>
 
                                 <div class="form-check" style="padding-left: 0px;">
                                     <input class="form-check-input" name="copy_alamat" type="checkbox" value=""
@@ -250,7 +254,6 @@
                                                 id="pengembalian-choices-postalcode">
                                         </select>
                                     </div>
-
                                 </div>
 
 
@@ -264,75 +267,6 @@
 
                         </div>
 
-
-                        <div class="card card-plain card-pengembalian-copy">
-                            <div class="card-header pb-0 text-left">
-                                <h5 class="">Alamat Pengembalian</h5>
-                                <hr class="horizontal dark mt-0">
-                            </div>
-                            <div class="card-body">
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Nama PIC Pengembalian</label>
-                                            <input type="text" class="form-control" name="pic_pengembalian_copy">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="input-group input-group-outline my-3">
-                                            <label class="form-label">Telepon PIC Pengembalian</label>
-                                            <input type="text" class="form-control" name="telp_pic_pengembalian_copy">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="input-group input-group-outline">
-                                    <label class="form-label">Alamat Pengembalian</label>
-                                    <input type="text" class="form-control" name="alamat_pengembalian_copy">
-                                </div>
-
-                                <div class="row mt-4 ">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Provinsi Pengembalian</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-button-copy" name="prpvinsi_pengembalian_copy">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kota/Kab Pengembalian</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-city-copy" name="kota_pengembalian_copy">
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kecamatan Pengembalian</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-district-copy" name="kec_pengembalian_copy">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kelurahan Pengembalian</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-subdistrict-copy" name="kel_pengembalian_copy">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label class="form-label">Kode Pos</label>
-                                        <input type="text" class="form-control" readonly
-                                               id="pengembalian-choices-postalcode-copy" name="pos_pengembalian_copy">
-                                    </div>
-                                </div>
-
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">
-                                        Simpan Alamat
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                     </form>
                 </div>
             </div>
@@ -560,9 +494,7 @@
                                     </div>
                                 </div>
 
-
                                 <div id="alamat_edit_pengembalian">
-
                                     <div class="row mt-4">
                                         <div class="col-md-6">
                                             <label class="form-label">Provinsi Pengembalian</label>
@@ -576,7 +508,6 @@
                                             </select>
                                         </div>
                                     </div>
-
 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -600,9 +531,7 @@
                                                     id="choices-postalcode-pengembalian2">
                                             </select>
                                         </div>
-
                                     </div>
-
                                 </div>
 
                                 <div class="form-check mt-4 mb-2" style="padding-left: 0px;">
@@ -612,8 +541,6 @@
                                     <label class="custom-control-label" for="customCheck1">Edit Alamat
                                         Pengembalian</label>
                                 </div>
-
-
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-round bg-gradient-info btn-lg w-100 mt-4 mb-0">
                                         Simpan Alamat
@@ -621,8 +548,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </form>
                 </div>
             </div>
@@ -632,12 +557,6 @@
 @endsection
 
 @section('scripts')
-    <script src="{{asset('js/custom/edit_settings_address.js')}}"></script>
-    <script src="{{asset('js/custom/form_settings_address.js')}}"></script>
-    <script src="{{asset('js/custom/copy_address.js')}}"></script>
-    <script src="{{asset('js/custom/new_address.js')}}"></script>
-    <script src="{{asset('js/custom/pengembalian_address.js')}}"></script>
-    <script src="{{asset('js/custom/penjemputan_edit.js')}}"></script>
-    <script src="{{asset('js/custom/pengembalian_edit.js')}}"></script>
+    <script src="{{asset('js/custom/setting/address/form.js')}}"></script>
 @endsection
 

@@ -1,9 +1,22 @@
 $(function () {
-    if (document.getElementById('choices-layanan')) {
-        var language = document.getElementById('choices-layanan');
-        const example = new Choices(language);
-    }
-    $("#pengiriman").autocomplete({
+
+    $("#copy_alamat").change(function() {
+        if ($(this).is(":checked")) {
+            $("#pengembalian").val($("#penjemputan").val()).focus().prop("readonly", true);
+            $("#prov_pengembalian").val($("#prov_penjemputan").val()).focus();
+            $("#kota_kab_pengembalian").val($("#kota_kab_penjemputan").val()).focus();
+            $("#kec_pengembalian").val($("#kec_penjemputan").val()).focus();
+        } else {
+            $("#pengembalian").val("").prop("readonly", false);
+            $("#prov_pengembalian").val("");
+            $("#kota_kab_pengembalian").val("");
+            $("#kec_pengembalian").val("");
+        }
+    });
+
+
+    $("#penjemputan").autocomplete({
+
         source: function (request, response) {
             $.ajax({
                 url: "/ajax/suggest/address",
@@ -22,8 +35,17 @@ $(function () {
             var l1TierCode = ui.item.L1_TIER_CODE;
             var l2TierCode = ui.item.L2_TIER_CODE;
 
+            var my_address = ui.item.value;
+            var addressParts = my_address.split(', ');
+            var provinsi = addressParts[0];
+            var kabupaten = addressParts[1];
+            var kecamatan = addressParts[2];
+
             // Mengisi input dengan suggest yang dipilih
-            $("#pengiriman").val(ui.item.value);
+            $("#penjemputan").val(my_address);
+            $("#prov_penjemputan").val(provinsi).focus();
+            $("#kota_kab_penjemputan").val(kabupaten).focus();
+            $("#kec_penjemputan").val(kecamatan).focus();
 
             // Lakukan sesuatu dengan L1_TIER_CODE dan L2_TIER_CODE sesuai kebutuhan Anda
             // Contoh: Tampilkan dalam elemen lain
@@ -34,7 +56,8 @@ $(function () {
         }
     });
 
-    $("#penjemputan").autocomplete({
+    $("#pengembalian").autocomplete({
+
         source: function (request, response) {
             $.ajax({
                 url: "/ajax/suggest/address",
@@ -53,8 +76,17 @@ $(function () {
             var l1TierCode = ui.item.L1_TIER_CODE;
             var l2TierCode = ui.item.L2_TIER_CODE;
 
+            var my_address = ui.item.value;
+            var addressParts = my_address.split(', ');
+            var provinsi = addressParts[0];
+            var kabupaten = addressParts[1];
+            var kecamatan = addressParts[2];
+
             // Mengisi input dengan suggest yang dipilih
-            $("#penjemputan").val(ui.item.value);
+            $("#pengembalian").val(my_address);
+            $("#prov_pengembalian").val(provinsi).focus();
+            $("#kota_kab_pengembalian").val(kabupaten).focus();
+            $("#kec_pengembalian").val(kecamatan).focus();
 
             // Lakukan sesuatu dengan L1_TIER_CODE dan L2_TIER_CODE sesuai kebutuhan Anda
             // Contoh: Tampilkan dalam elemen lain

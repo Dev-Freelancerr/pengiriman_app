@@ -38,20 +38,6 @@ class EstimateTarifController extends Controller
         }
 
         return response()->json($suggestions);
-//        $term = $request->input('term');
-//        $results = NinjaAddress::where('Provinsi', 'like', '%'.$term.'%')
-//            ->orWhere('KotaKabupaten', 'like', '%'.$term.'%')
-//            ->orWhere('Kecamatan', 'like', '%'.$term.'%')
-//            ->get();
-//
-//        $suggestions = [];
-//
-//        foreach ($results as $result) {
-//            $suggestion = $result->Provinsi . ', ' . $result->KotaKabupaten . ', ' . $result->Kecamatan;
-//            $suggestions[] = $suggestion;
-//        }
-//
-//        return response()->json($suggestions);
     }
 
     public function search(Request $request)
@@ -108,7 +94,5 @@ class EstimateTarifController extends Controller
             $errorResponse = $response->json();
             return response()->json($errorResponse, $response->status());
         }
-
     }
-
 }
