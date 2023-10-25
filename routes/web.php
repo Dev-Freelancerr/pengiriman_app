@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 //Route::view('/home', 'home')->middleware(['auth', 'verified']);
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'web'])->group(function () {
     Route::get('/home', function () {
 
         return view('home');

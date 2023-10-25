@@ -1,6 +1,76 @@
 $(function () {
+    $("#form_address").on("submit", function (event) {
+        event.preventDefault(); // Mencegah pengiriman formulir asli
 
-    $("#copy_alamat").change(function() {
+        // Simpan referensi this dalam variabel untuk digunakan dalam callback
+        var form = $(this);
+
+        // Tampilkan SweetAlert konfirmasi
+        Swal.fire({
+            title: 'Konfirmasi Simpan',
+            text: 'Apakah Anda yakin ingin menyimpan data ini?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, Simpan',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mengirim formulir dengan AJAX
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function (response) {
+                        if (response.error) {
+                            // Tampilkan SweetAlert kesalahan jika validasi gagal
+                            setTimeout(function () {
+                                Swal.fire({
+                                    title: 'Kesalahan!',
+                                    text: response.error,
+                                    icon: 'error'
+                                });
+                            }, 2000);
+                        } else if (response.success) {
+                            // Tampilkan SweetAlert sukses jika operasi berhasil
+
+                            Swal.fire({
+                                title: 'Sukses!',
+                                text: response.success,
+                                icon: 'success'
+                            }).then(() => {
+                                // Arahkan pengguna ke halaman yang sesuai setelah menutup SweetAlert
+                                window.location.href = '/settings/address';
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+
+    // $("#form_address").on("submit", function(event) {
+    //     event.preventDefault(); // Mencegah pengiriman formulir asli
+    //
+    //     // Tampilkan SweetAlert konfirmasi
+    //     Swal.fire({
+    //         title: 'Konfirmasi Simpan',
+    //         text: 'Apakah Anda yakin ingin menyimpan data ini?',
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonText: 'Ya, Simpan',
+    //         cancelButtonText: 'Batal'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             // Mengarahkan formulir ke URL yang sesuai dengan metode POST
+    //             $(this).attr('action', '/settings/address/store');
+    //             $(this).attr('method', 'POST');
+    //             $(this).unbind('submit').submit(); // Unbind event handler agar formulir dapat dikirim
+    //         }
+    //     });
+    // });
+
+    $("#copy_alamat").change(function () {
         if ($(this).is(":checked")) {
             $("#pengembalian").val($("#penjemputan").val()).focus().prop("readonly", true);
             $("#prov_pengembalian").val($("#prov_penjemputan").val()).focus();
