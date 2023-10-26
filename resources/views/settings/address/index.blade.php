@@ -12,7 +12,7 @@
         </div>
 
         <div class="row mb-5">
-            @foreach($penjemputan as $key => $data)
+            @forelse($penjemputan as $key => $data)
                 @if ($key === 0)
                     <div class="col-lg-12 mt-lg-0 mt-2">
                         <div class="card mt-4">
@@ -26,11 +26,7 @@
                                             | {{$data->no_telp_pic}}</p>
                                         <p class="text-xs font-weight-bold mb-2">
                                             {{$data->alamat}}
-                                            ({{getProvince($data->provinsi)->prov_name}},
-                                            {{getCity($data->kota)->city_name}},
-                                            {{getDistrict($data->kecamatan)->dis_name}},
-                                            {{getSubDistrict($data->kelurahan)->subdis_name}},
-                                            {{getPostCode($data->postal_code)->postal_code}})
+
                                         </p>
                                     </div>
                                     <div class="w-50 text-end">
@@ -38,12 +34,12 @@
                                                 data-route="{{route('settings.address.edit', $data->id)}}"
                                                 data-bs-toggle="modal" data-bs-target="#modal-form-edit"
                                                 class="btn bg-gradient-secondary mb-0">
-
                                             <span class="btn-inner--text">Edit</span>
                                         </button>
 
-                                        <button class="btn bg-gradient-warning mb-0" data-id="{{ $data->id }}"
-                                                id="deleteButton1">Hapus Alamat
+                                        <button class="btn bg-gradient-warning mb-0 delete_data"
+                                                data-id="{{$data->id}}">
+                                            Hapus Alamat
                                         </button>
 
                                     </div>
@@ -63,11 +59,6 @@
                                             | {{$data->no_telp_pic}}</p>
                                         <p class="text-xs font-weight-bold mb-2">
                                             {{$data->alamat}}
-                                            ({{getProvince($data->provinsi)->prov_name}},
-                                            {{getCity($data->kota)->city_name}},
-                                            {{getDistrict($data->kecamatan)->dis_name}},
-                                            {{getSubDistrict($data->kelurahan)->subdis_name}},
-                                            {{getPostCode($data->postal_code)->postal_code}})
                                         </p>
                                     </div>
                                     <div class="w-50 text-end">
@@ -80,8 +71,8 @@
                                             <span class="btn-inner--text">Edit</span>
                                         </button>
 
-                                        <button class="btn bg-gradient-warning mb-0" id="deleteButton2"
-                                                data-id="{{ $data->id }}">Hapus Alamat
+                                        <button class="btn bg-gradient-warning mb-0 delete_data"
+                                                data-id="{{$data->id}}">Hapus Alamats
                                         </button>
 
                                     </div>
@@ -90,7 +81,15 @@
                         </div>
                     </div>
                 @endif
-            @endforeach
+            @empty
+                <div class="row">
+                    <div class="col-6">
+                        <div class="alert alert-warning text-white" role="alert">
+                            <strong>Warning!</strong> Anda belum menambahkan alamat apapun
+                        </div>
+                    </div>
+                </div>
+            @endforelse
         </div>
     </div>
 @endsection
@@ -101,7 +100,7 @@
 
 
 @section('scripts')
-
+    <script src="{{asset('js/custom/setting/address/delete.js')}}"></script>
     <script src="{{asset('js/custom/setting/address/form.js')}}"></script>
 @endsection
 
