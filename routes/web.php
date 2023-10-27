@@ -39,6 +39,7 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::post('/address/store', 'settings\AddressController@store')->name('settings.address.store');
         Route::delete('/address/destroy/{id}', 'settings\AddressController@destroy')->name('settings.address.destroy');
         Route::get('/address/edit/{id}', 'settings\AddressController@edit')->name('settings.address.edit');
+        Route::post('/address/update/{id}', 'settings\AddressController@update')->name('settings.address.update');
 
     });
 

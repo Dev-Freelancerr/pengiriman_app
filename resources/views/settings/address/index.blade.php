@@ -30,12 +30,9 @@
                                         </p>
                                     </div>
                                     <div class="w-50 text-end">
-                                        <button data-id="{{$data->id}}"
-                                                data-route="{{route('settings.address.edit', $data->id)}}"
-                                                data-bs-toggle="modal" data-bs-target="#modal-form-edit"
-                                                class="btn bg-gradient-secondary mb-0">
+                                        <a href="/settings/address/edit/{{$data->id}}" class="btn bg-gradient-secondary mb-0">
                                             <span class="btn-inner--text">Edit</span>
-                                        </button>
+                                        </a>
 
                                         <button class="btn bg-gradient-warning mb-0 delete_data"
                                                 data-id="{{$data->id}}">
@@ -63,13 +60,9 @@
                                     </div>
                                     <div class="w-50 text-end">
 
-                                        <button data-id="{{$data->id}}"
-                                                data-route="{{route('settings.address.edit', $data->id)}}"
-                                                data-bs-toggle="modal" data-bs-target="#modal-form-edit"
-                                                class="btn bg-gradient-secondary mb-0">
-
+                                        <a href="/settings/address/edit/{{$data->id}}" class="btn bg-gradient-secondary mb-0">
                                             <span class="btn-inner--text">Edit</span>
-                                        </button>
+                                        </a>
 
                                         <button class="btn bg-gradient-warning mb-0 delete_data"
                                                 data-id="{{$data->id}}">Hapus Alamats
