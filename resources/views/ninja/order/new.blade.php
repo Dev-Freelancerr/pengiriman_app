@@ -20,12 +20,10 @@
                     </div>
                     <ul class="progress-bar">
                         <li class="active">Pickup</li>
-                        <li>Education</li>
-                        <li>Work Experience</li>
-                        <li>User Photo</li>
+                        <li>Orders</li>
+                        <li>Review</li>
+
                     </ul>
-
-
                 </div>
                 <div class="right-side">
                     <div class="main active">
