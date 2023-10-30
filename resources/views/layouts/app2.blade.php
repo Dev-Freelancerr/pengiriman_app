@@ -1,4 +1,4 @@
-<!doctype html>
+
 <html>
 <head>
     <meta charset='utf-8'>
@@ -10,8 +10,9 @@
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <style>::-webkit-scrollbar {
             width: 8px;
         }
@@ -33,33 +34,140 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 
+        .cc-selector input {
+            margin: 0;
+            padding: 0;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .cc-selector-kendaraan input {
+            margin: 0;
+            padding: 0;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .visa {
+            background-image: url('{{ asset('img/penjemputan_terjadwal.png') }}');
+        }
+
+        .mastercard {
+            background-image: url('{{ asset('img/drop_off.jpg') }}');
+        }
+
+        .truck {
+            background-image: url('{{ asset('img/truck.jpg') }}');
+        }
+
+        .van {
+            background-image: url('{{ asset('img/van.jpg') }}');
+        }
+
+        .motor {
+            background-image: url('{{ asset('img/motor.jpg') }}');
+        }
+
+
+        .cc-selector input:active + .drinkcard-cc {
+            opacity: .5;
+        }
+
+        .cc-selector input:checked + .drinkcard-cc {
+            -webkit-filter: none;
+            -moz-filter: none;
+            filter: none;
+        }
+
+
+        .cc-selector-kendaraan input:active + .drinkcard-kendaraan {
+            opacity: .5;
+        }
+
+        .cc-selector-kendaraan input:checked + .drinkcard-kendaraan {
+            -webkit-filter: none;
+            -moz-filter: none;
+            filter: none;
+        }
+
+        .drinkcard-cc {
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: inline-block;
+            width: 140px;
+            height: 100px;
+            -webkit-transition: all 100ms ease-in;
+            -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+            -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+            -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+            filter: brightness(1.8) grayscale(1) opacity(.7);
+        }
+
+        .drinkcard-cc:hover {
+            -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            filter: brightness(1.2) grayscale(.5) opacity(.9);
+        }
+
+        .drinkcard-kendaraan {
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: inline-block;
+            width: 140px;
+            height: 100px;
+            -webkit-transition: all 100ms ease-in;
+            -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+            -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+            -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+            filter: brightness(1.8) grayscale(1) opacity(.7);
+        }
+
+        .drinkcard-kendaraan:hover {
+            -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            filter: brightness(1.2) grayscale(.5) opacity(.9);
+        }
+
+        /* Extras */
+        a:visited {
+            color: #888
+        }
+
+        a {
+            color: #999;
+            text-decoration: none;
+        }
+
+        p {
+            margin-bottom: .3em;
+        }
+
         * {
             padding: 0;
             margin: 0;
         }
 
-        .container {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #eee;
-        }
 
         .container .card {
-            height: 500px;
-            width: 800px;
+
+            height: 700px;
+            width: 900px;
             background-color: #fff;
             position: relative;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
             font-family: 'Poppins', sans-serif;
-            border-radius: 20px;
+
         }
 
         .container .card .form {
             width: 100%;
             height: 100%;
-
             display: flex;
         }
 
@@ -68,7 +176,7 @@
             background-color: #304767;
             height: 100%;
             border-top-left-radius: 20px;
-            border-bottom-left-radius: 20px;
+
             padding: 20px 30px;
             box-sizing: border-box;
 
@@ -168,7 +276,7 @@
             width: 65%;
             background-color: #fff;
             height: 100%;
-            border-radius: 20px;
+
         }
 
         /*right-side-start*/
@@ -492,17 +600,15 @@
 
                 display: none;
             }
-        }</style>
+        }
+    </style>
 </head>
+
+
 <body className='snippet-body'>
 
 @yield('content')
 
-
-<script type='text/javascript' src='#'></script>
-<script type='text/javascript' src='#'></script>
-<script type='text/javascript' src='#'></script>
-<script type='text/javascript' src='#'></script>
 <script type='text/javascript'>var next_click = document.querySelectorAll(".next_button");
     var main_form = document.querySelectorAll(".main");
     var step_list = document.querySelectorAll(".progress-bar li");
@@ -609,7 +715,35 @@
     }</script>
 <script src="{{asset('js/plugins/flatpickr.min.js')}}"></script>
 <script type='text/javascript'>
-    $(document).ready(function() {
+    $(document).ready(function () {
+        $('#jadwalLabel').text($('input[name="jadwal_jemput"]:checked').val());
+
+
+        $('input[name="jadwal_jemput"]').change(function () {
+            var selectedValue = $('input[name="jadwal_jemput"]:checked').val();
+            if(selectedValue == "drop-sendiri") {
+                $('#jadwalLabel').text("Drop sendiri di outlet");
+            }else {
+                $('#jadwalLabel').text("Penjemputan Terjadwal");
+            }
+        });
+
+        $('#kendaraanLabel').text($('input[name="kendaraan_jemput"]:checked').val());
+
+
+        $('input[name="kendaraan_jemput"]').change(function () {
+            var selectedValue = $('input[name="kendaraan_jemput"]:checked').val();
+            if(selectedValue == "motor") {
+                $('#kendaraanLabel').text("Parcel dapat diangkut dengan motor");
+            }
+            else if(selectedValue == "van") {
+                $('#kendaraanLabel').text("Parcel dapat diangkut dengan mobil");
+            }
+            else {
+                $('#kendaraanLabel').text("Parcel dapat diangkut dengan truck");
+            }
+        });
+
         $(".tanggal").flatpickr({
             minDate: "today"
         });
@@ -623,14 +757,18 @@
             time_24hr: true         // Format waktu 24 jam
         });
 
-        $('#tipe_penjemputan').change(function() {
-
-            if ($(this).val() === "Drop sendiri di outlet") {
+        $('#visa, #mastercard').change(function () {
+            if ($('input[name="jadwal_jemput"]:checked').val() === "drop-sendiri") {
                 $('.penjemputan_terjadwal').hide();
             } else {
                 $('.penjemputan_terjadwal').show();
             }
         });
+
+        // Inisialisasi tampilan berdasarkan nilai radio yang dipilih saat halaman dimuat
+        if ($('input[name="jadwal_jemput"]:checked').val() === "drop-sendiri") {
+            $('.penjemputan_terjadwal').hide();
+        }
 
     });
     var myLink = document.querySelector('a[href="#"]');
@@ -638,6 +776,5 @@
         e.preventDefault();
     });
 </script>
-
 </body>
 </html>
