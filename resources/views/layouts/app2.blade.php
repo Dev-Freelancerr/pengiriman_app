@@ -3,8 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>Snippet - BBBootstrap</title>
-    <link href='#' rel='stylesheet'>
+
     <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' rel='stylesheet'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -12,8 +11,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
 
-    <style>::-webkit-scrollbar {
+    <style type="text/css">
+        ::-webkit-scrollbar {
             width: 8px;
         }
 
@@ -32,7 +33,17 @@
             background: #555;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap");
+
+        .custom-card {
+            background-color: #f0f0f0;
+        }
+        .custom-card .card-body {
+            padding: 20px; /* Menambahkan padding ke dalam card-body */
+        }
+        .custom-card .card-text {
+            margin: 10px 0; /* Menambahkan margin di atas dan di bawah setiap paragraf card-text */
+        }
 
         .cc-selector input {
             margin: 0;
@@ -51,28 +62,27 @@
         }
 
         .visa {
-            background-image: url('{{ asset('img/penjemputan_terjadwal.png') }}');
+            background-image: url("{{ asset("img/penjemputan_terjadwal.png") }}");
         }
 
         .mastercard {
-            background-image: url('{{ asset('img/drop_off.jpg') }}');
+            background-image: url("{{ asset("img/drop_off.jpg") }}");
         }
 
         .truck {
-            background-image: url('{{ asset('img/truck.jpg') }}');
+            background-image: url("{{ asset("img/truck.jpg") }}");
         }
 
         .van {
-            background-image: url('{{ asset('img/van.png') }}');
+            background-image: url("{{ asset("img/van.png") }}");
         }
 
         .motor {
-            background-image: url('{{ asset('img/motor.jpg') }}');
+            background-image: url("{{ asset("img/motor.jpg") }}");
         }
 
-
         .cc-selector input:active + .drinkcard-cc {
-            opacity: .5;
+            opacity: 0.5;
         }
 
         .cc-selector input:checked + .drinkcard-cc {
@@ -81,9 +91,8 @@
             filter: none;
         }
 
-
         .cc-selector-kendaraan input:active + .drinkcard-kendaraan {
-            opacity: .5;
+            opacity: 0.5;
         }
 
         .cc-selector-kendaraan input:checked + .drinkcard-kendaraan {
@@ -102,15 +111,15 @@
             -webkit-transition: all 100ms ease-in;
             -moz-transition: all 100ms ease-in;
             transition: all 100ms ease-in;
-            -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
-            -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
-            filter: brightness(1.8) grayscale(1) opacity(.7);
+            -webkit-filter: brightness(1.8) grayscale(1) opacity(0.7);
+            -moz-filter: brightness(1.8) grayscale(1) opacity(0.7);
+            filter: brightness(1.8) grayscale(1) opacity(0.7);
         }
 
         .drinkcard-cc:hover {
-            -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
-            -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
-            filter: brightness(1.2) grayscale(.5) opacity(.9);
+            -webkit-filter: brightness(1.2) grayscale(0.5) opacity(0.9);
+            -moz-filter: brightness(1.2) grayscale(0.5) opacity(0.9);
+            filter: brightness(1.2) grayscale(0.5) opacity(0.9);
         }
 
         .drinkcard-kendaraan {
@@ -123,20 +132,20 @@
             -webkit-transition: all 100ms ease-in;
             -moz-transition: all 100ms ease-in;
             transition: all 100ms ease-in;
-            -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
-            -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
-            filter: brightness(1.8) grayscale(1) opacity(.7);
+            -webkit-filter: brightness(1.8) grayscale(1) opacity(0.7);
+            -moz-filter: brightness(1.8) grayscale(1) opacity(0.7);
+            filter: brightness(1.8) grayscale(1) opacity(0.7);
         }
 
         .drinkcard-kendaraan:hover {
-            -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
-            -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
-            filter: brightness(1.2) grayscale(.5) opacity(.9);
+            -webkit-filter: brightness(1.2) grayscale(0.5) opacity(0.9);
+            -moz-filter: brightness(1.2) grayscale(0.5) opacity(0.9);
+            filter: brightness(1.2) grayscale(0.5) opacity(0.9);
         }
 
         /* Extras */
         a:visited {
-            color: #888
+            color: #888;
         }
 
         a {
@@ -145,7 +154,7 @@
         }
 
         p {
-            margin-bottom: .3em;
+            margin-bottom: 0.3em;
         }
 
         * {
@@ -153,16 +162,14 @@
             margin: 0;
         }
 
-
         .container .card {
-
-            height: 700px;
+            height: auto;
             width: 900px;
             background-color: #fff;
             position: relative;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-            font-family: 'Poppins', sans-serif;
-
+            font-family: "Poppins", sans-serif;
+            display: flex;
         }
 
         .container .card .form {
@@ -174,18 +181,16 @@
         .container .card .left-side {
             width: 35%;
             background-color: #304767;
-            height: 100%;
+            height: auto;
             border-top-left-radius: 20px;
 
             padding: 20px 30px;
             box-sizing: border-box;
-
         }
 
         /*left-side-start*/
         .left-heading {
             color: #fff;
-
         }
 
         .steps-content {
@@ -228,13 +233,10 @@
             top: -5px;
             z-index: 10;
             background-color: #304767;
-
-
         }
 
-
         .progress-bar li::after {
-            content: '';
+            content: "";
             position: absolute;
             height: 90px;
             width: 2px;
@@ -244,10 +246,8 @@
             top: -70px;
         }
 
-
         .progress-bar li.active::after {
             background-color: #fff;
-
         }
 
         .progress-bar li:first-child:after {
@@ -270,13 +270,11 @@
             display: none;
         }
 
-
         /*left-side-end*/
         .container .card .right-side {
             width: 65%;
             background-color: #fff;
             height: 100%;
-
         }
 
         /*right-side-start*/
@@ -329,13 +327,23 @@
         .input-text .input-div {
             width: 100%;
             position: relative;
-
         }
-
 
         input[type="text"] {
             width: 100%;
             height: 40px;
+            border: none;
+            outline: 0;
+            border-radius: 5px;
+            border: 1px solid #cbced4;
+            gap: 20px;
+            box-sizing: border-box;
+            padding: 0px 10px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 60px;
             border: none;
             outline: 0;
             border-radius: 5px;
@@ -365,7 +373,8 @@
             transition: all 0.5s;
         }
 
-        .input-div input:focus ~ span, .input-div input:valid ~ span {
+        .input-div input:focus ~ span,
+        .input-div input:valid ~ span {
             top: -15px;
             left: 6px;
             font-size: 10px;
@@ -392,7 +401,6 @@
         .button_space {
             display: flex;
             gap: 20px;
-
         }
 
         .button_space button:nth-child(1) {
@@ -462,7 +470,6 @@
             align-items: center;
             margin-left: 10px;
             color: #cbd6dc;
-
         }
 
         .social span i {
@@ -485,7 +492,6 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-
         }
 
         .user_name h3 {
@@ -502,14 +508,12 @@
         .detail p {
             font-size: 12px;
             font-weight: 700;
-
         }
 
         .detail p a {
             text-decoration: none;
             color: blue;
         }
-
 
         .checkmark__circle {
             stroke-dasharray: 166;
@@ -531,7 +535,8 @@
             stroke-miterlimit: 10;
             margin: 10% auto;
             box-shadow: inset 0px 0px 0px #7ac142;
-            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+            animation: fill 0.4s ease-in-out 0.4s forwards,
+            scale 0.3s ease-in-out 0.9s both;
         }
 
         .checkmark__check {
@@ -548,7 +553,8 @@
         }
 
         @keyframes scale {
-            0%, 100% {
+            0%,
+            100% {
                 transform: none;
             }
             50% {
@@ -562,18 +568,14 @@
             }
         }
 
-
         .warning {
             border: 1px solid red !important;
         }
-
 
         /*right-side-end*/
         @media (max-width: 750px) {
             .container {
                 height: scroll;
-
-
             }
 
             .container .card {
@@ -584,7 +586,6 @@
 
             .container .card .right-side {
                 width: 100%;
-
             }
 
             .input-text {
@@ -593,14 +594,13 @@
 
             .input-text .input-div {
                 margin-top: 20px;
-
             }
 
             .container .card .left-side {
-
                 display: none;
             }
         }
+
     </style>
 </head>
 
@@ -743,6 +743,21 @@
                 $('#kendaraanLabel').text("Parcel dapat diangkut dengan truck");
             }
         });
+
+        $("#via_upload_content").hide();
+
+        // Tambahkan event listener untuk tombol "Input Via Keyboard"
+        $("#choose_via_keyboard").click(function() {
+            $("#via_keyboard").show(); // Tampilkan konten "Input Via Keyboard"
+            $("#via_upload_content").hide();  // Sembunyikan konten "Upload File"
+        });
+
+        // Tambahkan event listener untuk tombol "Upload File"
+        $("#choose_via_upload").click(function() {
+            $("#via_keyboard").hide();  // Sembunyikan konten "Input Via Keyboard"
+            $("#via_upload_content").show();   // Tampilkan konten "Upload File"
+        });
+
 
         $(".tanggal").flatpickr({
             minDate: "today"

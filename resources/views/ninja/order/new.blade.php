@@ -66,16 +66,32 @@
                             </div>
 
                             <div class="input-div">
-                                <input class="flatpickr flatpickr-input jam" type="text" placeholder="Select Time.."
-                                       readonly="readonly">
+                                <select>
+                                    <option>09:00 - 12:00</option>
+                                    <option>12:00 - 15:00</option>
+                                    <option>15:00 - 18:00</option>
+                                    <option>18:00 - 22:00</option>
+                                    <option>09:00 - 18:00</option>
+                                    <option>09:00 - 22:00</option>
+                                </select>
                             </div>
                         </div>
 
-                      <div class="input-text penjemputan_terjadwal">
+                        <div class="input-text penjemputan_terjadwal">
+                            <div class="input-div">
+                                <label style="font-weight: bold; font-size: small;" for="firstname"
+                                       title="Customer's First name">Instruksi ke pengemudi (Optional)</label><br/>
+
+                                <textarea> </textarea>
+                            </div>
+                        </div>
+
+                        <div class="input-text penjemputan_terjadwal">
 
                             <div class="input-div">
                                 <label style="font-weight: bold; font-size: small;" for="firstname"
-                                       title="Customer's First name">Pilih kendaraan yang muat dengan semua parcelmu</label><br/>
+                                       title="Customer's First name">Pilih kendaraan yang muat dengan semua
+                                    parcelmu</label><br/>
 
                                 <div class="form-group">
                                     <div class="cc-selector-kendaraan">
@@ -98,39 +114,155 @@
                         </div>
                     </div>
                     <div class="main">
+                        <div class="buttons button_space">
+                            <button class="" id="choose_via_keyboard">Input Via Keyboard</button>
+                            <button class="" id="choose_via_upload">Upload File</button>
+                        </div>
 
-                        <div class="input-text">
-                            <div class="input-div">
-                                <input type="text" required require>
-                                <span>School Name</span>
+                        <div id="via_keyboard">
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <input type="text">
+                                    <span>Customer Name</span>
+                                </div>
+                                <div class="input-div">
+                                    <input type="text">
+                                    <span>Customer Contact</span>
+                                </div>
                             </div>
-                            <div class="input-div">
-                                <input type="text" required>
-                                <span>Board Name</span>
+
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <input type="text">
+                                    <span>Customer Email (Optional)</span>
+                                </div>
+                                <div class="input-div">
+                                    <select disabled>
+                                        <option>Standard</option>
+                                    </select>
+                                </div>
                             </div>
+                            <div class="input-text">
+                                <div class="input-div">
+                                    <select>
+                                        <option>09:00 - 12:00</option>
+                                        <option>12:00 - 15:00</option>
+                                        <option>15:00 - 18:00</option>
+                                        <option>18:00 - 22:00</option>
+                                        <option>09:00 - 18:00</option>
+                                        <option>09:00 - 22:00</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <input type="text" required require>
+                                        <span>Address</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <input type="text" required require>
+                                        <span>Provinsi/Kota/Kecamatan</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Kelurahan</span>
+                                    </div>
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Postal Code</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <input type="text" required require>
+                                        <span>Address Line 2</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Address Line 2</span>
+                                    </div>
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Delivery Instruction</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Quantity (isi dengan 1 jika jumlah tidak terhitung)</span>
+                                    </div>
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Weight (kg)</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Isi Parcel / Nama Produk</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Delivery Instruction</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Remark 1</span>
+                                    </div>
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Remark 2</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="input-div">
+                                        <select>
+                                            <option>COD</option>
+                                            <option>Non - COD</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-div">
+                                        <input type="text">
+                                        <span>Nilai</span>
+                                    </div>
+                                </div>
+
+                                <div class="input-text">
+                                    <div class="card custom-card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Breakdown Price</h5>
+                                            <p class="card-text">Estimasi Biaya Pengiriman Normal: Rp 144,000</p>
+                                            <p class="card-text">Estimasi Biaya Pengiriman Khusus Mengantar: Rp 108,000</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
-                        <div class="input-text">
-                            <div class="input-div">
-                                <input type="text" required require>
-                                <span>College/University name</span>
-                            </div>
-                        </div>
-                        <div class="input-text">
-                            <div class="input-div">
-                                <select>
-                                    <option>Select Course</option>
-                                    <option>BCA</option>
-                                    <option>B-TECH</option>
-                                    <option>BA</option>
-                                    <option>B-COM</option>
-                                    <option>B-SC</option>
-                                    <option>MBA</option>
-                                    <option>MCA</option>
-                                    <option>M-COM</option>
-                                    <option>M-TECH</option>
-                                </select>
-                            </div>
-                        </div>
+
+
                         <div class="buttons button_space">
                             <button class="back_button">Back</button>
                             <button class="next_button">Next Step</button>
@@ -172,6 +304,8 @@
                                 <span>Position</span>
                             </div>
                         </div>
+
+
                         <div class="buttons button_space">
                             <button class="back_button">Back</button>
                             <button class="next_button">Next Step</button>
