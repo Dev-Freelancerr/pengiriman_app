@@ -63,7 +63,7 @@
         }
 
         .van {
-            background-image: url('{{ asset('img/van.jpg') }}');
+            background-image: url('{{ asset('img/van.png') }}');
         }
 
         .motor {
