@@ -165,7 +165,7 @@
 
                                 <div class="input-text">
                                     <div class="input-div">
-                                        <input name="penjemputan" type="text" class="form-control" autocomplete="false" id="penjemputan" required>
+                                        <input name="alamat_kirim" type="text" class="form-control" autocomplete="false" id="alamat_kirim" required>
 
                                         <span>Provinsi/Kota/Kecamatan</span>
                                     </div>

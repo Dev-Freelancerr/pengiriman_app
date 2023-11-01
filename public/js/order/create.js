@@ -1,5 +1,5 @@
 $(function () {
-    $("#penjemputan").autocomplete({
+    $("#alamat_kirim").autocomplete({
         source: function (request, response) {
             $.ajax({
                 url: "/ajax/suggest/address",
@@ -19,7 +19,7 @@ $(function () {
             var l2TierCode = ui.item.L2_TIER_CODE;
 
             // Mengisi input dengan suggest yang dipilih
-            $("#penjemputan").val(ui.item.value);
+            $("#alamat_kirim").val(ui.item.value);
 
             // Lakukan sesuatu dengan L1_TIER_CODE dan L2_TIER_CODE sesuai kebutuhan Anda
             // Contoh: Tampilkan dalam elemen lain
