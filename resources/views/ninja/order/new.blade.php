@@ -165,7 +165,8 @@
 
                                 <div class="input-text">
                                     <div class="input-div">
-                                        <input type="text" required require>
+                                        <input name="penjemputan" type="text" class="form-control" autocomplete="false" id="penjemputan" required>
+
                                         <span>Provinsi/Kota/Kecamatan</span>
                                     </div>
                                 </div>
