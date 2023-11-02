@@ -42,7 +42,7 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::post('/address/update/{id}', 'settings\AddressController@update')->name('settings.address.update');
     });
 
-    // Menu Settings
+    // Menu Create order
     Route::prefix('ninja')->group(function () {
         Route::get('/create/order', 'OrderNinjaController@index')->name('create.ninja.order');
     });
@@ -66,6 +66,11 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::get('/pengembalian/address/subdistrict/{districtId}', 'settings\AddressController@ajax_pengembalian_subdistrict');
         Route::get('/pengembalian/address/postalcode/{subdistrictId}', 'settings\AddressController@ajax_pengembalian_postalcode');
         Route::get('/suggest/address', 'App\Http\Controllers\Api\Ninja\Estimate_price\EstimateTarifController@getAddress');
+
+        Route::get('/cari-alamat', 'OrderNinjaController@searchAlamat');
+
+
+
 
     });
 

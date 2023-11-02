@@ -50,10 +50,10 @@
 
                         <div class="input-text">
                             <div class="input-div">
-                                <select>
+                                <select name="alamat_jemput" id="selectAlamatJemput">
                                     <option>Alamat</option>
                                     @foreach($penjemputan as $data)
-                                        <option>{{$data->nama_toko}} ({{$data->alamat}})</option>
+                                        <option value="{{$data->provinsi}}-{{$data->kota}}-{{$data->kecamatan}}">{{$data->nama_toko}} ({{$data->alamat}})</option>
                                     @endforeach
                                 </select>
                             </div>

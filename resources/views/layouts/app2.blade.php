@@ -795,5 +795,6 @@
     });
 </script>
 <script src="{{asset('js/order/create.js')}}"></script>
+<script src="{{asset('js/order/estimasi_harga.js')}}"></script>
 </body>
 </html>
