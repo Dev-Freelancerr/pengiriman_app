@@ -249,12 +249,11 @@
                                     </div>
                                 </div>
 
-                                <div class="input-text">
+                                <div class="input-text" id="box_estimasi">
                                     <div class="card custom-card">
                                         <div class="card-body">
                                             <h5 class="card-title">Breakdown Price</h5>
-                                            <p class="card-text">Estimasi Biaya Pengiriman Normal: Rp 144,000</p>
-                                            <p class="card-text">Estimasi Biaya Pengiriman Khusus Mengantar: Rp 108,000</p>
+                                            <p class="card-text" id="estimasi_harga_standard"></p>
                                         </div>
                                     </div>
                                 </div>

@@ -1,4 +1,5 @@
 $(function () {
+    $("#box_estimasi").hide();
     var l1_code_alamat_jemput, l2_code_alamat_jemput, l1_code_alamat_kirim, l2_code_alamat_kirim;
 
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -84,8 +85,6 @@ $(function () {
         // Pastikan keduanya sudah memiliki nilai sebelum mengirim permintaan POST
         if (l1_code_alamat_jemput && l2_code_alamat_jemput && l1_code_alamat_kirim && l2_code_alamat_kirim) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-
             var url = '/ajax/estimate/rate/shipping/' + l1_code_alamat_jemput + '/' + l2_code_alamat_jemput + '/' + l1_code_alamat_kirim + '/' + l2_code_alamat_kirim;
 
             // Mengirim permintaan AJAX ke URL dengan parameter dan token CSRF
@@ -97,8 +96,11 @@ $(function () {
                     // Data lain yang ingin Anda kirim
                 },
                 success: function (response) {
-                    // Handle response from the controller
-                    console.log(response);
+                    var fee = response.data.total_fee;
+                    var formattedFee = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(fee);
+                    var message = 'Estimasi Biaya Pengiriman Standard: ' + formattedFee;
+                    $("#box_estimasi").show();
+                    $('#estimasi_harga_standard').text(message);
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
