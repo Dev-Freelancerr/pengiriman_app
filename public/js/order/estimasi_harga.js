@@ -83,37 +83,28 @@ $(function () {
     function kirimPermintaanPOST() {
         // Pastikan keduanya sudah memiliki nilai sebelum mengirim permintaan POST
         if (l1_code_alamat_jemput && l2_code_alamat_jemput && l1_code_alamat_kirim && l2_code_alamat_kirim) {
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-            var payload = {
-                weight: 0,
-                service_level: "Standard",
-                from: {
-                    l1_tier_code: l1_code_alamat_jemput,
-                    l2_tier_code: l2_code_alamat_jemput
-                },
-                to: {
-                    l1_tier_code: l1_code_alamat_kirim,
-                    l2_tier_code: l2_code_alamat_kirim
-                }
-            };
 
+            var url = '/ajax/estimate/rate/shipping/' + l1_code_alamat_jemput + '/' + l2_code_alamat_jemput + '/' + l1_code_alamat_kirim + '/' + l2_code_alamat_kirim;
+
+            // Mengirim permintaan AJAX ke URL dengan parameter dan token CSRF
             $.ajax({
-
-                url: "https://api.ninjavan.co/id/1.0/public/price",
-                method: "POST",
-                contentType: "application/json",
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken
+                url: url,
+                method: 'POST',
+                data: {
+                    _token: csrfToken, // Menambahkan token CSRF ke data permintaan
+                    // Data lain yang ingin Anda kirim
                 },
-                data: JSON.stringify(payload),
                 success: function (response) {
-                    // Handle response from the API
+                    // Handle response from the controller
                     console.log(response);
                 },
                 error: function (xhr, status, error) {
                     console.error(error);
                 }
             });
+
         } else {
             console.error("Belum ada data alamat jemput dan kirim yang lengkap.");
         }

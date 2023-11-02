@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AlamatPengiriman as penjemputan;
 use App\Models\ZoneCodeAddressNinja as NinjaAddress;
+use Illuminate\Support\Facades\Http;
 
 class OrderNinjaController extends Controller
 {
@@ -39,5 +40,44 @@ class OrderNinjaController extends Controller
         }
 
         return response()->json($response);
+    }
+
+    public function estimate_price(Request $request)
+    {
+        // Ambil data yang diperlukan dari variabel JavaScript/jQuery
+        $l1_code_alamat_jemput = $request->input('l1_code_alamat_jemput');
+        $l2_code_alamat_jemput = $request->input('l2_code_alamat_jemput');
+        $l1_code_alamat_kirim = $request->input('l1_code_alamat_kirim');
+        $l2_code_alamat_kirim = $request->input('l2_code_alamat_kirim');
+
+        // Membentuk payload untuk permintaan POST
+        $data = [
+
+            'weight' => 0,
+            'service_level' => 'Standard',
+            'from' => [
+                'l1_tier_code' => $l1_code_alamat_jemput,
+                'l2_tier_code' => $l2_code_alamat_jemput,
+            ],
+            'to' => [
+                'l1_tier_code' => $l1_code_alamat_kirim,
+                'l2_tier_code' => $l2_code_alamat_kirim,
+            ],
+        ];
+
+        $headers = [
+            'Content-Type' => 'application/json',
+        ];
+
+        $response = Http::withHeaders($headers)
+            ->post(urlEstimatePriceNinja("id"), $data);
+
+        if ($response->successful()) {
+            $responseData = $response->json();
+            return response()->json($responseData);
+        } else {
+            $errorResponse = $response->json();
+            return response()->json($errorResponse, $response->status());
+        }
     }
 }
