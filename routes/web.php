@@ -68,7 +68,7 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::get('/suggest/address', 'App\Http\Controllers\Api\Ninja\Estimate_price\EstimateTarifController@getAddress');
 
         Route::get('/cari-alamat', 'OrderNinjaController@searchAlamat');
-        Route::post('/estimate/rate/shipping/{l1_jemput}/{l2_jemput}/{l1_kirim}/{l2_kirim}', 'OrderNinjaController@estimate_price');
+        Route::post('/estimate/rate/shipping/{l1_jemput}/{l2_jemput}/{l1_kirim}/{l2_kirim}/{berat}', 'OrderNinjaController@estimate_price');
 
 
     });

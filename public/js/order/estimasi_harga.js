@@ -27,8 +27,6 @@ $(function () {
                     } else {
                         l1_code_alamat_jemput = data.L1_tier_code;
                         l2_code_alamat_jemput = data.L2_tier_code;
-                        console.log('L1_tier_code alamat jemput: ' + data.L1_tier_code);
-                        console.log('L2_tier_code alamat jemput: ' + data.L2_tier_code);
                         if (l1_code_alamat_jemput && l2_code_alamat_jemput) {
                             kirimPermintaanPOST();
                         }
@@ -66,8 +64,6 @@ $(function () {
                         l1_code_alamat_kirim = data.L1_tier_code;
                         l2_code_alamat_kirim = data.L2_tier_code;
 
-                        console.log('L1_tier_code alamat kirim: ' + data.L1_tier_code);
-                        console.log('L2_tier_code alamat kirim: ' + data.L2_tier_code);
 
                         if (l1_code_alamat_kirim && l2_code_alamat_kirim) {
                             kirimPermintaanPOST();
@@ -81,11 +77,20 @@ $(function () {
         }
     });
 
-    function kirimPermintaanPOST() {
+    $("#weight").on('keyup', function () {
+        weight = $(this).val();
+        if (weight === "") {
+            weight = 0;
+        }
+        kirimPermintaanPOST(weight);
+    });
+
+
+    function kirimPermintaanPOST(weight = 0) {
         // Pastikan keduanya sudah memiliki nilai sebelum mengirim permintaan POST
         if (l1_code_alamat_jemput && l2_code_alamat_jemput && l1_code_alamat_kirim && l2_code_alamat_kirim) {
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            var url = '/ajax/estimate/rate/shipping/' + l1_code_alamat_jemput + '/' + l2_code_alamat_jemput + '/' + l1_code_alamat_kirim + '/' + l2_code_alamat_kirim;
+            var url = '/ajax/estimate/rate/shipping/' + l1_code_alamat_jemput + '/' + l2_code_alamat_jemput + '/' + l1_code_alamat_kirim + '/' + l2_code_alamat_kirim + '/' + weight;
 
             // Mengirim permintaan AJAX ke URL dengan parameter dan token CSRF
             $.ajax({

@@ -53,7 +53,10 @@
                                 <select name="alamat_jemput" id="selectAlamatJemput">
                                     <option>Alamat</option>
                                     @foreach($penjemputan as $data)
-                                        <option value="{{$data->provinsi}}-{{$data->kota}}-{{$data->kecamatan}}">{{$data->nama_toko}} ({{$data->alamat}})</option>
+                                        <option
+                                            value="{{$data->provinsi}}-{{$data->kota}}-{{$data->kecamatan}}">{{$data->nama_toko}}
+                                            ({{$data->alamat}})
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -165,7 +168,8 @@
 
                                 <div class="input-text">
                                     <div class="input-div">
-                                        <input name="alamat_kirim" type="text" class="form-control" autocomplete="false" id="alamat_kirim" required>
+                                        <input name="alamat_kirim" type="text" class="form-control" autocomplete="false"
+                                               id="alamat_kirim" required>
 
                                         <span>Provinsi/Kota/Kecamatan</span>
                                     </div>
@@ -206,7 +210,7 @@
                                         <span>Quantity (isi dengan 1 jika jumlah tidak terhitung)</span>
                                     </div>
                                     <div class="input-div">
-                                        <input type="text">
+                                        <input type="number" id="weight">
                                         <span>Weight (kg)</span>
                                     </div>
                                 </div>
