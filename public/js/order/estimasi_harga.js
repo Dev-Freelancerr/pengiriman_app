@@ -8,11 +8,11 @@ $(function () {
         var selectedValue = $(this).val();
         var splitValues = selectedValue.split('-');
 
-        if (splitValues.length === 3) {
+        if (splitValues.length === 4) {
             var provinsi = splitValues[0];
             var kota = splitValues[1];
             var kecamatan = splitValues[2];
-
+            $("#id_alamat_jemput").val(splitValues[3]);
             $.ajax({
                 url: '/ajax/cari-alamat',
                 method: 'GET',

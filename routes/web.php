@@ -45,6 +45,8 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
     // Menu Create order
     Route::prefix('ninja')->group(function () {
         Route::get('/create/order', 'OrderNinjaController@index')->name('create.ninja.order');
+        Route::post('/create/order/store', 'OrderNinjaController@store')->name('store.ninja.order');
+
     });
 
     // CEK TARIF
@@ -69,7 +71,6 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
 
         Route::get('/cari-alamat', 'OrderNinjaController@searchAlamat');
         Route::post('/estimate/rate/shipping/{l1_jemput}/{l2_jemput}/{l1_kirim}/{l2_kirim}/{berat}', 'OrderNinjaController@estimate_price');
-
 
     });
 
