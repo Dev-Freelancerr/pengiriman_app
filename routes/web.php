@@ -46,6 +46,7 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
     Route::prefix('ninja')->group(function () {
         Route::get('/create/order', 'OrderNinjaController@index')->name('create.ninja.order');
         Route::post('/create/order/store', 'OrderNinjaController@store')->name('store.ninja.order');
+        Route::get('/order/history', 'OrderNinjaHistoryController@index')->name('history.ninja.order');
 
     });
 
