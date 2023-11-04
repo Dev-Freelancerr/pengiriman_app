@@ -68,6 +68,10 @@ class CreateOrderNinja extends Model
         'transportasi_jemput',
         'seller_id',
         'remark_1',
-        'remark_2'
+        'remark_2',
+        'size',
+        'lebar',
+        'panjang',
+        'tinggi'
     ];
 }
