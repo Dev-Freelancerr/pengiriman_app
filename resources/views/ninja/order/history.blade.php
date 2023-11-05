@@ -84,13 +84,14 @@
                                     <td class="text-xs font-weight-normal">
                                         Pending Pickup
                                     </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="customCheck1">
-                                            </div>
-                                            <p class="text-xs font-weight-normal ms-2 mb-0">#10421</p>
-                                        </div>
+                                    <td class="align-middle">
+                                        <a href="{{url('/ninja/order/'.$data->id)}}" class="btn btn-info btn-sm font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            Detail
+                                        </a>
+                                        <a href="{{url('/ninja/order/cancel/'.$data->id)}}" class="btn btn-sm btn-warning font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                            Cancel Order
+                                        </a>
+
                                     </td>
 
 

@@ -14,4 +14,14 @@ class OrderNinjaHistoryController extends Controller
             'order' => $data
         ]);
     }
+
+    public function show($id) {
+        $data = OrderNinja::where('seller_id', getAccount(Auth::user()->id)->seller_id)
+            ->where('id', $id)
+            ->first();
+
+        return view('ninja.order.show', [
+            'order' => $data
+        ]);
+    }
 }
