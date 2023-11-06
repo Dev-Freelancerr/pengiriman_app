@@ -7,6 +7,7 @@ use App\Models\subdistrict;
 use App\Models\Province;
 use App\Models\City;
 use App\Models\PostalCode;
+use App\Models\TokenAccess as token;
 
 if (!function_exists('getStatusUser')) {
     function getStatusUser($id)
@@ -114,4 +115,21 @@ if (!function_exists('urlEstimatePriceNinja')) {
     }
 }
 
+// 2. Mendapatkan akses token
+if (!function_exists('getAccessToken')) {
+    function getAccessToken()
+    {
+        $qry = token::first();
+        return $qry->access_token;
+    }
+}
+
+// 3. Bikin order
+
+if (!function_exists('urlCreateOrder')) {
+    function urlCreateOrder($country_code)
+    {
+        return "https://api-sandbox.ninjavan.co/".$country_code."/4.1/orders";
+    }
+}
 

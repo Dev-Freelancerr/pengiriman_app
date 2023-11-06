@@ -21,6 +21,21 @@
                     <span class="nav-link-text ms-2 ps-1">Create Order</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{url('ninja/order/history')}}" class="nav-link text-white "
+                   aria-controls="pagesExamples" role="button" aria-expanded="false">
+                    <i class="material-icons-round">image</i>
+                    <span class="nav-link-text ms-2 ps-1">Order History</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{url('ninja/create/order')}}" class="nav-link text-white "
+                   aria-controls="pagesExamples" role="button" aria-expanded="false">
+                    <i class="material-icons-round">image</i>
+                    <span class="nav-link-text ms-2 ps-1">Tracking Order</span>
+                </a>
+            </li>
             <hr class="horizontal light mt-0">
             <li class="nav-item mb-2 mt-0">
                 <a data-bs-toggle="collapse" href="#ProfileNav" class="nav-link text-white" aria-controls="ProfileNav"

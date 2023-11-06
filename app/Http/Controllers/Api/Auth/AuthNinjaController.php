@@ -30,7 +30,7 @@ class AuthNinjaController extends Controller
         ];
 
         $response = Http::withHeaders($headers)
-            ->post('https://api-sandbox.ninjavan.co/id/2.0/oauth/access_token', $data);
+            ->post('https://api-sandbox.ninjavan.co/ID/2.0/oauth/access_token', $data);
 
         if ($response->successful()) {
             $responseData = $response->json();

@@ -16,7 +16,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.1/dist/cdn.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style type="text/css">
         ::-webkit-scrollbar {
             width: 8px;
@@ -345,6 +345,18 @@
             padding: 0px 10px;
         }
 
+        input[type="number"] {
+            width: 100%;
+            height: 40px;
+            border: none;
+            outline: 0;
+            border-radius: 5px;
+            border: 1px solid #cbced4;
+            gap: 20px;
+            box-sizing: border-box;
+            padding: 0px 10px;
+        }
+
         textarea {
             width: 100%;
             height: 60px;
@@ -645,14 +657,6 @@
     var shownname = document.querySelector(".shown_name");
 
 
-    var submit_click = document.querySelectorAll(".submit_button");
-    submit_click.forEach(function (submit_click_form) {
-        submit_click_form.addEventListener('click', function () {
-            shownname.innerHTML = username.value;
-            formnumber++;
-            updateform();
-        });
-    });
 
     var heart = document.querySelector(".fa-heart");
     heart.addEventListener('click', function () {
@@ -795,6 +799,7 @@
         e.preventDefault();
     });
 </script>
+<script src="{{asset('js/order/form.js')}}"></script>
 <script src="{{asset('js/order/create.js')}}"></script>
 <script src="{{asset('js/order/estimasi_harga.js')}}"></script>
 </body>
