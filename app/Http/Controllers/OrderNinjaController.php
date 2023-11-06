@@ -42,13 +42,16 @@ class OrderNinjaController extends Controller
         return response()->json($response);
     }
 
-    public function estimate_price(Request $request)
+    public function estimate_price($l1_jemput, $l2_jemput, $l1_kirim, $l2_kirim)
     {
+
         // Ambil data yang diperlukan dari variabel JavaScript/jQuery
-        $l1_code_alamat_jemput = $request->input('l1_code_alamat_jemput');
-        $l2_code_alamat_jemput = $request->input('l2_code_alamat_jemput');
-        $l1_code_alamat_kirim = $request->input('l1_code_alamat_kirim');
-        $l2_code_alamat_kirim = $request->input('l2_code_alamat_kirim');
+        $l1_code_alamat_jemput = $l1_jemput;
+        $l2_code_alamat_jemput = $l2_jemput;
+        $l1_code_alamat_kirim = $l1_kirim;
+        $l2_code_alamat_kirim = $l2_kirim;
+
+        dd($l1_code_alamat_jemput);
 
         // Membentuk payload untuk permintaan POST
         $data = [
