@@ -18,8 +18,4 @@ $(document).ready(function () {
         });
     });
 
-    // Menghindari tombol lain yang tidak ingin memicu SweetAlert
-    $("button:not(#save_order)").click(function (e) {
-
-    });
 });

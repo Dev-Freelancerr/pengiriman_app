@@ -72,6 +72,11 @@ class CreateOrderNinja extends Model
         'size',
         'lebar',
         'panjang',
-        'tinggi'
+        'tinggi',
+        'batch_id',
+        'estimasi_biaya_kirim',
+        'jumlah_bersih',
+        'nilai_diasuransikan',
+        'order_id'
     ];
 }

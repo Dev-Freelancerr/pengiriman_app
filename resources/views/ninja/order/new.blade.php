@@ -248,7 +248,14 @@
                                         </div>
                                         <div class="input-div">
                                             <input type="text" name="harga">
-                                            <span>Nilai</span>
+                                            <span>Biaya</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-text">
+                                        <div class="input-div">
+                                            <input type="text" name="nilai_asuransi">
+                                            <span>Biaya Diasuransikan</span>
                                         </div>
                                     </div>
 
@@ -268,6 +275,7 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">Breakdown Price</h5>
                                                 <p class="card-text" id="estimasi_harga_standard"></p>
+                                                <input type="text" name="estimasi_biaya" id="estimasi">
                                             </div>
                                         </div>
                                     </div>

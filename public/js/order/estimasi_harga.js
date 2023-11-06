@@ -106,6 +106,7 @@ $(function () {
                     var message = 'Estimasi Biaya Pengiriman Standard: ' + formattedFee;
                     $("#box_estimasi").show();
                     $('#estimasi_harga_standard').text(message);
+                    $('#estimasi').val(message);
                 },
                 error: function (xhr, status, error) {
                     console.error(error);

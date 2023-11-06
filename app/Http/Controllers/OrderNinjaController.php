@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use App\Models\CreateOrderNinja as OrderNinja;
+use App\Models\CreateBatchOrderNinja as BatchNinja;
 
 class OrderNinjaController extends Controller
 {
@@ -84,8 +85,29 @@ class OrderNinjaController extends Controller
 
         $from_address = penjemputan::where('id_account', getAccount(Auth::user()->id)->id)->first();
         $pattern = '/^([a-zA-Z0-9]+[-])*[a-zA-Z0-9]+$/';
-        $desiredLength = 12;
-        $randomString1 = $this->generateRandomString($pattern, $desiredLength);
+        $pattern_track = $pattern = '/^[0-9]{11}$/';
+        $desiredLength = 11;
+        $randomString1 = $this->generateRandomString($pattern_track, $desiredLength);
+
+
+        $nilai_estimasi = str_replace([",", "."], "", preg_replace("/[^\d,]/", "", $request->input('estimasi_biaya')));
+        $estimasi = intval($nilai_estimasi / 100);
+
+        // buat batch ID
+
+        $batch_num = $this->generateRandomString($pattern, $desiredLength);
+        $order_id = $this->generateRandomString($pattern, $desiredLength);
+        $batch_save = [
+            'batch_id' => $batch_num,
+            'jum_pesanan' => 1,
+            'jum_pending' => 0,
+            'jum_error' => 0,
+            'belum_bayar' => 1,
+            'seller_id' => getAccount(Auth::user()->id)->seller_id,
+            'created_by' => getAccount(Auth::user()->id)->id,
+        ];
+        $batch_qry = BatchNinja::create($batch_save);
+
 
 
         $data = [
@@ -113,8 +135,7 @@ class OrderNinjaController extends Controller
                     'postcode' => $detailAlamatJemput->postal_code,
                     'address_type' => 'home',
                     'country' => 'ID',
-                    'latitude' => '',
-                    'longitude' => '',
+
                 ]
             ],
             'to' => [
@@ -130,9 +151,7 @@ class OrderNinjaController extends Controller
                     'province' => $provinsiKirim,
                     'postcode' => $request->input('postalcode'),
                     'address_type' => 'home',
-                    'country' => 'ID',
-                    'latitude' => '',
-                    'longitude' => '',
+                    'country' => 'ID'
                 ]
             ],
             'parcel_job' => [
@@ -147,7 +166,7 @@ class OrderNinjaController extends Controller
                     'timezone' => 'Asia/Jakarta'
                 ],
                 'cash_on_delivery' => doubleval($request->input('harga')),
-                'insured_value' => doubleval($request->input('harga')),
+                'insured_value' => doubleval($request->input('nilai_asuransi')),
                 'pickup_instructions' => $request->input('instruksi_driver'),
                 'delivery_instructions' => $request->input('delivery_instruction'),
                 'delivery_start_date' => $request->input('tgl_kirim'),
@@ -189,13 +208,13 @@ class OrderNinjaController extends Controller
                 'tracking_number' => $dataSave->tracking_number,
                 'service_type' => $dataSave->service_type,
                 'service_level' => $dataSave->service_level,
-                'merchant_order_number' => $dataSave->reference['merchant_order_number'],
+                'merchant_order_number' => isset($dataSave->reference['merchant_order_number']) ? $dataSave->reference['merchant_order_number'] : null,
 
                 'from_city' => $dataSave->from['address']['city'],
                 'from_province' => $dataSave->from['address']['province'],
                 'from_name' => $dataSave->from['name'],
                 'from_phone_number' => $dataSave->from['phone_number'],
-                'from_email' => $dataSave->from['email'],
+                'from_email' => isset($dataSave->from['email']) ? $dataSave->from['email'] : null,
                 'from_address1' => $dataSave->from['address']['address1'],
                 'from_address2' => $dataSave->from['address']['address2'],
                 'from_kecamatan' => $dataSave->from['address']['kecamatan'],
@@ -208,14 +227,16 @@ class OrderNinjaController extends Controller
                 'to_province' => $dataSave->to['address']['province'],
                 'to_name' => $dataSave->to['name'],
                 'to_phone_number' => $dataSave->to['phone_number'],
-                'to_email' => $dataSave->to['email'],
+                'to_email' => isset($dataSave->to['email']) ? $dataSave->to['email'] : null,
                 'to_address1' => $dataSave->to['address']['address1'],
                 'to_address2' => $dataSave->to['address']['address2'],
                 'to_kecamatan' => $dataSave->to['address']['kecamatan'],
-                'to_kelurahan' => $dataSave->to['address']['kelurahan'],
+                'to_kelurahan' => isset($dataSave->to['address']['kelurahan']) ? $dataSave->to['address']['kelurahan'] : null,
+
                 'to_address_type' => "Home",
                 'to_country' => $dataSave->to['address']['country'],
-                'to_postcode' => $dataSave->to['address']['postcode'],
+                'to_postcode' => isset($dataSave->to['address']['postcode']) ? $dataSave->to['address']['postcode'] : null,
+
 
                 'seller_id' => $dataSave->marketplace['seller_id'],
 
@@ -248,18 +269,18 @@ class OrderNinjaController extends Controller
                 'remark_1' => $request->input('remark1'),
                 'remark_2' => $request->input('remark2'),
 
-
+                'batch_id' => $batch_num,
+                'estimasi_biaya_kirim' => $estimasi,
+                'jumlah_bersih' => $request->input('harga') - $estimasi,
+                'nilai_diasuransikan' => $request->input('nilai_asuransi'),
+                'order_id' => $order_id
             ];
 
-            $qry = OrderNinja::create($returnOrder);
-            if ($qry) {
-                $successRespon = $response->json();
-                return response()
-                    ->json($successRespon, $response->status())
-                    ->header('Content-Type', 'application/json; charset=utf-8')
-                    ->header('X-Content-Type-Options', 'nosniff');
-                return redirect('/');
 
+            $qry = OrderNinja::create($returnOrder);
+
+            if ($qry) {
+                return redirect('/');
             }
 
         } else {
@@ -277,7 +298,7 @@ class OrderNinjaController extends Controller
 
     public function generateRandomString($pattern, $length)
     {
-        $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-';
+        $characters = '0123456789';
         $randomString = '';
 
         while (strlen($randomString) < $length) {
@@ -287,7 +308,7 @@ class OrderNinjaController extends Controller
         if (preg_match($pattern, $randomString) && strlen($randomString) >= 9) {
             return $randomString;
         } else {
-            return generateRandomString($pattern, $length);
+            return $this->generateRandomString($pattern, $length);
         }
     }
 
