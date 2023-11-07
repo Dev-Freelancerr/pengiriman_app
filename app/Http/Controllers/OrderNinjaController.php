@@ -187,6 +187,7 @@ class OrderNinjaController extends Controller
                 ]
             ]
         ];
+
         $accessToken = getAccessToken();
 
         $headers = [
@@ -204,7 +205,7 @@ class OrderNinjaController extends Controller
 
             $returnOrder = [
                 'id_account' => getAccount(Auth::user()->id)->id,
-                'requested_tracking_number' => $dataSave->requested_tracking_number,
+                'requested_tracking_number' => $dataSave->tracking_number,
                 'tracking_number' => $dataSave->tracking_number,
                 'service_type' => $dataSave->service_type,
                 'service_level' => $dataSave->service_level,
