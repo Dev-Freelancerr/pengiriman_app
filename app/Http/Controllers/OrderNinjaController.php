@@ -113,11 +113,11 @@ class OrderNinjaController extends Controller
         $data = [
             'marketplace' => [
                 'seller_id' => getAccount(Auth::user()->id)->seller_id,
-                'seller_company_name' => 'BAN - Bintang Alifa Nusantara (Bandung) (Soscom)'
+                'seller_company_name' => 'TOKO 1'
             ],
             'service_type' => 'Marketplace',
             'service_level' => 'Standard',
-            'requested_tracking_number' => 'DPBAN' . $randomString1,
+
             'reference' => [
                 'merchant_order_number' => 'TESTORDER00020'
             ],
@@ -270,8 +270,8 @@ class OrderNinjaController extends Controller
                 'remark_2' => $request->input('remark2'),
 
                 'batch_id' => $batch_num,
-                'estimasi_biaya_kirim' => $estimasi,
-                'jumlah_bersih' => $request->input('harga') - $estimasi,
+                'estimasi_biaya_kirim' => $estimasi - (($request->input('harga') * 0.03) * 0.11),
+                'jumlah_bersih' => $request->input('harga') - ($estimasi - ($request->input('harga') * 0.03 * 0.11)),
                 'nilai_diasuransikan' => $request->input('nilai_asuransi'),
                 'order_id' => $order_id
             ];

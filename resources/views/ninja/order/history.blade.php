@@ -32,7 +32,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Orders Table</h5>
+                        <h5 class="mb-0">Batch Table</h5>
                         <p class="text-sm mb-0">
                             View all the orders from the previous year.
                         </p>
@@ -41,55 +41,40 @@
                         <table class="table table-flush" id="datatable-search">
                             <thead class="thead-light">
                             <tr>
-                                <th>ID</th>
-                                <th>Order Number</th>
-                                <th>Sub-shipper</th>
-                                <th>Recipient Name</th>
-                                <th>Phone</th>
-                                <th>Created Date</th>
-                                <th>Delivery</th>
-                                <th>Parcel Status</th>
-                                <th>Actions</th>
+                                <th class="text-xs">Date</th>
+                                <th class="text-xs">Batch ID</th>
+                                <th class="text-xs">Pesanan</th>
+                                <th class="text-xs">Pending</th>
+                                <th class="text-xs">Error</th>
+                                <th class="text-xs">Belum Bayar</th>
+                                <th class="text-xs">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($order as $data)
                                 <tr>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="customCheck1">
-                                            </div>
-                                            <p class="text-xs font-weight-normal ms-2 mb-0">#10421</p>
-                                        </div>
-                                    </td>
-                                    <td class="text-xs font-weight-normal">
-                                        {{$data->tracking_number}}
-                                    </td>
-                                    <td class="text-xs font-weight-normal">
-                                        BAN - Bintang Alifa Nusantara (Bandung) (Soscom)
-                                    </td>
-                                    <td class="text-xs font-weight-normal">
-                                        {{$data->to_name}}
-                                    </td>
-                                    <td class="text-xs font-weight-normal">
-                                        {{$data->to_phone_number}}
-                                    </td>
-                                    <td class="text-xs font-weight-normal">
+
+                                    <td class="align-center text-xs font-weight-normal">
                                         {{$data->created_at}}
                                     </td>
-                                    <td class="text-xs font-weight-normal">
-                                        Normal
+                                    <td class="align-center text-xs font-weight-normal">
+                                        {{strtoupper($data->batch_id)}}
                                     </td>
-                                    <td class="text-xs font-weight-normal">
-                                        Pending Pickup
+                                    <td class="align-center text-xs font-weight-normal">
+                                        {{$data->jum_pesanan}}
                                     </td>
-                                    <td class="align-middle">
-                                        <a href="{{url('/ninja/order/'.$data->id)}}" class="btn btn-info btn-sm font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                                    <td class="align-center text-xs font-weight-normal">
+                                        {{$data->jum_pending}}
+                                    </td>
+                                    <td class="align-center text-xs font-weight-normal">
+                                        {{$data->jum_error}}
+                                    </td>
+                                    <td class="align-center text-xs font-weight-normal">
+                                        {{$data->belum_bayar}}
+                                    </td>
+                                    <td class="align-center">
+                                        <a href="{{url('/ninja/order/list/'.$data->batch_id)}}" class="btn btn-info btn-sm font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Edit user">
                                             Detail
-                                        </a>
-                                        <a href="{{url('/ninja/order/cancel/'.$data->id)}}" class="btn btn-sm btn-warning font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                            Cancel Order
                                         </a>
 
                                     </td>

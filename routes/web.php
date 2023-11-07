@@ -48,6 +48,7 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::post('/create/order/store', 'OrderNinjaController@store')->name('store.ninja.order');
         Route::get('/order/history', 'OrderNinjaHistoryController@index')->name('history.ninja.order');
         Route::get('/order/{id}', 'OrderNinjaHistoryController@show')->name('history.ninja.order.show');
+        Route::get('/order/list/{id}', 'OrderNinjaHistoryController@order_list');
 
     });
 
