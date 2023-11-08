@@ -37,8 +37,8 @@ class CheckTokenExpired extends Command
     {
         $currentDateTime = Carbon::now();
 
-        $expiredTokens = TokenAccess::where('expired_at', '>=', $currentDateTime)->get();
-
+        $expiredTokens = TokenAccess::where('expired_at', '<=', $currentDateTime)->get();
+        
         foreach ($expiredTokens as $token) {
              $response = Http::get('http://127.0.0.1:8000/api/ninja/auth/token');
         }

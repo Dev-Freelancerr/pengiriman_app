@@ -188,6 +188,8 @@ class OrderNinjaController extends Controller
             ]
         ];
 
+        dd($data);
+
         $accessToken = getAccessToken();
 
         $headers = [
