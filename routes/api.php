@@ -21,3 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    //return $request->user();
 //});
 Route::get('ninja/auth/token', 'Api\Auth\AuthNinjaController@getToken');
+Route::get('ninja/auth/token/job', 'Api\Auth\AuthNinjaJobController@index');
+
+
