@@ -13,6 +13,7 @@ use Auth;
 use Illuminate\Support\Facades\Log;
 use App\Models\CreateOrderNinja as OrderNinja;
 use App\Models\CreateBatchOrderNinja as BatchNinja;
+use Illuminate\Support\Str;
 
 class OrderNinjaController extends Controller
 {
@@ -109,7 +110,6 @@ class OrderNinjaController extends Controller
             'seller_id' => getAccount(Auth::user()->id)->seller_id,
             'created_by' => getAccount(Auth::user()->id)->id,
         ];
-        $batch_qry = BatchNinja::create($batch_save);
 
 
         $data = [
@@ -119,7 +119,7 @@ class OrderNinjaController extends Controller
             ],
             'service_type' => 'Marketplace',
             'service_level' => 'Standard',
-
+            'requested_tracking_number' => $this->generateTrackingNumber(),
             'reference' => [
                 'merchant_order_number' => 'TESTORDER00020'
             ],
@@ -158,7 +158,6 @@ class OrderNinjaController extends Controller
             ],
             'parcel_job' => [
                 'is_pickup_required' => $barangDiJemput,
-                'pickup_address_id' => '98989012',
                 'pickup_service_type' => 'Scheduled',
                 'pickup_service_level' => 'Standard',
                 'pickup_date' => $request->input('tgl_jemput'),
@@ -192,20 +191,22 @@ class OrderNinjaController extends Controller
 
         $accessToken = getAccessToken();
         $maxRetryAttempts = 3;
-        $retryAttempts = 3;
+        $retryAttempts = 1;
 
         $headers = [
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $accessToken,
             'Accept' => 'application/json'
         ];
-    
+
         do {
+
             try {
                 $response = Http::withHeaders($headers)
                     ->post(urlCreateOrder("SG"), $data);
 
                 if ($response->successful()) {
+
                     $responseData = $response->json();
                     $dataSave = (object)$responseData;
 
@@ -250,7 +251,6 @@ class OrderNinjaController extends Controller
                         'is_pickup_required' => $dataSave->parcel_job['is_pickup_required'],
                         'pickup_service_type' => $dataSave->parcel_job['pickup_service_type'],
                         'pickup_service_level' => $dataSave->parcel_job['pickup_service_level'],
-                        'pickup_address_id' => $dataSave->parcel_job['pickup_address_id'],
                         'pickup_date' => $dataSave->parcel_job['pickup_date'],
                         'pickup_start_time' => $dataSave->parcel_job['pickup_timeslot']['start_time'],
                         'pickup_end_time' => $dataSave->parcel_job['pickup_timeslot']['start_time'],
@@ -283,10 +283,13 @@ class OrderNinjaController extends Controller
                         'order_id' => $order_id
                     ];
 
+
+                    $batch_qry = BatchNinja::create($batch_save);
+
                     $qry = OrderNinja::create($returnOrder);
 
                     if ($qry) {
-                        return redirect('/');
+                        return redirect('/ninja/order/history');
                     }
 
                 } elseif ($response->status() === 401) {
@@ -313,6 +316,7 @@ class OrderNinjaController extends Controller
             } catch (\Exception $e) {
                 // Tangani pengecualian umum di sini
                 Log::error('Error: ' . $e->getMessage());
+                dd($e);
                 // Handle error response atau redirect sesuai kebutuhan
             }
 
@@ -370,6 +374,16 @@ class OrderNinjaController extends Controller
         sleep(5);
     }
 
+    function generateTrackingNumber() {
+        $length = 9; // Panjang minimal yang diinginkan
+        $pattern = '/^([a-zA-Z0-9]+[-])*[a-zA-Z0-9]+$/';
+
+        do {
+            $trackingNumber = Str::random($length);
+        } while (!preg_match($pattern, $trackingNumber));
+
+        return $trackingNumber;
+    }
 
     public function generateRandomString($pattern, $length)
     {

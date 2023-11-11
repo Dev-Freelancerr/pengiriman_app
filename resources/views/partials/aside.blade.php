@@ -30,7 +30,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{url('ninja/create/order')}}" class="nav-link text-white "
+                <a href="{{url('ninja/tracking/order')}}" class="nav-link text-white "
                    aria-controls="pagesExamples" role="button" aria-expanded="false">
                     <i class="material-icons-round">image</i>
                     <span class="nav-link-text ms-2 ps-1">Tracking Order</span>

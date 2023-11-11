@@ -50,7 +50,12 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::get('/order/{id}', 'OrderNinjaHistoryController@show')->name('history.ninja.order.show');
         Route::get('/order/list/{id}', 'OrderNinjaHistoryController@order_list');
 
+        // Tracking form
+        Route::get('/tracking/order', 'Api\Ninja\tracking_order\TrackingNinjaController@index');
+        Route::post('/tracking/order/search', 'Api\Ninja\tracking_order\TrackingNinjaController@search');
     });
+
+
 
     // CEK TARIF
     Route::get('/estimate/tarif', 'App\Http\Controllers\Api\Ninja\Estimate_price\EstimateTarifController@index');
@@ -78,6 +83,11 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
     });
 
 
+});
 
+Route::prefix('webhook/ninja')->group(function () {
+    Route::post('/pending-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handlePendingPickup');
+    Route::post('/cancel-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handleCancelled');
 
 });
+

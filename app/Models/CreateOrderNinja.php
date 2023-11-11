@@ -45,7 +45,7 @@ class CreateOrderNinja extends Model
         'is_pickup_required',
         'pickup_service_type',
         'pickup_service_level',
-        'pickup_address_id',
+
         'pickup_date',
         'pickup_start_time',
         'pickup_end_time',
