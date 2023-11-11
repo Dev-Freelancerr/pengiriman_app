@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TokenAccess;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\AlamatPengiriman as penjemputan;
 use App\Models\ZoneCodeAddressNinja as NinjaAddress;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Auth;
+use Illuminate\Support\Facades\Log;
 use App\Models\CreateOrderNinja as OrderNinja;
 use App\Models\CreateBatchOrderNinja as BatchNinja;
 
@@ -109,7 +112,6 @@ class OrderNinjaController extends Controller
         $batch_qry = BatchNinja::create($batch_save);
 
 
-
         $data = [
             'marketplace' => [
                 'seller_id' => getAccount(Auth::user()->id)->seller_id,
@@ -189,113 +191,185 @@ class OrderNinjaController extends Controller
         ];
 
         $accessToken = getAccessToken();
+        $maxRetryAttempts = 3;
+        $retryAttempts = 3;
 
         $headers = [
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $accessToken,
             'Accept' => 'application/json'
         ];
+    
+        do {
+            try {
+                $response = Http::withHeaders($headers)
+                    ->post(urlCreateOrder("SG"), $data);
+
+                if ($response->successful()) {
+                    $responseData = $response->json();
+                    $dataSave = (object)$responseData;
+
+                    $returnOrder = [
+                        'id_account' => getAccount(Auth::user()->id)->id,
+                        'requested_tracking_number' => $dataSave->tracking_number,
+                        'tracking_number' => $dataSave->tracking_number,
+                        'service_type' => $dataSave->service_type,
+                        'service_level' => $dataSave->service_level,
+                        'merchant_order_number' => isset($dataSave->reference['merchant_order_number']) ? $dataSave->reference['merchant_order_number'] : null,
+
+                        'from_city' => $dataSave->from['address']['city'],
+                        'from_province' => $dataSave->from['address']['province'],
+                        'from_name' => $dataSave->from['name'],
+                        'from_phone_number' => $dataSave->from['phone_number'],
+                        'from_email' => isset($dataSave->from['email']) ? $dataSave->from['email'] : null,
+                        'from_address1' => $dataSave->from['address']['address1'],
+                        'from_address2' => $dataSave->from['address']['address2'],
+                        'from_kecamatan' => $dataSave->from['address']['kecamatan'],
+                        'from_kelurahan' => $dataSave->from['address']['kelurahan'],
+                        'from_address_type' => "Home",
+                        'from_country' => $dataSave->from['address']['country'],
+                        'from_postcode' => $dataSave->from['address']['postcode'],
+
+                        'to_city' => $dataSave->to['address']['city'],
+                        'to_province' => $dataSave->to['address']['province'],
+                        'to_name' => $dataSave->to['name'],
+                        'to_phone_number' => $dataSave->to['phone_number'],
+                        'to_email' => isset($dataSave->to['email']) ? $dataSave->to['email'] : null,
+                        'to_address1' => $dataSave->to['address']['address1'],
+                        'to_address2' => $dataSave->to['address']['address2'],
+                        'to_kecamatan' => $dataSave->to['address']['kecamatan'],
+                        'to_kelurahan' => isset($dataSave->to['address']['kelurahan']) ? $dataSave->to['address']['kelurahan'] : null,
+
+                        'to_address_type' => "Home",
+                        'to_country' => $dataSave->to['address']['country'],
+                        'to_postcode' => isset($dataSave->to['address']['postcode']) ? $dataSave->to['address']['postcode'] : null,
+
+
+                        'seller_id' => $dataSave->marketplace['seller_id'],
+
+                        'is_pickup_required' => $dataSave->parcel_job['is_pickup_required'],
+                        'pickup_service_type' => $dataSave->parcel_job['pickup_service_type'],
+                        'pickup_service_level' => $dataSave->parcel_job['pickup_service_level'],
+                        'pickup_address_id' => $dataSave->parcel_job['pickup_address_id'],
+                        'pickup_date' => $dataSave->parcel_job['pickup_date'],
+                        'pickup_start_time' => $dataSave->parcel_job['pickup_timeslot']['start_time'],
+                        'pickup_end_time' => $dataSave->parcel_job['pickup_timeslot']['start_time'],
+                        'pickup_timezone' => $dataSave->parcel_job['pickup_timeslot']['timezone'],
+                        'pickup_approximate_volume' => $dataSave->parcel_job['pickup_approximate_volume'],
+                        'pickup_instructions' => $dataSave->parcel_job['pickup_instructions'],
+
+                        'delivery_start_date' => $dataSave->parcel_job['delivery_start_date'],
+                        'delivery_start_time' => $dataSave->parcel_job['delivery_timeslot']['start_time'],
+                        'delivery_end_time' => $dataSave->parcel_job['delivery_timeslot']['end_time'],
+                        'delivery_timezone' => $dataSave->parcel_job['delivery_timeslot']['timezone'],
+                        'delivery_instructions' => $dataSave->parcel_job['delivery_instructions'],
+
+                        'allow_weekend_delivery' => $dataSave->parcel_job['allow_weekend_delivery'],
+                        'weight' => $dataSave->parcel_job['dimensions']['weight'],
+                        'item_description' => $request->input('product_name'),
+                        'quantity' => $request->input('qty'),
+                        'is_dangerous_good' => $request->input('barang_berbahaya') == 'Y' ? true : false,
+                        'tipe_penjemputan' => $request->input('jadwal_jemput'),
+                        'tipe_bayar' => $request->input('tipe_bayar'),
+                        'harga' => $request->input('harga'),
+                        'transportasi_jemput' => $request->input('kendaraan_jemput'),
+                        'remark_1' => $request->input('remark1'),
+                        'remark_2' => $request->input('remark2'),
+
+                        'batch_id' => $batch_num,
+                        'estimasi_biaya_kirim' => $estimasi - (($request->input('harga') * 0.03) * 0.11),
+                        'jumlah_bersih' => $request->input('harga') - ($estimasi - ($request->input('harga') * 0.03 * 0.11)),
+                        'nilai_diasuransikan' => $request->input('nilai_asuransi'),
+                        'order_id' => $order_id
+                    ];
+
+                    $qry = OrderNinja::create($returnOrder);
+
+                    if ($qry) {
+                        return redirect('/');
+                    }
+
+                } elseif ($response->status() === 401) {
+
+                    $this->generateAccessToken();
+                    $accessToken = getAccessToken();
+                    $headers = [
+                        'Content-Type' => 'application/json',
+                        'Authorization' => 'Bearer ' . $accessToken,
+                        'Accept' => 'application/json'
+                    ];
+                    $response = Http::withHeaders($headers)->post(urlCreateOrder("SG"), $data);
+
+                } elseif ($response->status() >= 500 && $response->status() < 600) {
+                    $this->retryAfterDelay();
+                } else {
+                    $errorResponse = $response->json();
+                    return response()
+                        ->json($errorResponse, $response->status())
+                        ->header('Content-Type', 'application/json; charset=utf-8')
+                        ->header('X-Content-Type-Options', 'nosniff');
+
+                }
+            } catch (\Exception $e) {
+                // Tangani pengecualian umum di sini
+                Log::error('Error: ' . $e->getMessage());
+                // Handle error response atau redirect sesuai kebutuhan
+            }
+
+            $retryAttempts++;
+        } while ($retryAttempts < $maxRetryAttempts);
+    }
+
+    private function generateAccessToken()
+    {
+        $data = [
+            'client_id' => env('NINJA_CLIENT_ID'),
+            'client_secret' => env('NINJA_CLIENT_KEY'),
+            'grant_type' => "client_credentials",
+        ];
+
+
+        $headers = [
+            'Content-Type' => 'application/json',
+        ];
 
         $response = Http::withHeaders($headers)
-            ->post(urlCreateOrder("SG"), $data);
+            ->post('https://api-sandbox.ninjavan.co/ID/2.0/oauth/access_token', $data);
+
+
 
         if ($response->successful()) {
             $responseData = $response->json();
-            $dataSave = (object) $responseData;
+            $waktuSaatIni = Carbon::now();
+            $waktuGMT7 = $waktuSaatIni->timezone('Asia/Jakarta');
+            $waktuBuatToken = $waktuGMT7->format('Y-m-d H:i:s');
 
-            $returnOrder = [
-                'id_account' => getAccount(Auth::user()->id)->id,
-                'requested_tracking_number' => $dataSave->tracking_number,
-                'tracking_number' => $dataSave->tracking_number,
-                'service_type' => $dataSave->service_type,
-                'service_level' => $dataSave->service_level,
-                'merchant_order_number' => isset($dataSave->reference['merchant_order_number']) ? $dataSave->reference['merchant_order_number'] : null,
+            $expires_in = (int)$response["expires_in"];
 
-                'from_city' => $dataSave->from['address']['city'],
-                'from_province' => $dataSave->from['address']['province'],
-                'from_name' => $dataSave->from['name'],
-                'from_phone_number' => $dataSave->from['phone_number'],
-                'from_email' => isset($dataSave->from['email']) ? $dataSave->from['email'] : null,
-                'from_address1' => $dataSave->from['address']['address1'],
-                'from_address2' => $dataSave->from['address']['address2'],
-                'from_kecamatan' => $dataSave->from['address']['kecamatan'],
-                'from_kelurahan' => $dataSave->from['address']['kelurahan'],
-                'from_address_type' => "Home",
-                'from_country' => $dataSave->from['address']['country'],
-                'from_postcode' => $dataSave->from['address']['postcode'],
+            $waktu_expired_token = $waktuGMT7->addSeconds((int)$response["expires_in"])->subMinutes(10)->toDateTimeString();
 
-                'to_city' => $dataSave->to['address']['city'],
-                'to_province' => $dataSave->to['address']['province'],
-                'to_name' => $dataSave->to['name'],
-                'to_phone_number' => $dataSave->to['phone_number'],
-                'to_email' => isset($dataSave->to['email']) ? $dataSave->to['email'] : null,
-                'to_address1' => $dataSave->to['address']['address1'],
-                'to_address2' => $dataSave->to['address']['address2'],
-                'to_kecamatan' => $dataSave->to['address']['kecamatan'],
-                'to_kelurahan' => isset($dataSave->to['address']['kelurahan']) ? $dataSave->to['address']['kelurahan'] : null,
-
-                'to_address_type' => "Home",
-                'to_country' => $dataSave->to['address']['country'],
-                'to_postcode' => isset($dataSave->to['address']['postcode']) ? $dataSave->to['address']['postcode'] : null,
-
-
-                'seller_id' => $dataSave->marketplace['seller_id'],
-
-                'is_pickup_required' => $dataSave->parcel_job['is_pickup_required'],
-                'pickup_service_type' => $dataSave->parcel_job['pickup_service_type'],
-                'pickup_service_level' => $dataSave->parcel_job['pickup_service_level'],
-                'pickup_address_id' => $dataSave->parcel_job['pickup_address_id'],
-                'pickup_date' => $dataSave->parcel_job['pickup_date'],
-                'pickup_start_time' => $dataSave->parcel_job['pickup_timeslot']['start_time'],
-                'pickup_end_time' => $dataSave->parcel_job['pickup_timeslot']['start_time'],
-                'pickup_timezone' => $dataSave->parcel_job['pickup_timeslot']['timezone'],
-                'pickup_approximate_volume' => $dataSave->parcel_job['pickup_approximate_volume'],
-                'pickup_instructions' => $dataSave->parcel_job['pickup_instructions'],
-
-                'delivery_start_date' => $dataSave->parcel_job['delivery_start_date'],
-                'delivery_start_time' => $dataSave->parcel_job['delivery_timeslot']['start_time'],
-                'delivery_end_time' => $dataSave->parcel_job['delivery_timeslot']['end_time'],
-                'delivery_timezone' => $dataSave->parcel_job['delivery_timeslot']['timezone'],
-                'delivery_instructions' => $dataSave->parcel_job['delivery_instructions'],
-
-                'allow_weekend_delivery' => $dataSave->parcel_job['allow_weekend_delivery'],
-                'weight' => $dataSave->parcel_job['dimensions']['weight'],
-                'item_description' => $request->input('product_name'),
-                'quantity' => $request->input('qty'),
-                'is_dangerous_good' => $request->input('barang_berbahaya') == 'Y' ? true : false,
-                'tipe_penjemputan' => $request->input('jadwal_jemput'),
-                'tipe_bayar' => $request->input('tipe_bayar'),
-                'harga' => $request->input('harga'),
-                'transportasi_jemput' => $request->input('kendaraan_jemput'),
-                'remark_1' => $request->input('remark1'),
-                'remark_2' => $request->input('remark2'),
-
-                'batch_id' => $batch_num,
-                'estimasi_biaya_kirim' => $estimasi - (($request->input('harga') * 0.03) * 0.11),
-                'jumlah_bersih' => $request->input('harga') - ($estimasi - ($request->input('harga') * 0.03 * 0.11)),
-                'nilai_diasuransikan' => $request->input('nilai_asuransi'),
-                'order_id' => $order_id
+            $response_json = [
+                'access_token' => $response["access_token"],
+                'token_type' => $response["token_type"],
+                'expired' => $response["expires_in"],
+                'active' => $response["oauthClient"]['active'],
+                'created_token' => $waktuBuatToken,
+                'expired_at' => $waktu_expired_token
             ];
-
-
-            $qry = OrderNinja::create($returnOrder);
-
-            if ($qry) {
-                return redirect('/');
+            $cek = TokenAccess::count();
+            if ($cek > 0) {
+                $hapus = TokenAccess::truncate();
             }
-
-        } else {
-            $errorResponse = $response->json();
-            return response()
-                ->json($errorResponse, $response->status())
-                ->header('Content-Type', 'application/json; charset=utf-8')
-                ->header('X-Content-Type-Options', 'nosniff');
-
+            $token = TokenAccess::create($response_json);
         }
-        dd($data);
-
-        dd(getAccessToken());
     }
+
+
+    private function retryAfterDelay()
+    {
+        sleep(5);
+    }
+
 
     public function generateRandomString($pattern, $length)
     {
@@ -351,7 +425,7 @@ class OrderNinjaController extends Controller
 
         // Membentuk payload untuk permintaan POST
         $data = [
-            'weight' => (double) $berat,
+            'weight' => (double)$berat,
             'service_level' => 'Standard',
             'from' => [
                 'l1_tier_code' => $l1_code_alamat_jemput,
