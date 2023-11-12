@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api\Ninja\webhook;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
+use App\Models\CreateOrderNinja as OrderNinja;
 
 class WebhookNinjaController extends Controller
 {
@@ -37,14 +37,22 @@ class WebhookNinjaController extends Controller
             // Verifikasi webhook
             if ($this->verifyWebhook($data, $hmacHeader)) {
                 // Logika untuk menangani webhook pembatalan
-                $payload = $request->all();
+                $payload = json_decode($request->getContent(), true);
 
-                // ... your logic ...
+                // Ambil data yang dibutuhkan
+                $trackingId = $payload['tracking_id'];
+                $previousStatus = $payload['previous_status'];
+                $status = $payload['status'];
 
-                // Buat respons JSON (contoh: berhasil)
+                $updt_order = [
+                    'status' => $status,
+                    'previous_status' => $previousStatus
+                ];
+
+                OrderNinja::where('tracking_number', $trackingId)->update($updt_order);
+
+
                 $response = response()->json(['message' => 'Webhook for Cancelled handled successfully']);
-
-                // Log respons
                 Log::info('Webhook Response', ['response' => $response->getContent()]);
 
                 // Kembalikan respons

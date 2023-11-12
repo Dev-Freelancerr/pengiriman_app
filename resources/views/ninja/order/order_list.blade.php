@@ -79,7 +79,7 @@
                                         Normal
                                     </td>
                                     <td class="text-xs font-weight-normal">
-                                        Pending Pickup
+                                        {{$data->status}}
                                     </td>
                                     <td class="align-middle">
                                         <a href="{{url('/ninja/order/'.$data->id)}}" class="btn btn-info btn-sm font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Edit user">

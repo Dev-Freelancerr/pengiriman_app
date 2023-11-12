@@ -77,6 +77,8 @@ class CreateOrderNinja extends Model
         'estimasi_biaya_kirim',
         'jumlah_bersih',
         'nilai_diasuransikan',
-        'order_id'
+        'order_id',
+        'status',
+        'previous_status'
     ];
 }

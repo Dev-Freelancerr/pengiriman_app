@@ -280,7 +280,9 @@ class OrderNinjaController extends Controller
                         'estimasi_biaya_kirim' => $estimasi - (($request->input('harga') * 0.03) * 0.11),
                         'jumlah_bersih' => $request->input('harga') - ($estimasi - ($request->input('harga') * 0.03 * 0.11)),
                         'nilai_diasuransikan' => $request->input('nilai_asuransi'),
-                        'order_id' => $order_id
+                        'order_id' => $order_id,
+                        'status' => 'Pending Pickup',
+                        'previous_status' => '-'
                     ];
 
 

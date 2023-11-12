@@ -12,6 +12,7 @@ use App\Models\TokenAccess;
 use Carbon\Carbon;
 use TheSeer\Tokenizer\Token;
 use Illuminate\Support\Facades\Artisan;
+
 class AuthNinjaJobController extends Controller
 {
     /**
@@ -21,13 +22,13 @@ class AuthNinjaJobController extends Controller
     public function index(Request $request)
     {
         $currentToken = TokenAccess::first();
-        $expiredAt = Carbon::parse($currentToken->expired_at);
+        $expiredAt_token = Carbon::parse($currentToken->expired_at);
+        $expiredAt = Carbon::parse($expiredAt_token);
         $currentTime = Carbon::now();
-        $selisih = $currentTime->diff($expiredAt);
-        $totalMinutes = $selisih->days * 24 * 60 + $selisih->h * 60 + $selisih->i;
 
 
-        if ($totalMinutes <= 5) {
+        // Cek apakah waktu kedaluwarsa kurang dari 5 menit dari waktu sekarang
+        if ($currentTime->diffInMinutes($expiredAt) < 5 || $expiredAt->isPast()) {
             Artisan::call('config:clear');
             $data = [
                 'client_id' => env('NINJA_CLIENT_ID'),
@@ -48,9 +49,9 @@ class AuthNinjaJobController extends Controller
                 $waktuGMT7 = $waktuSaatIni->timezone('Asia/Jakarta');
                 $waktuBuatToken = $waktuGMT7->format('Y-m-d H:i:s');
 
-                $expires_in = (int)$response["expires_in"];
+                $expires_in = (int) $response["expires_in"];
 
-                $waktu_expired_token = $waktuGMT7->addSeconds((int)$response["expires_in"])->subMinutes(10)->toDateTimeString();
+                $waktu_expired_token = $waktuGMT7->addSeconds((int) $response["expires_in"])->subMinutes(10)->toDateTimeString();
 
                 $response_json = [
                     'access_token' => $response["access_token"],
@@ -74,12 +75,11 @@ class AuthNinjaJobController extends Controller
                 $errorResponse = $response->json();
                 return response()->json($errorResponse, $response->status());
             }
-        }
-        else {
+        } else {
             return response()->json([
                 'message' => 'Tidak eksekusi krn belum selisih 5 menit',
-                'selisih' => $totalMinutes." Menit"
-                ]);
+                'selisih' => $currentTime->diffInMinutes($expiredAt) . " Menit"
+            ]);
         }
 
     }
