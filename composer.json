@@ -11,6 +11,7 @@
         "laravel/fortify": "^1.18",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
+        "laravel/telescope": "^4.17",
         "laravel/tinker": "^2.8",
         "league/oauth2-server": "^3.2",
         "nesbot/carbon": "^2.71"

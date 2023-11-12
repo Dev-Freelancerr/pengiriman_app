@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\TokenAccess;
 use Carbon\Carbon;
 use TheSeer\Tokenizer\Token;
-
+use Illuminate\Support\Facades\Artisan;
 class AuthNinjaJobController extends Controller
 {
     /**
@@ -28,7 +28,7 @@ class AuthNinjaJobController extends Controller
 
 
         if ($totalMinutes <= 5) {
-
+            Artisan::call('config:clear');
             $data = [
                 'client_id' => env('NINJA_CLIENT_ID'),
                 'client_secret' => env('NINJA_CLIENT_KEY'),
