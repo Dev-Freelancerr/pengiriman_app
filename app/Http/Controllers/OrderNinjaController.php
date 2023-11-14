@@ -19,7 +19,7 @@ class OrderNinjaController extends Controller
 {
     public function index()
     {
-        $penjemputan = penjemputan::all();
+        $penjemputan = Penjemputan::where('id_account', getAccount(Auth::user()->id)->id)->get();
         return view('ninja.order.new', [
             'penjemputan' => $penjemputan
         ]);
@@ -44,6 +44,8 @@ class OrderNinjaController extends Controller
             'harga' => 'required|numeric',
         ];
 
+
+
         $customMessages = [
             'required' => 'Kolom :attribute harus diisi.',
             'date' => 'Kolom :attribute harus berformat tanggal yang valid.',
@@ -53,10 +55,13 @@ class OrderNinjaController extends Controller
         $validator = Validator::make($request->all(), $rules, $customMessages);
 
         if ($validator->fails()) {
+            dd("gagal");
             return redirect()->back()
                 ->withErrors($validator)
                 ->withInput();
         }
+
+
         $alamatJemput = $request->input('alamat_jemput');
         $alamatParts = explode('-', $alamatJemput);
         $provinsiPenjemputan = $alamatParts[0];
@@ -115,14 +120,14 @@ class OrderNinjaController extends Controller
         $data = [
             'marketplace' => [
                 'seller_id' => getAccount(Auth::user()->id)->seller_id,
-                'seller_company_name' => 'TOKO 1'
+                'seller_company_name' => getAccount(Auth::user()->id)->fullname,
             ],
             'service_type' => 'Marketplace',
             'service_level' => 'Standard',
             'requested_tracking_number' => $this->generateTrackingNumber(),
-            'reference' => [
-                'merchant_order_number' => 'TESTORDER00020'
-            ],
+            // 'reference' => [
+            //     'merchant_order_number' => 'TESTORDER00020'
+            // ],
             'from' => [
                 'name' => $detailAlamatJemput->nama_toko,
                 'phone_number' => $detailAlamatJemput->no_telp_pic,
@@ -166,8 +171,8 @@ class OrderNinjaController extends Controller
                     'end_time' => $jamAkhirJemput,
                     'timezone' => 'Asia/Jakarta'
                 ],
-                'cash_on_delivery' => doubleval($request->input('harga')),
-                'insured_value' => doubleval($request->input('nilai_asuransi')),
+                //'cash_on_delivery' => doubleval($request->input('harga')),
+                // 'insured_value' => doubleval($request->input('nilai_asuransi')),
                 'pickup_instructions' => $request->input('instruksi_driver'),
                 'delivery_instructions' => $request->input('delivery_instruction'),
                 'delivery_start_date' => $request->input('tgl_kirim'),
@@ -188,6 +193,23 @@ class OrderNinjaController extends Controller
                 ]
             ]
         ];
+        $tipeBayar = $request->input('tipe_bayar');
+        $nilaiAsuransi = $request->input('nilai_asuransi');
+
+        if ($tipeBayar == "Non - COD") {
+
+            unset($data['parcel_job']['cash_on_delivery']);
+        }
+        else {
+
+            $data['parcel_job']['cash_on_delivery'] = doubleval($request->input('harga'));
+        }
+        if($nilaiAsuransi === null) {
+            unset($data['parcel_job']['insured_value']);
+        }
+        else {
+             $data['parcel_job']['insured_value'] = doubleval($request->input('nilai_asuransi'));
+        }
 
         $accessToken = getAccessToken();
         $maxRetryAttempts = 3;

@@ -22,7 +22,7 @@ class AddressController extends Controller
     public function index()
     {
 
-        $penjemputan = Penjemputan::all();
+        $penjemputan = Penjemputan::where('id_account', getAccount(Auth::user()->id)->id)->get();
         return view('settings.address.index', [
             'penjemputan' => $penjemputan
         ]);
