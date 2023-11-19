@@ -133,3 +133,10 @@ if (!function_exists('urlCreateOrder')) {
     }
 }
 
+// 4. Generate way bill
+if (!function_exists('urlWayBill')) {
+    function urlWayBill($country_code,$tracking_number,$rules)
+    {
+        return "https://api-sandbox.ninjavan.co/".$country_code."/2.0/reports/waybill?tids=".$tracking_number."&h=".(int)$rules;
+    }
+}

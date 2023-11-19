@@ -22,7 +22,7 @@
                 <div class="card" data-animation="true">
                     <hr class="dark horizontal my-0">
                     <div class="card-footer">
-                        <button class="btn btn-success my-0">Cetak</button>
+                        <a href="{{url('/ninja/print/waybill/'.$order->id)}}" class="btn btn-success my-0">Cetak Waybill</a>
                     </div>
                 </div>
             </div>

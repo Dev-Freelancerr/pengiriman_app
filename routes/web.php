@@ -53,6 +53,10 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         // Tracking form
         Route::get('/tracking/order', 'Api\Ninja\tracking_order\TrackingNinjaController@index');
         Route::post('/tracking/order/search', 'Api\Ninja\tracking_order\TrackingNinjaController@search');
+
+        // Generate waybill
+        Route::get('/print/waybill/{id}', 'Api\Ninja\print_waybill\WaybillController@index');
+        Route::post('/print/waybill', 'Api\Ninja\print_waybill\WaybillController@print');
     });
 
 
