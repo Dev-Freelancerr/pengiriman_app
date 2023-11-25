@@ -211,6 +211,8 @@ class OrderNinjaController extends Controller
              $data['parcel_job']['insured_value'] = doubleval($request->input('nilai_asuransi'));
         }
 
+        dd($data);
+
         $accessToken = getAccessToken();
         $maxRetryAttempts = 3;
         $retryAttempts = 1;
