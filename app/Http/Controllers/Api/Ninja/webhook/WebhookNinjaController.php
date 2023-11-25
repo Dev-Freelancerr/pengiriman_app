@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\CreateOrderNinja as OrderNinja;
-
+use App\Models\OrderTrackNinja as TrackNinja;
+use Carbon\Carbon;
 class WebhookNinjaController extends Controller
 {
     private $clientSecret;
@@ -17,13 +18,13 @@ class WebhookNinjaController extends Controller
     }
     private function verifyWebhook($data, $hmacHeader)
     {
-        $calculatedHmac = base64_encode(hash_hmac('sha256', $data, "f359fce48292442b9174aeb78bfc5d52", true));
+        $calculatedHmac = base64_encode(hash_hmac('sha256', $data, $this->clientSecret, true));
 
         return ($hmacHeader == $calculatedHmac);
     }
 
 
-    public function handleCancelled(Request $request)
+    public function handledWebhook(Request $request)
     {
         try {
             $data = $request->getContent();
@@ -39,17 +40,34 @@ class WebhookNinjaController extends Controller
                 // Logika untuk menangani webhook pembatalan
                 $payload = json_decode($request->getContent(), true);
 
-                // Ambil data yang dibutuhkan
-                $trackingId = $payload['tracking_id'];
-                $previousStatus = $payload['previous_status'];
-                $status = $payload['status'];
 
-                $updt_order = [
+                // Ambil data yang dibutuhkan
+                $shipper_id = $payload['shipper_id'];
+                $status = $payload['status'];
+                $shipper_ref_no = $payload['shipper_ref_no'];
+                $tracking_ref_no = $payload['tracking_ref_no'];
+                $shipper_order_ref_no = $payload['shipper_order_ref_no'];
+                $timestamp = $payload['timestamp'];
+                $tracking_id = $payload['tracking_id'];
+                $previous_status = $payload['previous_status'];
+                $id = $payload['id'];
+                $comments = $payload['comments'] ?? null;
+
+                $data_order = [
+                    'shipper_id' => $shipper_id,
                     'status' => $status,
-                    'previous_status' => $previousStatus
+                    'previous_status' => $previous_status,
+                    'shipper_ref_no' => $shipper_ref_no,
+                    'tracking_ref_no' => $tracking_ref_no,
+                    'shipper_order_ref_no' => $shipper_order_ref_no,
+                    'timestamp' =>  Carbon::parse($timestamp),
+                    'tracking_id' => $tracking_id,
+                    'uuid' => $id,
+                    'comments' => $comments
+
                 ];
 
-                OrderNinja::where('tracking_number', $trackingId)->update($updt_order);
+                TrackNinja::create($data_order);
 
 
                 $response = response()->json(['message' => 'Webhook for Cancelled handled successfully']);
@@ -79,21 +97,5 @@ class WebhookNinjaController extends Controller
         }
     }
 
-    public function handlePendingPickup(Request $request)
-    {
-        $data = $request->getContent();
-        $hmacHeader = "f2pTC52/IFaYs/ZXvGGGPn5nv8ZIsBekw1/6jGV2BMw=";
 
-
-        if ($this->verifyWebhook($data, $hmacHeader)) {
-            $data = $request->all();
-
-            return response()->json(['message' => 'Webhook for Pending Pickup handled successfully']);
-
-        } else {
-            // Webhook verification failed
-            return response()->json(['message' => 'Webhook verification failed'], 403);
-        }
-
-    }
 }

@@ -90,8 +90,8 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
 });
 
 Route::prefix('webhook/ninja')->group(function () {
-    Route::post('/pending-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handlePendingPickup');
-    Route::post('/cancel-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handleCancelled');
+    Route::post('/pending-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    Route::post('/cancel-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
 
 });
 
