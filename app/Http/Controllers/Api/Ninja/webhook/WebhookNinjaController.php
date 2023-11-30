@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\CreateOrderNinja as OrderNinja;
 use App\Models\OrderTrackNinja as TrackNinja;
 use Carbon\Carbon;
+
 class WebhookNinjaController extends Controller
 {
     private $clientSecret;
@@ -49,7 +50,7 @@ class WebhookNinjaController extends Controller
                 $shipper_order_ref_no = $payload['shipper_order_ref_no'];
                 $timestamp = $payload['timestamp'];
                 $tracking_id = $payload['tracking_id'];
-                $previous_status = $payload['previous_status'];
+                $previous_status = $payload['previous_status'] ?? null;
                 $id = $payload['id'];
                 $comments = $payload['comments'] ?? null;
 
@@ -60,7 +61,7 @@ class WebhookNinjaController extends Controller
                     'shipper_ref_no' => $shipper_ref_no,
                     'tracking_ref_no' => $tracking_ref_no,
                     'shipper_order_ref_no' => $shipper_order_ref_no,
-                    'timestamp' =>  Carbon::parse($timestamp),
+                    'timestamp' => Carbon::parse($timestamp),
                     'tracking_id' => $tracking_id,
                     'uuid' => $id,
                     'comments' => $comments

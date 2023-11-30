@@ -90,8 +90,64 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
 });
 
 Route::prefix('webhook/ninja')->group(function () {
-    Route::post('/pending-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    Route::post('/cancel-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+
+    //1. Staging **
+        Route::post('/staging', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //2. On Vehicle for delivery (RTS) **
+        Route::post('/onvehicle-fordelivery', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //3. Transfered to 3PL **
+        Route::post('/transfered-to3pl', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+
+    //4. Pending Pickup
+        Route::post('/pending-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //5. Successfull Pickup
+        Route::post('/successfull-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //6. En-Route to Sorting Hub
+        Route::post('/enroute-tosorting-hub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //7. Canceled Order
+        Route::post('/cancel-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //8. Arrived at Sorting Hub
+        Route::post('/arrivedat-sortinghub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //9. Arrived at Origin Hub
+        Route::post('/arrivedat-originhub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //10. Pending Reschedule
+        Route::post('/pending-reschedule', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //11. Pickup Fail
+        Route::post('/pickup-fail', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //12. First Attempt Delivery Fail
+        Route::post('/firstattempt-deliveryfail', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //13. Returned sender
+        Route::post('/return-sender', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
+    //14. Completed
+        Route::post('/completed', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // End
+
 
 });
 
