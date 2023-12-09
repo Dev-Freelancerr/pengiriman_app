@@ -91,62 +91,89 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
 
 Route::prefix('webhook/ninja')->group(function () {
 
-    //1. Staging **
-        Route::post('/staging', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // Rute untuk setiap event
+    Route::post('/pending-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.pending-pickup');
+    Route::post('/picked-up', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.picked-up');
+    Route::post('/pending-pickup-shipper-dropoff', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.pending-pickup-shipper-dropoff');
+    Route::post('/pickup-exception-pending-reschedule', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.pickup-exception-pending-reschedule');
+    Route::post('/arrived-at-origin-hub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.arrived-at-origin-hub');
+    Route::post('/arrived-at-transit-hub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.arrived-at-transit-hub');
 
-    //2. On Vehicle for delivery (RTS) **
-        Route::post('/onvehicle-fordelivery', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    Route::post('/arrived-at-destination-hub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.arrived-at-destination-hub');
+    Route::post('/in-transit-to-next-sorting-hub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.in-transit-to-next-sorting-hub');
+    Route::post('/on-vehicle-for-delivery', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.on-vehicle-for-delivery');
+    Route::post('/at-pudo-pending-customer-collection', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.at-pudo-pending-customer-collection');
+    Route::post('/delivered-collected-by-customer', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.delivered-collected-by-customer');
 
-    //3. Transfered to 3PL **
-        Route::post('/transfered-to3pl', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    Route::post('/delivered-left-at-doorstep', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.delivered-left-at-doorstep');
+    Route::post('/delivered-received-by-customer', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.delivered-received-by-customer');
+    Route::post('/delivery-exception-pending-reschedule', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.delivery-exception-pending-reschedule');
+    Route::post('/delivery-exception-max-attempts-reached', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.delivery-exception-max-attempts-reached');
+    Route::post('/delivery-exception-parcel-overstayed-at-pudo', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.delivery-exception-parcel-overstayed-at-pudo');
+
+    Route::post('/delivery-exception-parcel-lost', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.delivery-exception-parcel-lost');
+    Route::post('/delivery-exception-parcel-damaged', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.delivery-exception-parcel-damaged');
+    Route::post('/delivery-exception-return-to-sender-initiated', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.delivery-exception-return-to-sender-initiated');
+    Route::post('/returned-to-sender', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.returned-to-sender');
+    Route::post('/cancelled', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhookV2')->name('webhook.cancelled');
 
 
-    //4. Pending Pickup
-        Route::post('/pending-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //1. Staging ** D
+    //     Route::post('/staging', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
-    //5. Successfull Pickup
-        Route::post('/successfull-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //2. On Vehicle for delivery (RTS) ** D
+    //     Route::post('/onvehicle-fordelivery', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
-    //6. En-Route to Sorting Hub
-        Route::post('/enroute-tosorting-hub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //3. Transfered to 3PL ** D
+    //     Route::post('/transfered-to3pl', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
-    //7. Canceled Order
-        Route::post('/cancel-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
 
-    //8. Arrived at Sorting Hub
-        Route::post('/arrivedat-sortinghub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //4. Pending Pickup D
+    //     Route::post('/pending-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
-    //9. Arrived at Origin Hub
-        Route::post('/arrivedat-originhub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //5. Successfull Pickup D
+    //     Route::post('/successfull-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
-    //10. Pending Reschedule
-        Route::post('/pending-reschedule', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //6. En-Route to Sorting Hub D
+    //     Route::post('/enroute-tosorting-hub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
-    //11. Pickup Fail
-        Route::post('/pickup-fail', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //7. Canceled Order D
+    //     Route::post('/cancel-pickup', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
-    //12. First Attempt Delivery Fail
-        Route::post('/firstattempt-deliveryfail', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //8. Arrived at Sorting Hub D
+    //     Route::post('/arrivedat-sortinghub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
-    //13. Returned sender
-        Route::post('/return-sender', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //9. Arrived at Origin Hub
+    //     Route::post('/arrivedat-originhub', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
-    //14. Completed
-        Route::post('/completed', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
-    // End
+    // //10. Pending Reschedule D
+    //     Route::post('/pending-reschedule', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
+
+    // //11. Pickup Fail D
+    //     Route::post('/pickup-fail', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
+
+    // //12. First Attempt Delivery Fail D
+    //     Route::post('/firstattempt-deliveryfail', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
+
+    // //13. Returned sender D
+    //     Route::post('/return-sender', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
+
+    // //14. Completed D
+    //     Route::post('/completed', 'Api\Ninja\webhook\WebhookNinjaController@handledWebhook');
+    // // End
 
 
 });
