@@ -63,7 +63,7 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::post('/excel/upload', 'OrderNinjaController@upload')->name('upload');
     });
 
-
+    Route::get('/download-sample', 'DownloadController@downloadSample')->name('download-sample');
 
     // CEK TARIF
     Route::get('/estimate/tarif', 'App\Http\Controllers\Api\Ninja\Estimate_price\EstimateTarifController@index');
