@@ -13,8 +13,8 @@ use Auth;
 use Illuminate\Support\Facades\Log;
 use App\Models\CreateOrderNinja as OrderNinja;
 use App\Models\CreateBatchOrderNinja as BatchNinja;
-use Illuminate\Support\Str;
-
+use Box\Spout\Common\Type;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 class OrderNinjaController extends Controller
 {
     public function index()
@@ -24,6 +24,60 @@ class OrderNinjaController extends Controller
             'penjemputan' => $penjemputan
         ]);
     }
+
+    public function form_export() {
+        return view('ninja.order.export');
+    }
+
+    public function upload(Request $request)
+    {
+        if ($request->hasFile('file')) {
+            $file = $request->file('file'); // get file
+            $path = 'D:/project/new/tmp_file'; // Sesuaikan dengan lokasi yang Anda inginkan
+            $file->move($path, $file->getClientOriginalName());
+
+            $originalName = $file->getClientOriginalName();
+            // Anda dapat menggunakan $originalName sesuai kebutuhan Anda
+
+            // Membuat reader untuk membaca file Excel
+            $reader = ReaderEntityFactory::createReaderFromFile($path.'/'.$originalName);
+            $reader->open($path.'/'.$originalName);
+            // Iterasi melalui setiap sheet
+            foreach ($reader->getSheetIterator() as $sheet) {
+                // Jika nama sheet adalah 'Orders', baca isinya
+                if ($sheet->getName() === 'Sheet 1') {
+                    $this->readOrderSheet($sheet);
+                }
+            }
+
+            // Menutup reader setelah selesai membaca
+            $reader->close();
+        }
+    }
+
+    public function readOrderSheet($sheet)
+    {
+        $data = [];
+        //loop untuk setiap baris pada excel
+        foreach ($sheet->getRowIterator() as $idx => $row) {
+            if ($idx > 1) { // skip baris pertama excel (Judul)
+                // Menggunakan toArray() untuk mengakses nilai kolom
+                $rowData = $row->toArray();
+
+                $data = [
+                    'row_id'   => $rowData[0], // Ubah angka sesuai dengan indeks kolom yang diinginkan
+                    'order_id' => $rowData[1], // Ubah angka sesuai dengan indeks kolom yang diinginkan
+                ];
+
+
+                // $customer = new Customer();// buat customer baru
+                // $customer->fill($data);// isi customer dari data excel
+                // $customer->save(); // simpan customer
+            }
+        }
+        dd($data);
+    }
+
 
 
     public function store(Request $request)
@@ -43,8 +97,6 @@ class OrderNinjaController extends Controller
             'tipe_bayar' => 'required|string',
             'harga' => 'required|numeric',
         ];
-
-
 
         $customMessages = [
             'required' => 'Kolom :attribute harus diisi.',

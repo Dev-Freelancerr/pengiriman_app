@@ -242,6 +242,4 @@ class WebhookNinjaController extends Controller
             return $errorResponse;
         }
     }
-
-
 }

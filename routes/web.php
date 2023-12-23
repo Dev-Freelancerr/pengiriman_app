@@ -57,6 +57,10 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         // Generate waybill
         Route::get('/print/waybill/{id}', 'Api\Ninja\print_waybill\WaybillController@index');
         Route::post('/print/waybill', 'Api\Ninja\print_waybill\WaybillController@print');
+
+        Route::get('/export', 'OrderNinjaController@form_export');
+        Route::post('/export', 'OrderNinjaController@exportExcel')->name('export');
+        Route::post('/excel/upload', 'OrderNinjaController@upload')->name('upload');
     });
 
 
