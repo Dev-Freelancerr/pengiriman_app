@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\CreateOrderNinja as OrderNinja;
 use App\Models\CreateBatchOrderNinja as BatchOrderNinja;
+use App\Models\OrderTrackNinja;
 use Auth;
 
 class OrderNinjaHistoryController extends Controller
@@ -30,12 +31,16 @@ class OrderNinjaHistoryController extends Controller
 
     public function show($id)
     {
+
         $data = OrderNinja::where('seller_id', getAccount(Auth::user()->id)->seller_id)
             ->where('id', $id)
             ->first();
 
+        $tracking = OrderTrackNinja::where('tracking_id', $data->tracking_number)->get();
+
         return view('ninja.order.show', [
-            'order' => $data
+            'order' => $data,
+            'tracking' => $tracking
         ]);
     }
 }
