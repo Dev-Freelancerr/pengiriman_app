@@ -30378,7 +30378,7 @@ pre[class*="language-"] {
 
 .is-flipped .choices__list--dropdown {
   top: auto;
-  bottom: 200%;
+  /*bottom: 200%;*/
   margin-top: 0;
   margin-bottom: -1px;
   border-radius: 0.5rem;
@@ -36742,7 +36742,7 @@ body.swal2-toast-shown .swal2-container.swal2-bottom-right {
 
 .is-flipped .choices__list--dropdown {
   top: auto;
-  bottom: 200%;
+  /*bottom: 200%;*/
   margin-top: 0;
   margin-bottom: -1px;
   border-radius: 0.5rem;
