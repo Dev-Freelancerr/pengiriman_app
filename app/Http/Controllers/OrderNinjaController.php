@@ -86,6 +86,7 @@ class OrderNinjaController extends Controller
                     $data = [];
                     //loop untuk setiap baris pada excel
                     foreach ($sheet->getRowIterator() as $idx => $row) {
+                        $track_num = $this->generateTrackingNumber();
                         if ($idx > 1) { // skip baris pertama excel (Judul)
                             // Menggunakan toArray() untuk mengakses nilai kolom
                             $rowData = $row->toArray();
@@ -102,7 +103,7 @@ class OrderNinjaController extends Controller
                                 ],
                                 'service_type' => 'Marketplace',
                                 'service_level' => 'Standard',
-                                'requested_tracking_number' => $this->generateTrackingNumber(),
+                                'requested_tracking_number' => '',
                                 'from' => [
                                     'name' => $detailAlamatJemput->nama_toko,
                                     'phone_number' => $detailAlamatJemput->no_telp_pic,
@@ -131,7 +132,7 @@ class OrderNinjaController extends Controller
                                         'kecamatan' => $rowData[4],
                                         'city' => $rowData[3],
                                         'province' => $rowData[2],
-                                        'postcode' => $rowData[10],
+                                        'postcode' => '14367',
                                         'address_type' => 'home',
                                         'country' => 'ID'
                                     ]
@@ -146,18 +147,22 @@ class OrderNinjaController extends Controller
                                         'end_time' => $jamAkhirJemput,
                                         'timezone' => 'Asia/Jakarta'
                                     ],
-                                    'cash_on_delivery' => doubleval($rowData[22]),
-                                    'insured_value' => doubleval($rowData[23]),
+                                    // 'cash_on_delivery' => doubleval($rowData[22]),
+                                    // 'insured_value' => doubleval($rowData[23]),
                                     'pickup_instructions' => $request->input('instruksi_driver'),
                                     'delivery_instructions' => $rowData[18],
-                                    'delivery_start_date' => $rowData[12],
+                                    'delivery_start_date' => $rowData[11]->format('Y-m-d'),
                                     'delivery_timeslot' => [
                                         'start_time' => $jamAwalKirim,
                                         'end_time' => $jamAkhirKirim,
                                         'timezone' => 'Asia/Jakarta'
                                     ],
                                     'dimensions' => [
-                                        'weight' => $rowData[14]
+                                        'weight' => $rowData[14],
+                                        'size' => $rowData[13],
+                                        'length' => $rowData[25],
+                                        'width' => $rowData[26],
+                                        'height' => $rowData[27]
                                     ],
                                     'items' => [
                                         [
@@ -168,13 +173,162 @@ class OrderNinjaController extends Controller
                                     ]
                                 ]
                             ];
+
+                            $tipeBayar = $rowData[28];
+
+                            $nilaiAsuransi = $rowData[23];
+
+                            if ($tipeBayar == "Non - COD") {
+
+                                unset($data['parcel_job']['cash_on_delivery']);
+                            }
+                            else {
+
+                                $data['parcel_job']['cash_on_delivery'] = doubleval($rowData[22]);
+                            }
+                            if($nilaiAsuransi === null) {
+                                unset($data['parcel_job']['insured_value']);
+                            }
+                            else {
+                                 $data['parcel_job']['insured_value'] = doubleval($rowData[23]);
+                            }
+
+                            $accessToken = getAccessToken();
+                            $maxRetryAttempts = 3;
+                            $retryAttempts = 1;
+
+                            $headers = [
+                                'Content-Type' => 'application/json',
+                                'Authorization' => 'Bearer ' . $accessToken,
+                                'Accept' => 'application/json'
+                            ];
+
+                                try {
+
+                                    $response = Http::withHeaders($headers)
+                                        ->post(urlCreateOrder("SG"), $data);
+
+                                    if ($response->successful()) {
+
+                                        $responseData = $response->json();
+                                        $dataSave = (object)$responseData;
+
+                                        $returnOrder = [
+                                            'id_account' => getAccount(Auth::user()->id)->id,
+                                            'requested_tracking_number' => $dataSave->tracking_number,
+                                            'tracking_number' => $dataSave->tracking_number,
+                                            'service_type' => $dataSave->service_type,
+                                            'service_level' => $dataSave->service_level,
+                                            'merchant_order_number' => isset($dataSave->reference['merchant_order_number']) ? $dataSave->reference['merchant_order_number'] : null,
+
+                                            'from_city' => $dataSave->from['address']['city'],
+                                            'from_province' => $dataSave->from['address']['province'],
+                                            'from_name' => $dataSave->from['name'],
+                                            'from_phone_number' => $dataSave->from['phone_number'],
+                                            'from_email' => isset($dataSave->from['email']) ? $dataSave->from['email'] : null,
+                                            'from_address1' => $dataSave->from['address']['address1'],
+                                            'from_address2' => $dataSave->from['address']['address2'],
+                                            'from_kecamatan' => $dataSave->from['address']['kecamatan'],
+                                            'from_kelurahan' => $dataSave->from['address']['kelurahan'],
+                                            'from_address_type' => "Home",
+                                            'from_country' => $dataSave->from['address']['country'],
+                                            'from_postcode' => $dataSave->from['address']['postcode'],
+
+                                            'to_city' => $dataSave->to['address']['city'],
+                                            'to_province' => $dataSave->to['address']['province'],
+                                            'to_name' => $dataSave->to['name'],
+                                            'to_phone_number' => $dataSave->to['phone_number'],
+                                            'to_email' => isset($dataSave->to['email']) ? $dataSave->to['email'] : null,
+                                            'to_address1' => $dataSave->to['address']['address1'],
+                                            'to_address2' => $dataSave->to['address']['address2'],
+                                            'to_kecamatan' => $dataSave->to['address']['kecamatan'],
+                                            'to_kelurahan' => isset($dataSave->to['address']['kelurahan']) ? $dataSave->to['address']['kelurahan'] : null,
+
+                                            'to_address_type' => "Home",
+                                            'to_country' => $dataSave->to['address']['country'],
+                                            'to_postcode' => isset($dataSave->to['address']['postcode']) ? $dataSave->to['address']['postcode'] : null,
+
+
+                                            'seller_id' => $dataSave->marketplace['seller_id'],
+
+                                            'is_pickup_required' => $dataSave->parcel_job['is_pickup_required'],
+                                            'pickup_service_type' => $dataSave->parcel_job['pickup_service_type'],
+                                            'pickup_service_level' => $dataSave->parcel_job['pickup_service_level'],
+                                            'pickup_date' => $dataSave->parcel_job['pickup_date'],
+                                            'pickup_start_time' => $dataSave->parcel_job['pickup_timeslot']['start_time'],
+                                            'pickup_end_time' => $dataSave->parcel_job['pickup_timeslot']['start_time'],
+                                            'pickup_timezone' => $dataSave->parcel_job['pickup_timeslot']['timezone'],
+                                            'pickup_approximate_volume' => $dataSave->parcel_job['pickup_approximate_volume'],
+                                            'pickup_instructions' => $dataSave->parcel_job['pickup_instructions'],
+
+                                            'delivery_start_date' => date('Y-m-d', strtotime($dataSave->parcel_job['delivery_start_date'])),
+                                            'delivery_start_time' => date('H:i:s', strtotime($dataSave->parcel_job['delivery_timeslot']['start_time'])),
+                                            'delivery_end_time' => date('H:i:s', strtotime($dataSave->parcel_job['delivery_timeslot']['end_time'])),
+                                            'delivery_timezone' => $dataSave->parcel_job['delivery_timeslot']['timezone'],
+                                            'delivery_instructions' => $dataSave->parcel_job['delivery_instructions'],
+
+                                            'allow_weekend_delivery' => $dataSave->parcel_job['allow_weekend_delivery'],
+                                            'weight' => $dataSave->parcel_job['dimensions']['weight'],
+                                            'item_description' => $rowData[19],
+                                            'quantity' => $rowData[21],
+                                            'is_dangerous_good' => $rowData[18] == 'true' || $rowData[18] == 'True' || $rowData[18] == 'TRUE' ? true : false,
+                                            'tipe_penjemputan' => $request->input('jadwal_jemput'),
+                                            'tipe_bayar' => $tipeBayar,
+                                            'harga' => $rowData[24],
+                                            'transportasi_jemput' => $request->input('kendaraan_jemput'),
+
+                                            'batch_id' => $batch_num,
+                                            'estimasi_biaya_kirim' => 100000 - (($request->input('harga') * 0.03) * 0.11),
+                                            'jumlah_bersih' => $request->input('harga') - (100000 - ($request->input('harga') * 0.03 * 0.11)),
+                                            'nilai_diasuransikan' => doubleval($rowData[23]),
+                                            'order_id' => $order_id,
+                                            'status' => 'Pending Pickup',
+                                            'previous_status' => '-',
+                                            'size' => $rowData[13],
+                                            'panjang' => $rowData[25],
+                                            'lebar' => $rowData[26],
+                                            'tinggi' => $rowData[27]
+                                        ];
+
+                                        $qry = OrderNinja::create($returnOrder);
+
+
+                                    } elseif ($response->status() === 401) {
+
+                                        $this->generateAccessToken();
+                                        $accessToken = getAccessToken();
+                                        $headers = [
+                                            'Content-Type' => 'application/json',
+                                            'Authorization' => 'Bearer ' . $accessToken,
+                                            'Accept' => 'application/json'
+                                        ];
+                                        $response = Http::withHeaders($headers)->post(urlCreateOrder("SG"), $data);
+
+                                    } elseif ($response->status() >= 500 && $response->status() < 600) {
+                                        $this->retryAfterDelay();
+                                    } else {
+                                        $errorResponse = $response->json();
+                                        return response()
+                                            ->json($errorResponse, $response->status())
+                                            ->header('Content-Type', 'application/json; charset=utf-8')
+                                            ->header('X-Content-Type-Options', 'nosniff');
+
+                                    }
+                                } catch (\Exception $e) {
+                                    // Tangani pengecualian umum di sini
+                                    Log::error('Error: ' . $e->getMessage());
+
+                                }
+
                         }
                     }
-                    dd($data);
+
                 }
             }
             // Menutup reader setelah selesai membaca
             $reader->close();
+            $batch_qry = BatchNinja::create($batch_save);
+            return redirect('/ninja/order/history');
         }
         else {
             $rules = [
@@ -544,7 +698,7 @@ class OrderNinjaController extends Controller
     }
 
     function generateTrackingNumber() {
-        $length = 9; // Panjang minimal yang diinginkan
+        $length = 12; // Panjang minimal yang diinginkan
         $pattern = '/^([a-zA-Z0-9]+[-])*[a-zA-Z0-9]+$/';
 
         do {
