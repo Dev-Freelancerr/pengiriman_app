@@ -2,32 +2,6 @@
 
 @section('content')
     <div class="container-fluid py-4">
-        <div class="d-sm-flex justify-content-between">
-
-            <div class="d-flex">
-                <div class="dropdown d-inline">
-                    <a href="javascript:;" class="btn btn-outline-dark dropdown-toggle " data-bs-toggle="dropdown"
-                       id="navbarDropdownMenuLink2">
-                        Filters
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2"
-                        data-popper-placement="left-start">
-                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Paid</a></li>
-                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Refunded</a></li>
-                        <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Canceled</a></li>
-                        <li>
-                            <hr class="horizontal dark my-2">
-                        </li>
-                        <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove Filter</a>
-                        </li>
-                    </ul>
-                </div>
-                <button class="btn btn-icon btn-outline-dark ms-2 export" data-type="csv" type="button">
-                    <i class="material-icons text-xs position-relative">archive</i>
-                    Export CSV
-                </button>
-            </div>
-        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -38,52 +12,16 @@
                         </p>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-flush" id="datatable-search">
+
+                        <table class="table table-flush" id="batch-table">
                             <thead class="thead-light">
                             <tr>
-                                <th class="text-xs">Date</th>
+                                <th class="text-xs">Created Date</th>
                                 <th class="text-xs">Batch ID</th>
-                                <th class="text-xs">Pesanan</th>
-                                <th class="text-xs">Pending</th>
-                                <th class="text-xs">Error</th>
-                                <th class="text-xs">Belum Bayar</th>
+                                <th class="text-xs">Jumlah Pesanan</th>
                                 <th class="text-xs">Actions</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            @foreach($order as $data)
-                                <tr>
-
-                                    <td class="align-center text-xs font-weight-normal">
-                                        {{$data->created_at}}
-                                    </td>
-                                    <td class="align-center text-xs font-weight-normal">
-                                        {{strtoupper($data->batch_id)}}
-                                    </td>
-                                    <td class="align-center text-xs font-weight-normal">
-                                        {{$data->jum_pesanan}}
-                                    </td>
-                                    <td class="align-center text-xs font-weight-normal">
-                                        {{$data->jum_pending}}
-                                    </td>
-                                    <td class="align-center text-xs font-weight-normal">
-                                        {{$data->jum_error}}
-                                    </td>
-                                    <td class="align-center text-xs font-weight-normal">
-                                        {{$data->belum_bayar}}
-                                    </td>
-                                    <td class="align-center">
-                                        <a href="{{url('/ninja/order/list/'.$data->batch_id)}}" class="btn btn-info btn-sm font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                            Detail
-                                        </a>
-
-                                    </td>
-
-
-                                </tr>
-                            @endforeach
-
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -128,4 +66,49 @@
             </div>
         </footer>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        function search() {
+            var batchId = $('#batch_id').val();
+
+            $('#batch-table').DataTable().search(batchId).draw();
+        }
+
+        $(function () {
+            $('#batch-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '/ninja/get-batch',
+                    data: function (d) {
+                        // Mengambil nilai pencarian batch_id dari formulir
+                        d.batch_id = $('#batch_id').val();
+                    }
+                },
+                columns: [
+                    {
+                        data: 'created_at', name: 'Tanggal Order',
+                        orderable: true,
+                        searchable: false
+                    },
+                    {
+                        data: 'batch_id', name: 'Batch ID',
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: 'order_count', name: 'Jumlah Pesanan',
+                        orderable: true,
+                        searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
+                    }
+                ]
+            });
+        });
+    </script>
 @endsection

@@ -22,9 +22,7 @@ class OrderNinjaController extends Controller
     public function index()
     {
         $penjemputan = Penjemputan::where('id_account', getAccount(Auth::user()->id)->id)->get();
-        return view('ninja.order.new', [
-            'penjemputan' => $penjemputan
-        ]);
+        return view('ninja.order.new');
     }
 
 
