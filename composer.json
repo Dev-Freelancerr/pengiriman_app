@@ -16,8 +16,9 @@
         "laravel/tinker": "^2.8",
         "league/oauth2-server": "^3.2",
         "maatwebsite/excel": "^1.1",
-        "nesbot/carbon": "^2.71",
-        "psr/simple-cache": "2.0"
+        "nesbot/carbon": "^2.72",
+        "psr/simple-cache": "2.0",
+        "yajra/laravel-datatables-oracle": "^10.11"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

@@ -47,6 +47,10 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::get('/create/order', 'OrderNinjaController@index')->name('create.ninja.order');
         Route::post('/create/order/store', 'OrderNinjaController@store')->name('store.ninja.order');
         Route::get('/order/history', 'OrderNinjaHistoryController@index')->name('history.ninja.order');
+        Route::get('/get-batch', 'OrderNinjaHistoryController@getBatch');
+        Route::get('/get-order/{id}', 'OrderNinjaHistoryController@getOrder')->name('ninja.getOrder');
+
+
         Route::get('/order/{id}', 'OrderNinjaHistoryController@show')->name('history.ninja.order.show');
         Route::get('/order/list/{id}', 'OrderNinjaHistoryController@order_list');
 
@@ -63,7 +67,7 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::post('/excel/upload', 'OrderNinjaController@upload')->name('upload');
     });
 
-
+    Route::get('/download-sample', 'DownloadController@downloadSample')->name('download-sample');
 
     // CEK TARIF
     Route::get('/estimate/tarif', 'App\Http\Controllers\Api\Ninja\Estimate_price\EstimateTarifController@index');

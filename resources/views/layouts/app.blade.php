@@ -7,10 +7,13 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{asset('img/apple-icon.png')}}">
     <link rel="icon" type="image/png" href="{{asset('img/favicon.png')}}">
     <title>Pengiriman app</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{asset('js/core/jquery-ui.min.js')}}"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="{{asset('css/jquery-ui.min.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!--     Fonts and icons     -->
@@ -29,56 +32,113 @@
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 
     <style>
-    .track {
-  position: relative;
-  background-color: #ddd;
-  height: 7px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin-bottom: 60px;
-  margin-top: 50px;
+    .steps .step {
+    display: block;
+    width: 100%;
+    margin-bottom: 35px;
+    text-align: center
 }
-.track .step {
-  -webkit-box-flex: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  width: 25%;
-  margin-top: -18px;
-  text-align: center;
-  position: relative;
+
+.steps .step .step-icon-wrap {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 80px;
+    text-align: center
 }
-.track .step.active:before {
-  background: #ff5722;
+
+.steps .step .step-icon-wrap::before,
+.steps .step .step-icon-wrap::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 50%;
+    height: 3px;
+    margin-top: -1px;
+    background-color: #e1e7ec;
+    content: '';
+    z-index: 1
 }
-.track .step::before {
-  height: 7px;
-  position: absolute;
-  content: "";
-  width: 100%;
-  left: 0;
-  top: 18px;
+
+.steps .step .step-icon-wrap::before {
+    left: 0
 }
-.track .step.active .icon {
-  background: #ee5435;
-  color: #fff;
+
+.steps .step .step-icon-wrap::after {
+    right: 0
 }
-.track .icon {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  position: relative;
-  border-radius: 100%;
-  background: #ddd;
+
+.steps .step .step-icon {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #e1e7ec;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    color: #374250;
+    font-size: 38px;
+    line-height: 81px;
+    z-index: 5
 }
-.track .step.active .text {
-  font-weight: 400;
-  color: #000;
+
+.steps .step .step-title {
+    margin-top: 16px;
+    margin-bottom: 0;
+    color: #606975;
+    font-size: 14px;
+    font-weight: 500
 }
-.track .text {
-  display: block;
-  margin-top: 7px;
+
+.steps .step:first-child .step-icon-wrap::before {
+    display: none
+}
+
+.steps .step:last-child .step-icon-wrap::after {
+    display: none
+}
+
+.steps .step.completed .step-icon-wrap::before,
+.steps .step.completed .step-icon-wrap::after {
+    background-color: #0da9ef
+}
+
+.steps .step.completed .step-icon {
+    border-color: #0da9ef;
+    background-color: #0da9ef;
+    color: #fff
+}
+
+@media (max-width: 576px) {
+    .flex-sm-nowrap .step .step-icon-wrap::before,
+    .flex-sm-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+@media (max-width: 768px) {
+    .flex-md-nowrap .step .step-icon-wrap::before,
+    .flex-md-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+@media (max-width: 991px) {
+    .flex-lg-nowrap .step .step-icon-wrap::before,
+    .flex-lg-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+@media (max-width: 1200px) {
+    .flex-xl-nowrap .step .step-icon-wrap::before,
+    .flex-xl-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+.bg-faded, .bg-secondary {
+    background-color: #f5f5f5 !important;
 }
     </style>
 
@@ -204,9 +264,12 @@
     <script src="{{asset('js/plugins/sweetalert.min.js')}}"></script>
 
     <!-- Custom scripts -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     @yield('scripts')
 
     <script>
+
+
         var ctx1 = document.getElementById("chart-line").getContext("2d");
         var ctx2 = document.getElementById("chart-pie").getContext("2d");
         var ctx3 = document.getElementById("chart-bar").getContext("2d");

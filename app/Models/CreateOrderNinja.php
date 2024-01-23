@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\OrderTrackNinja as Tracking;
 
 class CreateOrderNinja extends Model
 {
@@ -81,4 +82,10 @@ class CreateOrderNinja extends Model
         'status',
         'previous_status'
     ];
+
+    public function lastStatus()
+    {
+        // Sesuaikan dengan nama kunci referensi yang benar di model Tracking
+        return $this->hasOne(Tracking::class, 'tracking_id', 'tracking_number')->latest();
+    }
 }

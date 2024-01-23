@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="right-side">
-                    <form action="{{url('/ninja/create/order/store')}}" method="POST" id="createOrder">
+                    <form action="{{url('/ninja/create/order/store')}}" method="POST" id="createOrder" enctype="multipart/form-data">
                         @csrf
                         <div class="main active">
                             <div class="input-text">
@@ -123,6 +123,17 @@
                             <div class="buttons button_space">
                                 <button class="" id="choose_via_keyboard">Input Via Keyboard</button>
                                 <button class="" id="choose_via_upload">Upload File</button>
+                            </div>
+
+                            <div id="via_upload_content">
+                                 <div class="drop-zone">
+                                    <span class="drop-zone__prompt">Drop file here or click to upload</span>
+                                    <input type="file" name="file" class="drop-zone__input">
+                                 </div>
+                                <div class="vn-red" style="text-align: center;">
+                                    <a href="{{ route('download-sample') }}">Download Template</a>
+                                </div>
+
                             </div>
 
                             <div id="via_keyboard">

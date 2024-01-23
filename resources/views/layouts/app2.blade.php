@@ -617,6 +617,111 @@
             }
         }
 
+        .drop-zone {
+            max-width: 200px;
+            height: 200px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: "Quicksand", sans-serif;
+            font-weight: 500;
+            font-size: 20px;
+            cursor: pointer;
+            color: #cccccc;
+            border: 4px dashed #009578;
+            border-radius: 10px;
+            position: relative;
+            top: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            transform: translateY(10%);
+            margin-bottom: 50px;
+            }
+
+            .drop-zone--over {
+            border-style: solid;
+            }
+
+            .drop-zone__input {
+            display: none;
+            }
+
+            .drop-zone__thumb {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #cccccc;
+            background-size: cover;
+            position: relative;
+            }
+
+            .drop-zone__thumb::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 5px 0;
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.75);
+            font-size: 14px;
+            text-align: center;
+            }
+
+            .back_button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #009578;
+    color: #ffffff;
+    border: 1px solid #007b6e;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back_button:hover {
+    background-color: #007b6e;
+}
+
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);a:link{text-decoration:none}
+.vn-red a{
+  background-color:#e74c3c;
+  display:inline-block;
+  position:relative;
+  margin:30px 5px;
+  padding:20px 20px 20px 80px;
+  color:#fff;
+  transition:all 0.4s ease;
+  border-radius:3px
+}
+.vn-red a:before{
+  content:"\f019";
+  font-family:fontAwesome;
+  position:absolute;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  font-size:28px;
+  border-radius:0 20px 0 0;
+  color:#000;
+  background-color:#fff;
+  opacity:0.3;
+  padding:20px;
+  top:0;
+  left:0;
+}
+.vn-red a:hover{
+  background:#7f8c8d
+}
+
+
+
     </style>
 </head>
 
@@ -723,7 +828,83 @@
     }</script>
 <script src="{{asset('js/plugins/flatpickr.min.js')}}"></script>
 <script type='text/javascript'>
+
+document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+  const dropZoneElement = inputElement.closest(".drop-zone");
+
+  dropZoneElement.addEventListener("click", (e) => {
+    inputElement.click();
+  });
+
+  inputElement.addEventListener("change", (e) => {
+    if (inputElement.files.length) {
+      updateThumbnail(dropZoneElement, inputElement.files[0]);
+    }
+  });
+
+  dropZoneElement.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZoneElement.classList.add("drop-zone--over");
+  });
+
+  ["dragleave", "dragend"].forEach((type) => {
+    dropZoneElement.addEventListener(type, (e) => {
+      dropZoneElement.classList.remove("drop-zone--over");
+    });
+  });
+
+  dropZoneElement.addEventListener("drop", (e) => {
+    e.preventDefault();
+
+    if (e.dataTransfer.files.length) {
+      inputElement.files = e.dataTransfer.files;
+      updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+    }
+
+    dropZoneElement.classList.remove("drop-zone--over");
+  });
+});
+
+/**
+ * Updates the thumbnail on a drop zone element.
+ *
+ * @param {HTMLElement} dropZoneElement
+ * @param {File} file
+ */
+function updateThumbnail(dropZoneElement, file) {
+  let thumbnailElement = dropZoneElement.querySelector(".drop-zone__thumb");
+
+  // First time - remove the prompt
+  if (dropZoneElement.querySelector(".drop-zone__prompt")) {
+    dropZoneElement.querySelector(".drop-zone__prompt").remove();
+  }
+
+  // First time - there is no thumbnail element, so lets create it
+  if (!thumbnailElement) {
+    thumbnailElement = document.createElement("div");
+    thumbnailElement.classList.add("drop-zone__thumb");
+    dropZoneElement.appendChild(thumbnailElement);
+  }
+
+  thumbnailElement.dataset.label = file.name;
+
+  // Show thumbnail for image files
+  if (file.type.startsWith("image/")) {
+    const reader = new FileReader();
+
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      thumbnailElement.style.backgroundImage = `url('${reader.result}')`;
+    };
+  } else {
+    thumbnailElement.style.backgroundImage = null;
+  }
+}
+
     $(document).ready(function () {
+
+
+
         $('#jadwalLabel').text($('input[name="jadwal_jemput"]:checked').val());
 
 
