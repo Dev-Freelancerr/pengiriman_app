@@ -1,5 +1,5 @@
 $(function () {
-    $("#form_address").on("submit", function (event) {
+    $("#form_address_edit").on("submit", function (event) {
         event.preventDefault(); // Mencegah pengiriman formulir asli
 
         // Simpan referensi this dalam variabel untuk digunakan dalam callback
@@ -7,7 +7,7 @@ $(function () {
 
         // Tampilkan SweetAlert konfirmasi
         Swal.fire({
-            title: 'Konfirmasi Simpan',
+            title: 'Konfirmasi Update',
             text: 'Apakah Anda yakin ingin menyimpan data ini?',
             icon: 'warning',
             showCancelButton: true,
@@ -49,28 +49,7 @@ $(function () {
     });
 
 
-    // $("#form_address").on("submit", function(event) {
-    //     event.preventDefault(); // Mencegah pengiriman formulir asli
-    //
-    //     // Tampilkan SweetAlert konfirmasi
-    //     Swal.fire({
-    //         title: 'Konfirmasi Simpan',
-    //         text: 'Apakah Anda yakin ingin menyimpan data ini?',
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonText: 'Ya, Simpan',
-    //         cancelButtonText: 'Batal'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             // Mengarahkan formulir ke URL yang sesuai dengan metode POST
-    //             $(this).attr('action', '/settings/address/store');
-    //             $(this).attr('method', 'POST');
-    //             $(this).unbind('submit').submit(); // Unbind event handler agar formulir dapat dikirim
-    //         }
-    //     });
-    // });
-
-    $("#copy_alamat").change(function () {
+    $("#copy_alamat_edit").change(function () {
         if ($(this).is(":checked")) {
             $("#pengembalian").val($("#penjemputan").val()).focus().prop("readonly", true);
             $("#prov_pengembalian").val($("#prov_penjemputan").val()).focus();

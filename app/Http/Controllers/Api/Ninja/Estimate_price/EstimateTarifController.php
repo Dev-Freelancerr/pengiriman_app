@@ -86,11 +86,10 @@ class EstimateTarifController extends Controller
         $response = Http::withHeaders($headers)
             ->post(urlEstimatePriceNinja("id"), $data);
 
-        if($response->successful()) {
+        if ($response->successful()) {
             $responseData = $response->json();
             return response()->json($responseData);
-        }
-        else {
+        } else {
             $errorResponse = $response->json();
             return response()->json($errorResponse, $response->status());
         }

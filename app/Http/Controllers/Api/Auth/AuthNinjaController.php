@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
 use App\Models\TokenAccess;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Artisan;
 
 class AuthNinjaController extends Controller
 {
@@ -19,6 +20,8 @@ class AuthNinjaController extends Controller
 
     public function getToken(Request $request)
     {
+        Artisan::call('config:clear');
+
         $data = [
             'client_id' => env('NINJA_CLIENT_ID'),
             'client_secret' => env('NINJA_CLIENT_KEY'),
@@ -30,7 +33,7 @@ class AuthNinjaController extends Controller
         ];
 
         $response = Http::withHeaders($headers)
-            ->post('https://api-sandbox.ninjavan.co/id/2.0/oauth/access_token', $data);
+            ->post('https://api-sandbox.ninjavan.co/ID/2.0/oauth/access_token', $data);
 
         if ($response->successful()) {
             $responseData = $response->json();
