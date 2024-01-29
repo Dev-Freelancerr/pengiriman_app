@@ -101,7 +101,9 @@ $(function () {
                     // Data lain yang ingin Anda kirim
                 },
                 success: function (response) {
-                    var fee = response.data.total_fee;
+                    console.log(response);
+                   // var fee = response.data.total_fee;
+                    var fee = response;
                     var formattedFee = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(fee);
                     var message = 'Estimasi Biaya Pengiriman Standard: ' + formattedFee;
                     $("#box_estimasi").show();
