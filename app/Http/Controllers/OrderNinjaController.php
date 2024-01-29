@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use Illuminate\Support\Facades\Log;
+use App\Models\TarifNinja;
 use App\Models\CreateOrderNinja as OrderNinja;
 use App\Models\CreateBatchOrderNinja as BatchNinja;
 use Box\Spout\Common\Type;
@@ -769,33 +770,40 @@ class OrderNinjaController extends Controller
         $l2_code_alamat_kirim = $l2_kirim;
         $berat = $weight;
 
+        $estimasiTarif = TarifNinja::where('origin_L1_tier_code', $l1_code_alamat_jemput)
+                                     ->where('origin_L2_tier_code', $l2_code_alamat_jemput)
+                                     ->where('destination_L1_tier_code', $l1_code_alamat_kirim)
+                                     ->where('destination_L2_tier_code', $l2_code_alamat_kirim)
+                                    ->first();
+
+        return response()->json($estimasiTarif->price * (double)$berat);
         // Membentuk payload untuk permintaan POST
-        $data = [
-            'weight' => (double)$berat,
-            'service_level' => 'Standard',
-            'from' => [
-                'l1_tier_code' => $l1_code_alamat_jemput,
-                'l2_tier_code' => $l2_code_alamat_jemput,
-            ],
-            'to' => [
-                'l1_tier_code' => $l1_code_alamat_kirim,
-                'l2_tier_code' => $l2_code_alamat_kirim,
-            ],
-        ];
-
-        $headers = [
-            'Content-Type' => 'application/json',
-        ];
-
-        $response = Http::withHeaders($headers)
-            ->post(urlEstimatePriceNinja("id"), $data);
-
-        if ($response->successful()) {
-            $responseData = $response->json();
-            return response()->json($responseData);
-        } else {
-            $errorResponse = $response->json();
-            return response()->json($errorResponse, $response->status());
-        }
+//        $data = [
+//            'weight' => (double)$berat,
+//            'service_level' => 'Standard',
+//            'from' => [
+//                'l1_tier_code' => $l1_code_alamat_jemput,
+//                'l2_tier_code' => $l2_code_alamat_jemput,
+//            ],
+//            'to' => [
+//                'l1_tier_code' => $l1_code_alamat_kirim,
+//                'l2_tier_code' => $l2_code_alamat_kirim,
+//            ],
+//        ];
+//
+//        $headers = [
+//            'Content-Type' => 'application/json',
+//        ];
+//
+//        $response = Http::withHeaders($headers)
+//            ->post(urlEstimatePriceNinja("id"), $data);
+//
+//        if ($response->successful()) {
+//            $responseData = $response->json();
+//            return response()->json($responseData);
+//        } else {
+//            $errorResponse = $response->json();
+//            return response()->json($errorResponse, $response->status());
+//        }
     }
 }
