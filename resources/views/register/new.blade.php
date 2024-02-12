@@ -2,7 +2,6 @@
     <h3 class="mt-3 mb-0 text-center">Add Personal Info</h3>
     <p class="lead font-weight-normal opacity-8 mb-7 text-center">This information will let us know
         more about you.</p>
-
     <div class="card">
         <div class="card-header p-0 position-relative mt-n5 mx-3 z-index-2">
             <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -35,15 +34,15 @@
                                 <div class="input-group input-group-dynamic">
                                     <label for="exampleFormControlInput1"
                                            class="form-label">Fullname</label>
-                                    <input class="multisteps-form__input form-control" type="text"
-                                           name="fullname" required/>
+                                    <input class="multisteps-form__input form-control" id="fullname_regist" type="text"
+                                           name="fullname" required />
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                 <div class="input-group input-group-dynamic">
                                     <label for="exampleFormControlInput1" class="form-label">Handphone
                                         Number</label>
-                                    <input class="multisteps-form__input form-control" type="text"
+                                    <input class="multisteps-form__input form-control" id="hp_regist" type="number"
                                            name="hp_number"/>
                                 </div>
                             </div>
@@ -52,7 +51,7 @@
                             <div class="col-sm-6">
                                 <label class="mt-4">Address</label>
 
-                                <textarea class="form-control" rows="5" spellcheck="false"
+                                <textarea id="address_regist" class="form-control" rows="5" spellcheck="false"
                                           name="address"></textarea>
                             </div>
                             <div class="col-sm-6 mt-sm-3 mt-5">
@@ -67,7 +66,7 @@
                         </div>
                         <div class="button-row d-flex mt-4">
                             <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
-                                    type="button" title="Next">Next
+                                    type="button" title="Next" id="next_1">Next
                             </button>
                         </div>
                     </div>
@@ -82,8 +81,8 @@
                                 <div class="input-group input-group-dynamic">
                                     <label for="exampleFormControlInput1"
                                            class="form-label">No.Rekening</label>
-                                    <input class="multisteps-form__input form-control" type="text"
-                                           name="nomor_rekening" required
+                                    <input class="multisteps-form__input form-control" type="number"
+                                           name="nomor_rekening" required id="norek"
                                            />
                                 </div>
                             </div>
@@ -92,7 +91,7 @@
                                     <label for="exampleFormControlInput1" class="form-label">Atas Nama
                                     </label>
                                     <input class="multisteps-form__input form-control" type="text"
-                                           name="atas_nama_bank"
+                                           name="atas_nama_bank" id="atasnama" required
                                           />
                                 </div>
                             </div>
@@ -100,7 +99,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label class="form-control ms-0">Bank</label>
-                                <select class="form-control" name="bank" id="choices-category"
+                                <select class="form-control select_bank" name="bank" id="choices-category"
                                         required>
                                     @foreach($bank as $bnk)
                                         <option
@@ -115,7 +114,7 @@
                                     title="Prev">Prev
                             </button>
                             <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next"
-                                    type="button" title="Next">Next
+                                    type="button" title="Next" id="next_2">Next
                             </button>
                         </div>
                     </div>
