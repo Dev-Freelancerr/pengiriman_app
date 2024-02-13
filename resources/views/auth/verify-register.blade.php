@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         WebFont.load({
             google: {
@@ -80,6 +81,8 @@
 <script src="{{asset('js/plugins/dragula/dragula.min.js')}}"></script>
 <script src="{{asset('js/plugins/jkanban/jkanban.js')}}"></script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="{{asset('js/custom/multi_step.js')}}"></script>
+
 
 
 </body>
