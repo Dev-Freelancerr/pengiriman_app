@@ -99,7 +99,8 @@ class UserAccountRegisterController extends Controller
         }
     }
 
-    public function update_register(Request $request) {
+    public function update_register(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'fullname' => 'required|string|max:255',
             'hp_number' => 'required|numeric',
@@ -180,27 +181,24 @@ class UserAccountRegisterController extends Controller
         }
     }
 
-    public function home() {
+    public function home()
+    {
         $account = UserAccount::where('id_user', Auth::user()->id)->first();
         $bank = MstBank::all();
-        if(getAccount(Auth::user()->id)) {
+
+        if (getAccount(Auth::user()->id)) {
             $attach = UserAttach::where('id_account', getAccount(Auth::user()->id)->id)->get();
 
             return view('home', [
                 'account' => $account,
                 'bank' => $bank,
-                'attach' => $attach
+                'attach' => $attach,
             ]);
-        }
-        else {
+        } else {
             return view('home', [
                 'account' => $account,
                 'bank' => $bank,
-
             ]);
         }
-
     }
-
-
 }

@@ -72,7 +72,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="multisteps-form__panel pt-3 border-radius-xl bg-white"
                      data-animation="FadeIn">
                     <h5 class="font-weight-bolder">Account Bank</h5>
@@ -104,7 +103,7 @@
                                         required>
                                     @foreach($bank as $bnk)
                                         <option
-                                            value="{{$bnk->bank_name}}"}>
+                                            value="{{$bnk->bank_name}}">
                                             {{$bnk->bank_name}}</option>
                                     @endforeach
                                 </select>
