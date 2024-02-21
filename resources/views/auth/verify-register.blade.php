@@ -57,10 +57,10 @@
             @endif
             <div class="row min-vh-80">
                 @if(Auth::user()->is_completed == 'revision')
-                <?php dd("a"); ?>
+
                     @include('register.revision')
                 @else
-                <?php dd($bank); ?>
+
                     @include('register.new')
                 @endif
             </div>
