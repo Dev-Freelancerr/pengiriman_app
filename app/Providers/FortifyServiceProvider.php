@@ -76,15 +76,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         // Verify email after register
-        Fortify::verifyEmailView(function (Request $request) {
-            $validator = Validator::make($request->all(), [
-                'g-recaptcha-response' => 'required|recaptchav2:register,0.5'
-            ]);
-
-            if ($validator){
-                return back();
-            }
-
+        Fortify::verifyEmailView(function () {
             return view('auth.verify-email');
         });
 
