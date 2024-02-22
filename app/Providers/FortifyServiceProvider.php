@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use Illuminate\Support\Facades\Validator;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -75,8 +76,16 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         // Verify email after register
-        Fortify::verifyEmailView(function () {
-            return view('auth.verify-email',['g-recaptcha-response' => ['required', 'captcha']]);
+        Fortify::verifyEmailView(function (Request $request) {
+            $validator = Validator::make($request->all(), [
+                'g-recaptcha-response' => 'required|recaptchav2:register,0.5'
+            ]);
+
+            if ($validator){
+                return back();
+            }
+
+            return view('auth.verify-email');
         });
 
     }
