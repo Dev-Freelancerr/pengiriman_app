@@ -24,6 +24,7 @@ class UserAccountRegisterController extends Controller
             'nomor_rekening' => 'required',
             'bank' => 'required',
             'atas_nama_bank' => 'required',
+            'g-recaptcha-response' => 'required|recaptchav3:register,0.5'
         ]);
 
         if ($validator->fails()) {
