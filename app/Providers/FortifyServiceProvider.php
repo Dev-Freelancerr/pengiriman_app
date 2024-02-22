@@ -76,7 +76,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         // Verify email after register
         Fortify::verifyEmailView(function () {
-            return view('auth.verify-email');
+            return view('auth.verify-email',['g-recaptcha-response' => ['required', 'captcha']]);
         });
 
     }
