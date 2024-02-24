@@ -143,7 +143,7 @@
                                 <span>Current File :
                                 @foreach($attach as $data)
                                         @if($data->tipe == 'KTP')
-                                            <a href="{{ Storage::disk('local')->url('uploads/register/account/'.$data->file) }}" target="_blank">Tautan File</a>
+                                            <a href="{{ Storage::disk('local')->url('register/'.$data->file) }}" target="_blank">Tautan File</a>
 
                                         @endif
                                     @endforeach
@@ -162,7 +162,7 @@
                                 <span>Current File :
                                 @foreach($attach as $data)
                                         @if($data->tipe == 'rekening')
-                                            <a href="{{ Storage::disk('local')->url('uploads/register/account/'.$data->file) }}" target="_blank">Tautan File</a>
+                                            <a href="{{ Storage::disk('local')->url('register/'.$data->file) }}" target="_blank">Tautan File</a>
 
                                         @endif
                                     @endforeach
