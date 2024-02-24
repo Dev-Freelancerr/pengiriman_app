@@ -93,7 +93,7 @@ class OrderNinjaController extends Controller
                             // Menggunakan toArray() untuk mengakses nilai kolom
                             $rowData = $row->toArray();
 
-                            $jamKirimParts = explode('-', $rowData[12]);
+                            $jamKirimParts = explode('-', $rowData[13]);
 
                             $jamAwalKirim = $jamKirimParts[0];
                             $jamAkhirKirim = $jamKirimParts[1];
@@ -105,7 +105,7 @@ class OrderNinjaController extends Controller
                                 ],
                                 'service_type' => 'Marketplace',
                                 'service_level' => 'Standard',
-                                'requested_tracking_number' => '',
+                                'requested_tracking_number' => $this->generateTrackingNumber(),
                                 'from' => [
                                     'name' => $detailAlamatJemput->nama_toko,
                                     'phone_number' => $detailAlamatJemput->no_telp_pic,
@@ -124,17 +124,16 @@ class OrderNinjaController extends Controller
                                     ]
                                 ],
                                 'to' => [
-                                    'name' => $rowData[0],
-                                    'phone_number' => $rowData[9],
-                                    'email' => $rowData[8],
+                                    'name' => $rowData[1],
+                                    'phone_number' => $rowData[10],
+                                    'email' => $rowData[9],
                                     'address' => [
                                         'address1' => $rowData[1],
-                                        'address2' => $rowData[7],
-                                        'kelurahan' => $rowData[5],
-                                        'kecamatan' => $rowData[4],
-                                        'city' => $rowData[3],
-                                        'province' => $rowData[2],
-                                        'postcode' => '14367',
+                                        'kelurahan' => $rowData[6],
+                                        'kecamatan' => $rowData[5],
+                                        'city' => $rowData[4],
+                                        'province' => $rowData[3],
+                                        'postcode' => $rowData[7],
                                         'address_type' => 'home',
                                         'country' => 'ID'
                                     ]
@@ -152,33 +151,33 @@ class OrderNinjaController extends Controller
                                     // 'cash_on_delivery' => doubleval($rowData[22]),
                                     // 'insured_value' => doubleval($rowData[23]),
                                     'pickup_instructions' => $request->input('instruksi_driver'),
-                                    'delivery_instructions' => $rowData[18],
-                                    'delivery_start_date' => $rowData[11]->format('Y-m-d'),
+                                    'delivery_instructions' => $rowData[16],
+                                    'delivery_start_date' => $rowData[12]->format('Y-m-d'),
                                     'delivery_timeslot' => [
                                         'start_time' => $jamAwalKirim,
                                         'end_time' => $jamAkhirKirim,
                                         'timezone' => 'Asia/Jakarta'
                                     ],
                                     'dimensions' => [
-                                        'weight' => $rowData[14],
-                                        'size' => $rowData[13],
-                                        'length' => $rowData[25],
-                                        'width' => $rowData[26],
-                                        'height' => $rowData[27]
+                                        'weight' => $rowData[15],
+                                        'size' => $rowData[14],
+                                        'length' => $rowData[27],
+                                        'width' => $rowData[28],
+                                        'height' => $rowData[29]
                                     ],
                                     'items' => [
                                         [
-                                            'item_description' => $rowData[19],
-                                            'quantity' => $rowData[21],
-                                            'is_dangerous_good' => $rowData[18] == 'true' || $rowData[18] == 'True' || $rowData[18] == 'TRUE' ? true : false,
+                                            'item_description' => $rowData[20],
+                                            'quantity' => $rowData[22],
+                                            'is_dangerous_good' => $rowData[21] == 'true' || $rowData[21] == 'True' || $rowData[21] == 'TRUE' ? true : false,
                                         ]
                                     ]
                                 ]
                             ];
 
-                            $tipeBayar = $rowData[28];
+                            $tipeBayar = $rowData[23];
 
-                            $nilaiAsuransi = $rowData[23];
+                            $nilaiAsuransi = $rowData[25];
 
                             if ($tipeBayar == "Non - COD") {
 
@@ -186,13 +185,13 @@ class OrderNinjaController extends Controller
                             }
                             else {
 
-                                $data['parcel_job']['cash_on_delivery'] = doubleval($rowData[22]);
+                                $data['parcel_job']['cash_on_delivery'] = doubleval($rowData[24]);
                             }
                             if($nilaiAsuransi === null) {
                                 unset($data['parcel_job']['insured_value']);
                             }
                             else {
-                                 $data['parcel_job']['insured_value'] = doubleval($rowData[23]);
+                                 $data['parcel_job']['insured_value'] = doubleval($rowData[25]);
                             }
 
                             $accessToken = getAccessToken();
@@ -307,9 +306,11 @@ class OrderNinjaController extends Controller
                                         $response = Http::withHeaders($headers)->post(urlCreateOrder("SG"), $data);
 
                                     } elseif ($response->status() >= 500 && $response->status() < 600) {
-                                        $this->retryAfterDelay();
+
+                                        //$this->retryAfterDelay();
                                     } else {
                                         $errorResponse = $response->json();
+
                                         return response()
                                             ->json($errorResponse, $response->status())
                                             ->header('Content-Type', 'application/json; charset=utf-8')
@@ -328,6 +329,7 @@ class OrderNinjaController extends Controller
                 }
             }
             // Menutup reader setelah selesai membaca
+
             $reader->close();
             $batch_qry = BatchNinja::create($batch_save);
             return redirect('/ninja/order/history');
@@ -358,7 +360,7 @@ class OrderNinjaController extends Controller
             $validator = Validator::make($request->all(), $rules, $customMessages);
 
             if ($validator->fails()) {
-                dd("gagal");
+
                 return redirect()->back()
                     ->withErrors($validator)
                     ->withInput();
@@ -696,7 +698,7 @@ class OrderNinjaController extends Controller
 
     private function retryAfterDelay()
     {
-        sleep(5);
+        sleep(10);
     }
 
     function generateTrackingNumber() {

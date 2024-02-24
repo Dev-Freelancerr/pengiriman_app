@@ -10,8 +10,8 @@ class DownloadController extends Controller
 {
     public function downloadSample()
     {
-        $filePath = storage_path('app/public/sample_domestic.xlsx');
+        $filePath = storage_path('app/public/example.xlsx');
 
-        return response()->download($filePath, 'sample_domestic.xlsx');
+        return response()->download($filePath, 'example.xlsx');
     }
 }

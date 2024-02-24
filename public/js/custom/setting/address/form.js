@@ -1,4 +1,5 @@
 $(function () {
+
     $("#form_address").on("submit", function (event) {
         event.preventDefault(); // Mencegah pengiriman formulir asli
 
@@ -47,28 +48,6 @@ $(function () {
             }
         });
     });
-
-
-    // $("#form_address").on("submit", function(event) {
-    //     event.preventDefault(); // Mencegah pengiriman formulir asli
-    //
-    //     // Tampilkan SweetAlert konfirmasi
-    //     Swal.fire({
-    //         title: 'Konfirmasi Simpan',
-    //         text: 'Apakah Anda yakin ingin menyimpan data ini?',
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonText: 'Ya, Simpan',
-    //         cancelButtonText: 'Batal'
-    //     }).then((result) => {
-    //         if (result.isConfirmed) {
-    //             // Mengarahkan formulir ke URL yang sesuai dengan metode POST
-    //             $(this).attr('action', '/settings/address/store');
-    //             $(this).attr('method', 'POST');
-    //             $(this).unbind('submit').submit(); // Unbind event handler agar formulir dapat dikirim
-    //         }
-    //     });
-    // });
 
     $("#copy_alamat").change(function () {
         if ($(this).is(":checked")) {
