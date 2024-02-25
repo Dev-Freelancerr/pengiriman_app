@@ -49,6 +49,8 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         Route::get('/order/history', 'OrderNinjaHistoryController@index')->name('history.ninja.order');
         Route::get('/get-batch', 'OrderNinjaHistoryController@getBatch');
         Route::get('/get-order/{id}', 'OrderNinjaHistoryController@getOrder')->name('ninja.getOrder');
+        Route::delete('/order/cancel/{id}', 'OrderNinjaHistoryController@getCancel')->name('ninja.getCancel');
+
 
 
         Route::get('/order/{id}', 'OrderNinjaHistoryController@show')->name('history.ninja.order.show');
@@ -61,6 +63,7 @@ Route::middleware(['auth', 'verified', 'web'])->group(function () {
         // Generate waybill
         Route::get('/print/waybill/{id}', 'Api\Ninja\print_waybill\WaybillController@index');
         Route::post('/print/waybill', 'Api\Ninja\print_waybill\WaybillController@print');
+        Route::post('/print/all/waybill', 'Api\Ninja\print_waybill\WaybillController@print_all');
 
         Route::get('/export', 'OrderNinjaController@form_export');
         Route::post('/export', 'OrderNinjaController@exportExcel')->name('export');

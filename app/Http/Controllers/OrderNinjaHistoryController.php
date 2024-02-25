@@ -9,6 +9,8 @@ use App\Models\OrderTrackNinja;
 use Auth;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\DB;
 
 class OrderNinjaHistoryController extends Controller
 {
@@ -62,13 +64,18 @@ class OrderNinjaHistoryController extends Controller
             })
             ->addColumn('action', function ($row) {
                 return '
-                <a href="' . url('/ninja/order/' . $row->id) . '" class="btn btn-info btn-sm font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Detail">
-                    Detail
-                </a>
-                <a href="' . url('/ninja/order/cancel/' . $row->id) . '" class="btn btn-sm btn-warning font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Cancel Order">
-                    Cancel Order
-                </a>';
+                    <a href="' . url('/ninja/order/' . $row->id) . '" class="btn btn-info btn-sm font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Detail">
+                        Detail
+                    </a>
+
+                    <form action="' . url('/ninja/order/cancel/' . $row->id) . '" method="POST" style="display:inline;">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <button type="submit" class="btn btn-warning btn-sm font-weight-normal text-xs" data-toggle="tooltip" data-original-title="Cancel Order" onclick="return confirm(\'Are you sure you want to cancel this order?\')">Cancel Order</button>
+                    </form>
+                ';
             })
+
             ->rawColumns(['action'])
             ->make(true);
     }
@@ -87,5 +94,48 @@ class OrderNinjaHistoryController extends Controller
             'order' => $data,
             'tracking' => $tracking
         ]);
+    }
+
+    public function getCancel($id) {
+        $data = OrderNinja::where('id', $id)->first();
+        $cek_track = OrderTrackNinja::where('tracking_id', $data->tracking_number)->latest()->first();
+
+        $accessToken = getAccessToken();
+        $headers = [
+            'Authorization' => 'Bearer ' . $accessToken,
+        ];
+
+        if ($cek_track !== null && $cek_track->status == 'Pending Pickup') {
+            try {
+                DB::beginTransaction();
+                $response = Http::withHeaders($headers)
+                    ->delete(urlCancelOrder("sg", $data->tracking_number));
+
+                // Memeriksa apakah permintaan berhasil
+                if ($response->successful()) {
+
+                    $track = new OrderTrackNinja();
+                    $track->status = 'Cancelled';
+                    $track->tracking_id = $data->tracking_number;
+                    $track->previous_status = $data->status;
+                    $track->reason_cancel = 'cancelled by the system owner';
+                    $track->save();
+                    $update = [
+                        'status' => "canceled",
+                        'previous_status' => $data->status
+                    ];
+                    OrderNinja::where('id', $id)->update($update);
+                    DB::commit();
+                    return redirect('/ninja/order/list/'.$data->batch_id)->with('status', 'Cancelled success');
+                }
+
+            } catch (\Throwable $th) {
+                //throw $th;
+                DB::rollBack();
+            }
+        }
+        else {
+            return redirect('/ninja/order/list/'.$data->batch_id)->with('status', 'cannot cancel status not pending pickup');
+        }
     }
 }

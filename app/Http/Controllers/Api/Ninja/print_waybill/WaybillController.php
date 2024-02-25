@@ -54,5 +54,57 @@ class WaybillController extends Controller
             // Lakukan sesuatu dengan $errorCode dan $errorMessage
         }
     }
+
+    public function print_all(Request $request) {
+        $data = OrderNinja::where('batch_id', $request->input('id'))->get();
+        $pdfFiles = [];
+        $accessToken = getAccessToken();
+        $headers = [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $accessToken,
+        ];
+
+        foreach($data as $item) {
+            $response = Http::withHeaders($headers)
+                ->get(urlWayBill("sg", $item->tracking_number, 1));
+
+            // Memeriksa apakah permintaan berhasil
+            if ($response->successful()) {
+                $pdfContent = $response->body();
+                $pdfFileName = 'waybill_'.$item->tracking_number.'.pdf';
+
+                // Menambahkan konten PDF ke array
+                $pdfFiles[] = [
+                    'content' => $pdfContent,
+                    'filename' => $pdfFileName,
+                ];
+            } else {
+                // Permintaan gagal
+                $errorCode = $response->status();
+                $errorMessage = $response->body();
+            }
+        }
+
+        // Mengatur tipe konten dan header agar file terunduh langsung
+        $zipFileName = 'waybills_batch_' . $request->input('id') . '.zip';
+        $headers = [
+            'Content-Type' => 'application/zip',
+            'Content-Disposition' => 'attachment; filename="' . $zipFileName . '"',
+        ];
+
+        $zip = new \ZipArchive();
+        $zipFilePath = tempnam(sys_get_temp_dir(), 'waybills_batch_');
+        if ($zip->open($zipFilePath, \ZipArchive::CREATE)) {
+            foreach ($pdfFiles as $pdfFile) {
+                $zip->addFromString($pdfFile['filename'], $pdfFile['content']);
+            }
+            $zip->close();
+        }
+
+        // Mengembalikan response berupa file ZIP yang berisi semua PDF
+        return response()->download($zipFilePath, $zipFileName, $headers)->deleteFileAfterSend(true);
+    }
+
+
 }
 
