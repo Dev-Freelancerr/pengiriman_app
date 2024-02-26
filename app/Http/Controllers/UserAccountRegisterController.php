@@ -52,7 +52,8 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-                $file->storeAs('uploads/register/account', $md5FileName, 'public');
+                //$file->storeAs('uploads/register/account', $md5FileName, 'public');
+                $file->store('public/register');
 
                 $data_file = [
                     'origin_name' => $originalName,
@@ -74,7 +75,8 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-                $file->storeAs('uploads/register/account', $md5FileName, 'public');
+                //$file->storeAs('uploads/register/account', $md5FileName, 'public');
+                $file->store('public/register');
 
                 $data_file = [
                     'origin_name' => $originalName,
@@ -124,8 +126,10 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-                $file->storeAs('uploads/register/account', $md5FileName, 'public');
-
+                //$file->storeAs('uploads/register/account', $md5FileName, 'public');
+            
+                $path = $file->store('public/register');
+                
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
@@ -147,7 +151,8 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-                $file->storeAs('uploads/register/account', $md5FileName, 'public');
+                //$file->storeAs('uploads/register/account', $md5FileName, 'public');
+                $file->store('public/register');
 
                 $data_file = [
                     'origin_name' => $originalName,
