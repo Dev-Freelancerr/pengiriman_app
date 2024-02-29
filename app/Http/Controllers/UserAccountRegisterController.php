@@ -52,7 +52,7 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->store('public/register');
+		$file->store('public/register', $md5FileName);
 
                 $data_file = [
                     'origin_name' => $originalName,
@@ -74,7 +74,7 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->store('public/register');
+		$file->store('public/register', $md5FileName);
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
@@ -123,7 +123,7 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->store('public/register');
+		$file->store('public/register', $md5FileName);
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
@@ -145,7 +145,7 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->store('public/register');
+		$file->store('public/register', $md5FileName);
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
