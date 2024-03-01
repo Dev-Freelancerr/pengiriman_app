@@ -168,7 +168,7 @@
 
         .container .card {
             height: auto;
-            width: 900px;
+            width: auto;
             background-color: #fff;
             position: relative;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
@@ -183,8 +183,8 @@
         }
 
         .container .card .left-side {
-            width: 35%;
-            background-color: #304767;
+            width: 20%;
+            background-color: #E91E63;
             height: auto;
             border-top-left-radius: 20px;
 

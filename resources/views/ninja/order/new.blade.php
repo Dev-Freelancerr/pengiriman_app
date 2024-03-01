@@ -10,7 +10,7 @@
                     </div>
                     <div class="steps-content">
                         <h3>Step <span class="step-number">1</span></h3>
-                        <p class="step-number-content active">Enter your pickup information</p>
+                        <p class="step-number-content active">Enter your pickup & order information</p>
                         <p class="step-number-content d-none">Get to know better by adding your diploma,certificate and
                             education life.</p>
                         <p class="step-number-content d-none">Help companies get to know you better by telling then
