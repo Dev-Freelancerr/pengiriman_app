@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\user_account as UserAccount;
 use App\Models\User;
@@ -43,17 +44,18 @@ class UserAccountRegisterController extends Controller
         ];
 
         try {
+            DB::beginTransaction();
             $qry = UserAccount::create($data);
             $cek_id_account = UserAccount::where('id_user', Auth::user()->id)->first();
 
             if ($request->hasFile('ktp')) {
                 $file = $request->file('ktp');
                 $originalName = $file->getClientOriginalName();
-                $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
+                $md5FileName = md5(time() . $originalName.'_ktp') . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->store('public/register', $md5FileName);
-
+		$file->storeAs('public/register', $md5FileName);
+            
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
@@ -71,10 +73,10 @@ class UserAccountRegisterController extends Controller
 
                 $file = $request->file('rekening_bank');
                 $originalName = $file->getClientOriginalName();
-                $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
+                $md5FileName = md5(time() . $originalName.'_rekening') . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->store('public/register', $md5FileName);
+		$file->storeAs('public/register', $md5FileName);
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
@@ -90,11 +92,11 @@ class UserAccountRegisterController extends Controller
             $uptd = User::where('id', Auth::user()->id)->update([
                 'is_completed' => 'pending'
             ]);
-
+	    DB::commit();
             return redirect('/');
-        } catch (\Exception $e) {
-
-            return response()->json(['errors' => $e], 400);
+        } catch (\Throwable $th) {
+    	    DB::rollback();
+            return response()->json(['errors' => $th->getMessage()], 400);
         }
     }
 
@@ -114,13 +116,14 @@ class UserAccountRegisterController extends Controller
         }
 
         try {
+            DB::beginTransaction();
             // 1. KTP
             if ($request->hasFile('ktp')) {
                 $delete_ktp = UserAttach::where('id_account', getAccount(Auth::user()->id)->id)->where('tipe', 'KTP')->delete();
 
                 $file = $request->file('ktp');
                 $originalName = $file->getClientOriginalName();
-                $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
+                $md5FileName = md5(time() . $originalName.'_ktp') . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
 		$file->store('public/register', $md5FileName);
@@ -142,7 +145,7 @@ class UserAccountRegisterController extends Controller
 
                 $file = $request->file('rekening_bank');
                 $originalName = $file->getClientOriginalName();
-                $md5FileName = md5(time() . $originalName) . '.' . $file->getClientOriginalExtension();
+                $md5FileName = md5(time() . $originalName.'_rekening') . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
 		$file->store('public/register', $md5FileName);
@@ -172,9 +175,11 @@ class UserAccountRegisterController extends Controller
             $uptd = User::where('id', Auth::user()->id)->update([
                 'is_completed' => 'pending'
             ]);
+            DB::commit();
             return redirect('/');
-        } catch (\Exception $e) {
-            return response()->json(['errors' => $e], 400);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json(['errors' => "ki"], 400);
         }
     }
 
