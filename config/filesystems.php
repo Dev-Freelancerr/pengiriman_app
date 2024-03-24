@@ -43,7 +43,7 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
-
+//'slash storage'
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -69,8 +69,8 @@ return [
     |
     */
 
-    'links' => [
+  'links' => [
         public_path('storage') => storage_path('app/public'),
-    ],
+  ],
 
 ];

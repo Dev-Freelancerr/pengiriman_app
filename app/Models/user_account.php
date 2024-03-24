@@ -19,6 +19,7 @@ class user_account extends Model
         'handphone_number',
         'nomor_rekening',
         'atas_nama_rekening',
-        'bank'
+        'bank',
+        'seller_id',
     ];
 }

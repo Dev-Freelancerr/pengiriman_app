@@ -41,6 +41,7 @@ class UserAccountRegisterController extends Controller
             'nomor_rekening' => $request->input('nomor_rekening'),
             'atas_nama_rekening' => $request->input('atas_nama_bank'),
             'bank' => $request->input('bank'),
+            'seller_id' => $this->generateRandomString(12),
         ];
 
         try {
@@ -54,8 +55,9 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName.'_ktp') . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->storeAs('public/register', $md5FileName);
+		//$file->storeAs('img/registrasi', $md5FileName);
             
+                $file->move(public_path('img/registrasi'), $md5FileName);
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
@@ -76,7 +78,8 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName.'_rekening') . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->storeAs('public/register', $md5FileName);
+		$file->move(public_path('img/registrasi'), $md5FileName);
+                
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
@@ -93,13 +96,26 @@ class UserAccountRegisterController extends Controller
                 'is_completed' => 'pending'
             ]);
 	    DB::commit();
+            
             return redirect('/');
         } catch (\Throwable $th) {
     	    DB::rollback();
             return response()->json(['errors' => $th->getMessage()], 400);
         }
     }
+    
+    public function generateRandomString($length) {
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $string = '';
 
+    for ($i = 0; $i < $length; $i++) {
+        $randomIndex = rand(0, strlen($characters) - 1);
+    	$string .= $characters[$randomIndex];
+	}
+
+	return $string;
+    }
+    
     public function update_register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -126,7 +142,8 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName.'_ktp') . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->store('public/register', $md5FileName);
+		//$file->store('public/register', $md5FileName);
+                $file->move(public_path('img/registrasi'), $md5FileName);
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
@@ -148,7 +165,8 @@ class UserAccountRegisterController extends Controller
                 $md5FileName = md5(time() . $originalName.'_rekening') . '.' . $file->getClientOriginalExtension();
                 $fileSize = $file->getSize();
                 $fileExtension = $file->getClientOriginalExtension();
-		$file->store('public/register', $md5FileName);
+		//$file->store('public/register', $md5FileName);
+                $file->move(public_path('img/registrasi'), $md5FileName);
                 $data_file = [
                     'origin_name' => $originalName,
                     'file' => $md5FileName,
